@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	
+	<xsd:include schemaLocation="mapEvent.xsd" />
+	<xsd:include schemaLocation="comment.xsd" />
+	
+	<xsd:element name="map">
+		<xsd:complexType>
+			<xsd:all>
+				<xsd:element name="name" type="xsd:string" />
+				<xsd:element ref="mapEvent" minOccurs="0" maxOccurs="unbounded" />
+
+				<xsd:element ref="comment" />
+			</xsd:all>
+			
+			<xsd:attribute name="id" type="xsd:string" />
+			<xsd:attribute name="width" type="xsd:unsignedShort" />
+			<xsd:attribute name="height" type="xsd:unsignedShort" />
+		</xsd:complexType>
+	</xsd:element>
+
+</xsd:schema>

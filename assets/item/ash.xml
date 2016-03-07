@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?> 
+
+<item id="ash" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../schema/item.xsd">
+	
+	<name>灰</name>
+	<description>灰色の粉末</description>
+	
+	<icon src="item/ash.png" />
+	
+</item>

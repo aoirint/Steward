@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+	<xsd:element name="variable">
+		<xsd:complexType>
+			<xsd:all></xsd:all>
+			
+			<xsd:attribute name="name" type="xsd:string" />
+			<xsd:attribute name="value" type="xsd:string" />
+		</xsd:complexType>
+	</xsd:element>
+	
+</xsd:schema>

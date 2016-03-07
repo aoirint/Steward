@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?> 
+
+<item id="pear" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../schema/item.xsd">
+	
+	<name>ナシ</name>
+	<description>緑色の果物</description>
+	
+	<icon src="item/pear.png" />
+	
+	<attributes>
+		<food amount="1.0" />
+	</attributes>
+	
+</item>
