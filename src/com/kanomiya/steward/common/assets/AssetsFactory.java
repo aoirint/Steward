@@ -23,7 +23,6 @@ public class AssetsFactory {
 	protected static final String JAXP_SCHEMA_LANGUAGE = "http://java.sun.com/xml/jaxp/properties/schemaLanguage";
 	protected static final String W3C_XML_SCHEMA = "http://www.w3.org/2001/XMLSchema";
 
-
 	protected AssetsFactory() {  }
 
 	public static AssetsFactory newInstance()
@@ -43,6 +42,8 @@ public class AssetsFactory {
 			e.printStackTrace();
 		}
 
+
+
 		return afactory;
 	}
 
@@ -59,6 +60,9 @@ public class AssetsFactory {
 	public Assets newAssets()
 	{
 		Assets assets = new Assets();
+
+
+
 
 		try {
 			getMixedDocument(new File("assets/item"));

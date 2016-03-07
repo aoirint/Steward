@@ -7,7 +7,6 @@
 		<xsd:complexType>
 			<xsd:all>
 				<xsd:element name="name" type="xsd:string" />
-				<xsd:element name="description" type="xsd:string" />
 				
 				<xsd:element name="icon">
 					<xsd:complexType>

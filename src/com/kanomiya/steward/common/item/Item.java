@@ -1,8 +1,10 @@
 package com.kanomiya.steward.common.item;
 
-import java.util.ArrayList;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
 
-import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -12,29 +14,48 @@ import org.w3c.dom.NodeList;
  */
 public class Item {
 
-	public String name;
-	public ArrayList<I> attributes;
+	protected String id, name;
 
 	public Item()
 	{
 
 	}
 
-	public static Item documentToItem(Document doc)
+	public void setName(String name)
 	{
-		doc.getElementsByTagName("name").item(0).getTextContent();
+		this.name = name;
+	}
 
-		NodeList attrNodes = doc.getElementsByTagName("attributes").item(0).getChildNodes();
-		int attrNodesLen = attrNodes.getLength();
+	public static Item nodeToItem(Node node) throws XPathExpressionException
+	{
+		Item item = new Item();
 
-		for (int i=0; i<attrNodesLen; i++)
+		XPathFactory xfact = XPathFactory.newInstance();
+		XPath xpath = xfact.newXPath();
+
+		item.setName(xpath.evaluate("/name", node));
+		NodeList attrs = (NodeList) xpath.evaluate("/attributes/*", node, XPathConstants.NODESET);
+
+		int attrsLen = attrs.getLength();
+
+		for (int i=0; i<attrsLen; i++)
 		{
-			Node node = attrNodes.item(i);
-			node.getAttributes().getNamedItem("name");
+			Node atNode = attrs.item(i);
+			String atNodeName = atNode.getNodeName();
+
+			switch (atNodeName)
+			{
+			case "food":
+				double amount = Double.parseDouble(atNode.getAttributes().getNamedItem("amount").getNodeValue());
+
+				break;
+			}
 
 		}
 
-		doc.getElementsByTagName("icon").item(0).getTextContent();
+
+
+		return item;
 	}
 
 }
