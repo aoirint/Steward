@@ -1,0 +1,13 @@
+{
+	"id": "iron_ingot",
+	
+	"name": "鉄インゴット",
+	"icon": 
+	{
+		"src": "item/iron_ingot.png"
+	},
+	
+	"weight": 1.0
+	
+	
+}

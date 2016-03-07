@@ -1,0 +1,18 @@
+{
+	"id": "pear",
+	
+	"name": "ナシ",
+	"icon": 
+	{
+		"src": "item/pear.png"
+	},
+	
+	"weight": 1.0,
+	
+	"resistance":
+	{
+		"rot": 1000.0
+	}
+	
+	
+}
