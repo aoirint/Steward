@@ -1,5 +1,7 @@
 package com.kanomiya.steward.common.model.area;
 
+import com.kanomiya.steward.common.model.event.Event;
+
 
 
 
@@ -91,6 +93,18 @@ public class Area {
 		if (! tipExists(x, y)) return null;
 		return tips[x][y];
 	}
+
+
+	public boolean canEnter(Event event, int x, int y)
+	{
+		if (! tipExists(x, y)) return false;
+
+		return true;
+	}
+
+
+
+
 
 	@Override
 	public String toString()

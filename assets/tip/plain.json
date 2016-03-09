@@ -4,7 +4,7 @@
 	
 	"icon":
 	{
-		"src": ["tip/border.png"]
+		"src": ["tip/plain.png"]
 	}
 	
 }

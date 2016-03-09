@@ -1,0 +1,10 @@
+{
+	"id": "tree",
+	"name": "樹木",
+	
+	"icon":
+	{
+		"src": ["tip/tree.png"]
+	}
+	
+}

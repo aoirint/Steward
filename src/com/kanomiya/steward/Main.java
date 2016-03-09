@@ -28,9 +28,11 @@ public class Main {
 		Game game = new Game(assets);
 
 		Frame frame = new FrameWithView(ViewConsts.viewGame, game);
+		frame.setResizable(false);
 		frame.setSize(ViewConsts.viewWidth, ViewConsts.viewHeight);
+		// frame.setPreferredSize(new Dimension(ViewConsts.viewWidth, ViewConsts.viewHeight));
+		// frame.pack();
 		frame.setLocation(60, 30);
-		frame.setVisible(true);
 		frame.addWindowListener(new WindowAdapter()
 		{
 			@Override
@@ -38,6 +40,8 @@ public class Main {
 				System.exit(0);
 			}
 		});
+
+		frame.setVisible(true);
 
 		ControlListener cl = new ControlListener();
 		cl.game = game;
