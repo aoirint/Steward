@@ -1,4 +1,4 @@
-package com.kanomiya.steward.common.assets;
+package com.kanomiya.steward.common.model.assets;
 
 import java.io.File;
 import java.io.FilenameFilter;

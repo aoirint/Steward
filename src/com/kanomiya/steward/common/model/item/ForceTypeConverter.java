@@ -1,4 +1,4 @@
-package com.kanomiya.steward.common.item;
+package com.kanomiya.steward.common.model.item;
 
 import java.lang.reflect.Type;
 

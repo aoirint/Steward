@@ -1,0 +1,23 @@
+{
+	"id": "test",
+	"name": "Test Area",
+	
+	"width": 24,
+	"height": 17,
+	
+	"tips":
+	[
+		[ "plain","plain","plain","plain","plain", "plain","plain","plain","plain","plain" ],
+		[ "plain","plain","plain","plain","plain", "plain","plain","plain","plain","plain" ],
+		[ "plain","plain","plain","plain","plain", "plain","plain","plain","plain","plain" ],
+		[ "plain","plain","plain","plain","plain", "plain","plain","plain","plain","plain" ],
+		[ "plain","plain","plain","plain","plain", "plain","plain","plain","plain","plain" ],
+		
+		[ "plain","plain","plain","plain","plain", "plain","plain","plain","plain","plain" ],
+		[ "plain","plain","plain","plain","plain", "plain","plain","plain","plain","plain" ],
+		[ "plain","plain","plain","plain","plain", "plain","plain","plain","plain","plain" ],
+		[ "plain","plain","plain","plain","plain", "plain","plain","plain","plain","plain" ],
+		[ "plain","plain","plain","plain","plain", "plain","plain","plain","plain","plain" ]
+	]
+	
+}
