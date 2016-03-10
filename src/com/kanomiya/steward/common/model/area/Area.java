@@ -105,6 +105,9 @@ public class Area {
 	{
 		if (! tipExists(x, y)) return false;
 
+		Tip tip = getTip(x, y);
+		if (tip.getAccessType() == AccessType.deny) return false;
+
 		return true;
 	}
 

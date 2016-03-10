@@ -8,24 +8,29 @@ package com.kanomiya.steward.common.model.icon;
 public class Icon {
 
 	public String[] src;
-	public String mode;
+	public IconMode mode;
 	public int interval;
+
+	public transient int count = 0;
+	public transient int index = 0;
+
 
 	public Icon()
 	{
-		this(null, "static", 0);
+		this(null, IconMode.STATIC, 1000);
 	}
+
 
 	public Icon(String src)
 	{
-		this(new String[] { src }, "static", 0);
+		this(new String[] { src }, IconMode.STATIC, 1000);
 	}
 
-	public Icon(String[] src, String mode, int interval)
+	public Icon(String[] src, IconMode mode, int interval)
 	{
 		this.src = src;
 		this.mode = mode;
-		this.interval = interval;
+		this.interval = Math.max(interval, 1000);
 	}
 
 }

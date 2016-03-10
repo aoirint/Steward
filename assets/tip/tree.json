@@ -1,10 +1,12 @@
 {
 	"id": "tree",
 	"name": "樹木",
-	
+
+	"access": "deny",
+
 	"icon":
 	{
 		"src": ["tip/tree.png"]
 	}
-	
+
 }

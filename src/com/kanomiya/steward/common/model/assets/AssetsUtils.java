@@ -9,6 +9,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.kanomiya.steward.common.model.area.Area;
 import com.kanomiya.steward.common.model.area.AreaConverter;
+import com.kanomiya.steward.common.model.icon.IconMode;
+import com.kanomiya.steward.common.model.icon.IconModeConverter;
 
 /**
  * @author Kanomiya
@@ -22,6 +24,7 @@ public class AssetsUtils {
 		GsonBuilder gb = new GsonBuilder();
 
 		gb.registerTypeAdapter(Area.class, new AreaConverter(assets));
+		gb.registerTypeAdapter(IconMode.class, new IconModeConverter());
 
 		Gson gson = gb.setPrettyPrinting().create();
 
