@@ -82,9 +82,15 @@ public class Area {
 	}
 
 
-	public boolean tipExists(int x, int y)
+	public boolean inArea(int x, int y)
 	{
 		if (x < 0 || width <= x || y < 0 || height <= y) return false;
+		return true;
+	}
+
+	public boolean tipExists(int x, int y)
+	{
+		if (! inArea(x, y)) return false;
 		return (tips[x][y] != null);
 	}
 
@@ -103,7 +109,14 @@ public class Area {
 	}
 
 
-
+	/**
+	 * @param tip
+	 * @param x
+	 * @param y
+	 */
+	public void setTip(Tip tip, int x, int y) {
+		tips[x][y] = tip;
+	}
 
 
 	@Override
@@ -123,5 +136,7 @@ public class Area {
 
 		return new String(builder);
 	}
+
+
 
 }

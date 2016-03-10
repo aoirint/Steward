@@ -12,6 +12,7 @@ import com.kanomiya.steward.common.model.event.Player;
  */
 public class VCPlayerEye implements IViewComponent<Player> {
 
+
 	/**
 	* @inheritDoc
 	*/
@@ -21,8 +22,8 @@ public class VCPlayerEye implements IViewComponent<Player> {
 
 		Area area = assets.getArea(player.areaId);
 
-		int camX = getCamX(player.x, area.getWidth());
-		int camY = getCamY(player.y, area.getHeight());
+		int camX = ViewConsts.getCamX(player.x, area.getWidth()) *ViewConsts.tileSize;
+		int camY = ViewConsts.getCamY(player.y, area.getHeight()) *ViewConsts.tileSize;
 
 		g.translate(camX, camY);
 
@@ -34,32 +35,14 @@ public class VCPlayerEye implements IViewComponent<Player> {
 		ViewConsts.vcIcon.paint(g, player.getIcon(), assets, frame);
 		g.translate(-player.x *ViewConsts.tileSize, -player.y *ViewConsts.tileSize);
 
+		ViewConsts.vcSelect.paint(g, player, assets, frame);
+
 		g.translate(-camX, -camY);
 
-	}
-
-	protected int getCamX(int x, int width)
-	{
-		int camX = x *ViewConsts.tileSize -ViewConsts.viewWidth /2;
-		if (camX < 0) return 0;
-
-		int r = (width +1) *ViewConsts.tileSize -ViewConsts.viewWidth;
-		if (r < camX) return -r;
-
-		return -camX;
-	}
-
-	protected int getCamY(int y, int height)
-	{
-		int camY = y *ViewConsts.tileSize -ViewConsts.viewHeight /2;
-		if (camY < 0) return 0;
-
-		int b = (height +1) *ViewConsts.tileSize -ViewConsts.viewHeight;
-		if (b < camY) return -b;
-
-		return -camY;
+		ViewConsts.vcMode.paint(g, player, assets, frame);
 
 	}
+
 
 
 }

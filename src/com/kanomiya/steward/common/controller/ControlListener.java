@@ -1,5 +1,7 @@
 package com.kanomiya.steward.common.controller;
 
+import java.awt.Frame;
+import java.awt.Insets;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -7,6 +9,11 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 import com.kanomiya.steward.common.Game;
+import com.kanomiya.steward.common.model.area.Area;
+import com.kanomiya.steward.common.model.area.Tip;
+import com.kanomiya.steward.common.model.event.PlayerMode;
+import com.kanomiya.steward.common.view.ViewConsts;
+import com.kanomiya.steward.editor.FrameTip;
 
 
 /**
@@ -16,6 +23,11 @@ import com.kanomiya.steward.common.Game;
 public class ControlListener implements KeyListener, MouseListener, MouseMotionListener {
 
 	public Game game;
+	public Frame gameFrame;
+	public Insets frameInsets;
+	public FrameTip frameTip;
+
+
 
 	/**
 	* @inheritDoc
@@ -25,7 +37,12 @@ public class ControlListener implements KeyListener, MouseListener, MouseMotionL
 	{
 		// TODO:
 
-		// System.out.println("key: " + e.getKeyCode() + " char: " + e.getKeyChar());
+		int keyCode = e.getKeyCode();
+
+		// TODO: for Debug
+		System.out.println("key: " + e.getKeyCode() + " char: " + e.getKeyChar());
+
+		if (keyCode == KeyEvent.VK_COLON && e.isShiftDown()) keyCode = KeyEvent.VK_MULTIPLY;
 
 		boolean turnFlag = false;
 
@@ -75,9 +92,34 @@ public class ControlListener implements KeyListener, MouseListener, MouseMotionL
 		case KeyEvent.VK_CLEAR:
 			turnFlag = true;
 			break;
+
+		case KeyEvent.VK_F1: // help
+			break;
+
+		case KeyEvent.VK_MULTIPLY: // select
+			game.thePlayer.mode = (game.thePlayer.mode == PlayerMode.SELECT) ? PlayerMode.NORMAL : PlayerMode.SELECT;
+			break;
+
+		case KeyEvent.VK_F12: // debug
+			game.thePlayer.mode = (game.thePlayer.mode == PlayerMode.WIZARD) ? PlayerMode.NORMAL : PlayerMode.WIZARD;
+
+			if (game.thePlayer.mode == PlayerMode.WIZARD)
+			{
+				frameTip = new FrameTip(game);
+				frameTip.setLocation(gameFrame.getX() +gameFrame.getWidth(), gameFrame.getY());
+				frameTip.setVisible(true);
+
+			} else if (frameTip != null)
+			{
+				frameTip.dispose();
+				frameTip = null;
+			}
+
+			break;
 		}
 
-		if (turnFlag) game.turn();
+
+		if (turnFlag && game.thePlayer.mode.enableTurn()) game.turn();
 
 	}
 
@@ -97,6 +139,67 @@ public class ControlListener implements KeyListener, MouseListener, MouseMotionL
 	public void mousePressed(MouseEvent e)
 	{
 
+		selectOnMouseEvent(e);
+		wizardOnMouseEvent(e);
+
+
+	}
+
+
+	public boolean selectOnMouseEvent(MouseEvent e)
+	{
+		if (game.thePlayer.mode.enableSelecter())
+		{
+			Area area = game.assets.getArea(game.thePlayer.areaId);
+
+			int x = -ViewConsts.getCamX(game.thePlayer.x, area.getWidth()) + (e.getX() -frameInsets.left) /ViewConsts.tileSize;
+			int y = -ViewConsts.getCamY(game.thePlayer.y, area.getHeight()) + (e.getY() -frameInsets.top) /ViewConsts.tileSize;
+
+			// TODO: for Debug
+			// System.out.println("(" + x +"," + y + ")");
+
+			if (area.inArea(x, y))
+			{
+				game.thePlayer.selectedX = x;
+				game.thePlayer.selectedY = y;
+			}
+
+		}
+
+		return false;
+	}
+
+	public boolean wizardOnMouseEvent(MouseEvent e)
+	{
+		if (game.thePlayer.mode == PlayerMode.WIZARD && frameTip != null)
+		{
+			Tip tip;
+			int button = e.getButton();
+			if (button == 0) button = MouseEvent.BUTTON1;
+
+			switch (button)
+			{
+			case MouseEvent.BUTTON1: // 左クリック 設置
+				tip = frameTip.getSelectedTip();
+				game.assets.getArea(game.thePlayer.areaId).setTip(tip, game.thePlayer.selectedX, game.thePlayer.selectedY);
+
+				break;
+			case MouseEvent.BUTTON3: // 右クリック スポイト
+
+				tip = game.assets.getArea(game.thePlayer.areaId).getTip(game.thePlayer.selectedX, game.thePlayer.selectedY);
+
+				if (tip != null) frameTip.selectTip(tip);
+
+				break;
+			case MouseEvent.BUTTON2:
+				// TODO: softTouch edit Event
+
+				break;
+			}
+
+		}
+
+		return false;
 	}
 
 	/**
@@ -105,8 +208,8 @@ public class ControlListener implements KeyListener, MouseListener, MouseMotionL
 	@Override
 	public void mouseReleased(MouseEvent e)
 	{
-
 	}
+
 
 	/**
 	* @inheritDoc
@@ -114,11 +217,33 @@ public class ControlListener implements KeyListener, MouseListener, MouseMotionL
 	@Override
 	public void mouseMoved(MouseEvent e)
 	{
+		if (game.thePlayer.mode.enableSelecter())
+		{
+			Area area = game.assets.getArea(game.thePlayer.areaId);
+
+			int x = -ViewConsts.getCamX(game.thePlayer.x, area.getWidth()) + (e.getX() -frameInsets.left) /ViewConsts.tileSize;
+			int y = -ViewConsts.getCamY(game.thePlayer.y, area.getHeight()) + (e.getY() -frameInsets.top) /ViewConsts.tileSize;
+
+			if (area.inArea(x, y))
+			{
+				game.thePlayer.focusedX = x;
+				game.thePlayer.focusedY = y;
+			}
+
+		}
 
 	}
 
 
-
+	/**
+	* @inheritDoc
+	*/
+	@Override
+	public void mouseDragged(MouseEvent e)
+	{
+		selectOnMouseEvent(e);
+		wizardOnMouseEvent(e);
+	}
 
 
 
@@ -139,12 +264,6 @@ public class ControlListener implements KeyListener, MouseListener, MouseMotionL
 	* @inheritDoc
 	*/
 	@Override
-	public void mouseDragged(MouseEvent e) {  }
-
-	/**
-	* @inheritDoc
-	*/
-	@Override
 	public void mouseEntered(MouseEvent e) {  }
 
 	/**
@@ -152,6 +271,7 @@ public class ControlListener implements KeyListener, MouseListener, MouseMotionL
 	*/
 	@Override
 	public void mouseExited(MouseEvent e) {  }
+
 
 
 

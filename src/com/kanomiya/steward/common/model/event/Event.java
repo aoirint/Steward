@@ -1,6 +1,7 @@
 package com.kanomiya.steward.common.model.event;
 
 import com.kanomiya.steward.common.model.ITurnObject;
+import com.kanomiya.steward.common.model.area.Tip;
 import com.kanomiya.steward.common.model.assets.Assets;
 import com.kanomiya.steward.common.model.icon.Icon;
 
@@ -57,11 +58,23 @@ public class Event implements ITurnObject {
 
 
 	/**
+	 * @param assets
+	 *
+	 * @return 足元のチップ
+	 */
+	public Tip getFootTip(Assets assets) {
+		return assets.getArea(areaId).getTip(x, y);
+	}
+
+
+
+	/**
 	 * @return
 	 */
 	public Icon getIcon() {
 		return icon;
 	}
+
 
 
 }

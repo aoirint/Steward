@@ -1,6 +1,7 @@
 package com.kanomiya.steward.common.model.assets;
 
 import java.awt.Image;
+import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
@@ -105,4 +106,18 @@ public class Assets {
 
 		return new String(builder);
 	}
+
+
+
+
+
+	public Collection<Tip> tipList() {
+		return tips.values();
+	}
+
+	public Collection<Area> areaList() {
+		return areas.values();
+	}
+
+
 }

@@ -23,6 +23,13 @@ public class FrameWithView<T> extends Frame {
 		this.model = model;
 	}
 
+	public void setRealSize(int width, int height)
+	{
+		insets = getInsets();
+		setSize(width +insets.left +insets.right, height +insets.top +insets.bottom);
+	}
+
+
 	@Override
 	public void update(Graphics g)
 	{

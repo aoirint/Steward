@@ -25,4 +25,11 @@ public class Tip {
 		return icon;
 	}
 
+
+	@Override
+	public String toString()
+	{
+		return getName();
+	}
+
 }
