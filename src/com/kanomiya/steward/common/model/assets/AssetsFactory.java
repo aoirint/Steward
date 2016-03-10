@@ -14,9 +14,7 @@ import java.nio.file.attribute.BasicFileAttributes;
 import javax.imageio.ImageIO;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.kanomiya.steward.common.model.area.Area;
-import com.kanomiya.steward.common.model.area.AreaConverter;
 import com.kanomiya.steward.common.model.area.Tip;
 
 
@@ -51,13 +49,9 @@ public class AssetsFactory {
 
 	public Assets newAssets()
 	{
-		Assets assets = new Assets();
+		Assets assets = new Assets(assetsDir);
 
-		GsonBuilder gb = new GsonBuilder();
-
-		gb.registerTypeAdapter(Area.class, new AreaConverter(assets));
-
-		Gson gson = gb.create();
+		Gson gson = AssetsUtils.createGson(assets);
 
 		try {
 			initTextures(gson, assets);
@@ -122,6 +116,11 @@ public class AssetsFactory {
 		}
 
 	}
+
+
+
+
+
 
 }
 

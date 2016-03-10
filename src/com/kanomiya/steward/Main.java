@@ -4,6 +4,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 
 import com.kanomiya.steward.common.FrameWithView;
 import com.kanomiya.steward.common.Game;
@@ -21,10 +22,20 @@ public class Main {
 	 */
 	public static void main(String[] args)
 	{
+		File saveDir = new File("saves");
+		if (! saveDir.exists()) saveDir.mkdir();
+
+
+
+
+
 		AssetsFactory afact = AssetsFactory.newInstance();
 		Assets assets = afact.newAssets();
 
-		System.out.println(assets.toString());
+		// TODO: for Debug
+		// System.out.println(assets.toString());
+
+
 
 		Game game = new Game(assets);
 

@@ -11,6 +11,7 @@ import java.awt.event.MouseMotionListener;
 import com.kanomiya.steward.common.Game;
 import com.kanomiya.steward.common.model.area.Area;
 import com.kanomiya.steward.common.model.area.Tip;
+import com.kanomiya.steward.common.model.assets.AssetsUtils;
 import com.kanomiya.steward.common.model.event.PlayerMode;
 import com.kanomiya.steward.common.view.ViewConsts;
 import com.kanomiya.steward.editor.FrameTip;
@@ -40,13 +41,21 @@ public class ControlListener implements KeyListener, MouseListener, MouseMotionL
 		int keyCode = e.getKeyCode();
 
 		// TODO: for Debug
-		System.out.println("key: " + e.getKeyCode() + " char: " + e.getKeyChar());
+		// System.out.println("key: " + e.getKeyCode() + " char: " + e.getKeyChar());
 
 		if (keyCode == KeyEvent.VK_COLON && e.isShiftDown()) keyCode = KeyEvent.VK_MULTIPLY;
 
 		boolean turnFlag = false;
 
-		switch (e.getKeyCode())
+
+		if (game.thePlayer.mode == PlayerMode.WIZARD && e.isControlDown() && keyCode == KeyEvent.VK_S)
+		{
+			AssetsUtils.saveAssets(game.assets);
+		}
+
+
+
+		switch (keyCode)
 		{
 		case KeyEvent.VK_NUMPAD8:
 		case KeyEvent.VK_UP:

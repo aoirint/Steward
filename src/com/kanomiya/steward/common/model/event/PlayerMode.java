@@ -55,9 +55,9 @@ public enum PlayerMode {
 	{
 		switch (this)
 		{
-		case NORMAL: return "通常";
-		case SELECT: return "選択";
-		case WIZARD: return "建築";
+		case NORMAL: return "Normal";
+		case SELECT: return "Select";
+		case WIZARD: return "Wizard";
 		}
 
 		return name();

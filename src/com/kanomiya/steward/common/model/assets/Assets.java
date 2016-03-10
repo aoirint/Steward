@@ -16,11 +16,19 @@ import com.kanomiya.steward.common.model.area.Tip;
  */
 public class Assets {
 
-	protected Assets() {  }
 
 	protected Map<String, Image> textures = Maps.newHashMap();
 	protected Map<String, Tip> tips = Maps.newHashMap();
 	protected Map<String, Area> areas = Maps.newHashMap();
+
+	protected String assetsDir;
+
+
+	public Assets(String assetsDir)
+	{
+		this.assetsDir = assetsDir;
+	}
+
 
 
 	public Area getArea(String id)
