@@ -19,9 +19,9 @@ public class Player extends Event {
 
 
 
-	public Player(String areaId, int x, int y, Icon icon)
+	public Player(Area area, int x, int y, Icon icon)
 	{
-		super(areaId, x, y, icon);
+		super("player", area, x, y, icon);
 	}
 
 	int turnCount = 0;
@@ -31,11 +31,11 @@ public class Player extends Event {
 	@Override public void turn(Assets assets) {
 		super.turn(assets);
 
-		Area area = assets.getArea(areaId);
+		// Area area = assets.getArea(areaId);
 
-		if (area.tipExists(x, y)) System.out.println("tip(" + x + "," + y + "): " + area.getTip(x, y).toString());
+		// if (area.tileExists(x, y)) System.out.println("tip(" + x + "," + y + "): " + area.getTile(x, y).toString());
 
-		System.out.println("Turn " + ++turnCount); // TODO: デバッグ用コード
+		// System.out.println("Turn " + ++turnCount); // TODO: デバッグ用コード
 	}
 
 

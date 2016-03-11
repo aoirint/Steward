@@ -14,7 +14,7 @@ public class Area {
 
 	protected int width, height;
 
-	protected Tip[][] tips;
+	protected Tile[][] tiles;
 
 	public Area(String id, String name, int width, int height, Tip[][] tips)
 	{
@@ -22,7 +22,17 @@ public class Area {
 		this.name = name;
 		this.width = width;
 		this.height = height;
-		this.tips = tips;
+
+		tiles = new Tile[width][height];
+
+		for (int x=0; x<width; x++)
+		{
+			for (int y=0; y<height; y++)
+			{
+				tiles[x][y] = new Tile(x, y);
+				tiles[x][y].setTip(tips[x][y]);
+			}
+		}
 	}
 
 	/**
@@ -88,39 +98,36 @@ public class Area {
 		return true;
 	}
 
-	public boolean tipExists(int x, int y)
+	public boolean tileExists(int x, int y)
 	{
 		if (! inArea(x, y)) return false;
-		return (tips[x][y] != null);
+		return (tiles[x][y] != null);
 	}
 
-	public Tip getTip(int x, int y)
+	public Tile getTile(int x, int y)
 	{
-		if (! tipExists(x, y)) return null;
-		return tips[x][y];
+		if (! tileExists(x, y)) return null;
+		return tiles[x][y];
 	}
 
 
 	public boolean canEnter(Event event, int x, int y)
 	{
-		if (! tipExists(x, y)) return false;
-
-		Tip tip = getTip(x, y);
-		if (tip.getAccessType() == AccessType.deny) return false;
-
-		return true;
+		if (! tileExists(x, y)) return false;
+		return getTile(x, y).canEnter(event);
 	}
 
 
 	/**
-	 * @param tip
+	 *
+	 * @param event
 	 * @param x
 	 * @param y
 	 */
-	public void setTip(Tip tip, int x, int y) {
-		tips[x][y] = tip;
+	public void setEvent(Event event)
+	{
+		tiles[event.x][event.y].setEvent(event);
 	}
-
 
 	@Override
 	public String toString()

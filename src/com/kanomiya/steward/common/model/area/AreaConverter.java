@@ -46,14 +46,19 @@ public class AreaConverter implements JsonSerializer<Area>, JsonDeserializer<Are
 
 		for (int y=0; y<height; y++)
 		{
-			JsonArray tileLine = new JsonArray();
+			JsonArray tipLine = new JsonArray();
 
 			for (int x=0; x<width; x++)
 			{
-				if (area.tipExists(x, y)) tileLine.add(area.getTip(x, y).getId());
+				if (area.tileExists(x, y))
+				{
+					Tile tile = area.getTile(x, y);
+
+					tipLine.add(tile.getTip().getId());
+				}
 			}
 
-			tips.add(tileLine);
+			tips.add(tipLine);
 		}
 
 		jsObj.add("tips", tips);

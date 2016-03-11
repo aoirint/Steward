@@ -2,20 +2,28 @@ package com.kanomiya.steward.common.model.assets;
 
 import java.awt.Image;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.Iterator;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
 
 import com.google.gson.Gson;
 import com.kanomiya.steward.common.model.area.Area;
 import com.kanomiya.steward.common.model.area.Tip;
+import com.kanomiya.steward.common.model.event.Event;
+import com.kanomiya.steward.common.model.script.Script;
+import com.kanomiya.steward.common.model.script.ScriptEventType;
 
 
 /**
@@ -103,7 +111,7 @@ public class AssetsFactory {
 
 	}
 
-	protected void initAreas(Gson gson, Assets assets) throws FileNotFoundException
+	protected void initAreas(Gson gson, Assets assets) throws IOException
 	{
 		File[] areaFiles = new File(assetsDir, "area").listFiles(jsonFilter);
 
@@ -112,8 +120,53 @@ public class AssetsFactory {
 			FileReader fr = new FileReader(f);
 			Area areaObj = gson.fromJson(fr, Area.class);
 
+			initEvents(areaObj, gson, assets);
+
 			assets.addArea(areaObj);
 		}
+
+	}
+
+	protected void initEvents(Area area, Gson gson, Assets assets) throws IOException
+	{
+		File[] eventFiles = new File(assetsDir, "event/" + area.getId()).listFiles(jsonFilter);
+
+		for (File f: eventFiles)
+		{
+			FileReader fr = new FileReader(f);
+			Event eventObj = gson.fromJson(fr, Event.class);
+
+			Map<ScriptEventType, Script> scripts = eventObj.scripts;
+
+			if (scripts != null)
+			{
+				Iterator<Script> itr = scripts.values().iterator();
+
+				while (itr.hasNext())
+				{
+					Script script = itr.next();
+
+					InputStreamReader isrScript = new InputStreamReader(new FileInputStream(new File(assetsDir, "script/" + script.src)), StandardCharsets.UTF_8);
+
+					StringBuilder sb = new StringBuilder();
+
+					while (isrScript.ready())
+					{
+						sb.appendCodePoint(isrScript.read());
+					}
+
+					isrScript.close();
+
+					assets.addScriptCode(script.src, sb.toString());
+
+				}
+
+			}
+
+
+			area.setEvent(eventObj);
+		}
+
 
 	}
 

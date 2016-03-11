@@ -20,7 +20,7 @@ public class VCPlayerEye implements IViewComponent<Player> {
 	public void paint(Graphics g, Player player, Assets assets, int frame) {
 		if (player == null) return;
 
-		Area area = assets.getArea(player.areaId);
+		Area area = player.area;
 
 		int camX = ViewConsts.getCamX(player.x, area.getWidth()) *ViewConsts.tileSize;
 		int camY = ViewConsts.getCamY(player.y, area.getHeight()) *ViewConsts.tileSize;

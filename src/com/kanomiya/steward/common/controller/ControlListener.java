@@ -36,8 +36,6 @@ public class ControlListener implements KeyListener, MouseListener, MouseMotionL
 	@Override
 	public void keyPressed(KeyEvent e)
 	{
-		// TODO:
-
 		int keyCode = e.getKeyCode();
 
 		// TODO: for Debug
@@ -159,7 +157,7 @@ public class ControlListener implements KeyListener, MouseListener, MouseMotionL
 	{
 		if (game.thePlayer.mode.enableSelecter())
 		{
-			Area area = game.assets.getArea(game.thePlayer.areaId);
+			Area area = game.thePlayer.area;
 
 			int x = -ViewConsts.getCamX(game.thePlayer.x, area.getWidth()) + (e.getX() -frameInsets.left) /ViewConsts.tileSize;
 			int y = -ViewConsts.getCamY(game.thePlayer.y, area.getHeight()) + (e.getY() -frameInsets.top) /ViewConsts.tileSize;
@@ -190,12 +188,15 @@ public class ControlListener implements KeyListener, MouseListener, MouseMotionL
 			{
 			case MouseEvent.BUTTON1: // 左クリック 設置
 				tip = frameTip.getSelectedTip();
-				game.assets.getArea(game.thePlayer.areaId).setTip(tip, game.thePlayer.selectedX, game.thePlayer.selectedY);
+				int x = game.thePlayer.selectedX;
+				int y = game.thePlayer.selectedY;
+
+				game.thePlayer.area.getTile(x, y).setTip(tip);
 
 				break;
 			case MouseEvent.BUTTON3: // 右クリック スポイト
 
-				tip = game.assets.getArea(game.thePlayer.areaId).getTip(game.thePlayer.selectedX, game.thePlayer.selectedY);
+				tip = game.thePlayer.area.getTile(game.thePlayer.selectedX, game.thePlayer.selectedY).getTip();
 
 				if (tip != null) frameTip.selectTip(tip);
 
@@ -228,7 +229,7 @@ public class ControlListener implements KeyListener, MouseListener, MouseMotionL
 	{
 		if (game.thePlayer.mode.enableSelecter())
 		{
-			Area area = game.assets.getArea(game.thePlayer.areaId);
+			Area area = game.thePlayer.area;
 
 			int x = -ViewConsts.getCamX(game.thePlayer.x, area.getWidth()) + (e.getX() -frameInsets.left) /ViewConsts.tileSize;
 			int y = -ViewConsts.getCamY(game.thePlayer.y, area.getHeight()) + (e.getY() -frameInsets.top) /ViewConsts.tileSize;

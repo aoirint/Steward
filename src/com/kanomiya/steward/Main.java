@@ -39,6 +39,7 @@ public class Main {
 
 		Game game = new Game(assets);
 
+
 		FrameWithView frame = new FrameWithView(ViewConsts.viewGame, game);
 		ViewConsts.viewGame.setSize(ViewConsts.viewWidth, ViewConsts.viewHeight);
 

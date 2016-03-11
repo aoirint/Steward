@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
+import javax.script.ScriptEngine;
+
 import com.google.common.collect.Maps;
 import com.kanomiya.steward.common.model.area.Area;
 import com.kanomiya.steward.common.model.area.Tip;
@@ -17,11 +19,13 @@ import com.kanomiya.steward.common.model.area.Tip;
 public class Assets {
 
 
-	protected Map<String, Image> textures = Maps.newHashMap();
-	protected Map<String, Tip> tips = Maps.newHashMap();
-	protected Map<String, Area> areas = Maps.newHashMap();
+	protected Map<String, Image> srcToTexture = Maps.newHashMap();
+	protected Map<String, Tip> idToTip = Maps.newHashMap();
+	protected Map<String, Area> idToArea = Maps.newHashMap();
+	protected Map<String, String> srcToScriptCode = Maps.newHashMap();
 
 	protected String assetsDir;
+	protected ScriptEngine scriptEngine;
 
 
 	public Assets(String assetsDir)
@@ -33,35 +37,57 @@ public class Assets {
 
 	public Area getArea(String id)
 	{
-		return areas.get(id);
+		return idToArea.get(id);
 	}
 
 	public Image getTexture(String path)
 	{
-		return textures.get(path);
+		return srcToTexture.get(path);
 	}
 
 	public Tip getTip(String id)
 	{
-		return tips.get(id);
+		return idToTip.get(id);
+	}
+
+	public String getScriptCode(String path)
+	{
+		return srcToScriptCode.get(path);
+	}
+
+
+	public ScriptEngine getScriptEngine()
+	{
+		return scriptEngine;
+	}
+
+	public void setScriptEngine(ScriptEngine scriptEngine)
+	{
+		this.scriptEngine = scriptEngine;
 	}
 
 
 
 	public void addTexture(String path, Image image)
 	{
-		textures.put(path, image);
+		srcToTexture.put(path, image);
 	}
 
 	public void addTip(Tip tip)
 	{
-		tips.put(tip.getId(), tip);
+		idToTip.put(tip.getId(), tip);
 	}
 
 	public void addArea(Area area)
 	{
-		areas.put(area.getId(), area);
+		idToArea.put(area.getId(), area);
 	}
+
+	public void addScriptCode(String path, String source)
+	{
+		srcToScriptCode.put(path, source);
+	}
+
 
 	@Override
 	public String toString()
@@ -75,7 +101,7 @@ public class Assets {
 		builder.append("textures");
 		builder.append('[');
 
-		Set<String> texKeys = textures.keySet();
+		Set<String> texKeys = srcToTexture.keySet();
 		for (String key: texKeys)
 		{
 			builder.append(key);
@@ -88,7 +114,7 @@ public class Assets {
 		builder.append("tips");
 		builder.append('[');
 
-		Set<String> tipKeys = tips.keySet();
+		Set<String> tipKeys = idToTip.keySet();
 		for (String key: tipKeys)
 		{
 			builder.append(key);
@@ -101,10 +127,10 @@ public class Assets {
 		builder.append("areas");
 		builder.append('[');
 
-		Set<String> areaKeys = areas.keySet();
+		Set<String> areaKeys = idToArea.keySet();
 		for (String key: areaKeys)
 		{
-			builder.append(areas.get(key).toString());
+			builder.append(idToArea.get(key).toString());
 			builder.append(',');
 		}
 
@@ -120,11 +146,11 @@ public class Assets {
 
 
 	public Collection<Tip> tipList() {
-		return tips.values();
+		return idToTip.values();
 	}
 
 	public Collection<Area> areaList() {
-		return areas.values();
+		return idToArea.values();
 	}
 
 

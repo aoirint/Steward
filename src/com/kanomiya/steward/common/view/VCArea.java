@@ -3,8 +3,8 @@ package com.kanomiya.steward.common.view;
 import java.awt.Graphics;
 
 import com.kanomiya.steward.common.model.area.Area;
+import com.kanomiya.steward.common.model.area.Tile;
 import com.kanomiya.steward.common.model.assets.Assets;
-import com.kanomiya.steward.common.model.icon.Icon;
 
 /**
  * @author Kanomiya
@@ -26,15 +26,17 @@ public class VCArea implements IViewComponent<Area> {
 		{
 			for (int x=0; x<width; x++)
 			{
+				if (! area.tileExists(x, y)) continue;
+
+				Tile tile = area.getTile(x, y);
+
 				g.translate(x *ViewConsts.tileSize, y * ViewConsts.tileSize);
-
-				Icon icon = (area.tipExists(x, y)) ? area.getTip(x, y).getIcon() : ViewConsts.iconUnknown;
-
-				ViewConsts.vcIcon.paint(g, icon, assets, frame);
-
+				if (tile.hasTip()) ViewConsts.vcIcon.paint(g, tile.getTip().getIcon(), assets, frame);
+				if (tile.hasEvent()) ViewConsts.vcIcon.paint(g, tile.getEvent().getIcon(), assets, frame);
 				g.translate(-x *ViewConsts.tileSize, -y * ViewConsts.tileSize);
 			}
 		}
+
 
 	}
 
