@@ -48,6 +48,7 @@ public class Main {
 		// frame.setPreferredSize(new Dimension(ViewConsts.viewWidth, ViewConsts.viewHeight));
 		frame.setRealSize(ViewConsts.viewWidth, ViewConsts.viewHeight);
 
+		frame.setTitle("Steward");
 		frame.setLocation(60, 30);
 		frame.addWindowListener(new WindowAdapter()
 		{

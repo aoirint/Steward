@@ -1,7 +1,7 @@
 package com.kanomiya.steward.common;
-
 import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
+
+import jdk.nashorn.api.scripting.NashornScriptEngineFactory;
 
 import com.kanomiya.steward.common.model.assets.Assets;
 import com.kanomiya.steward.common.model.event.Player;
@@ -23,15 +23,13 @@ public class Game{
 		this.assets = assets;
 		thePlayer = new Player(assets.getArea("test"), 3, 3, new Icon("event/player.png")); // TODO: ソース直書き
 
-
-		ScriptEngineManager scriptEngineManager = new ScriptEngineManager();
-		ScriptEngine scriptEngine = scriptEngineManager.getEngineByName("JavaScript");
-		// TODO: スコープ
+		NashornScriptEngineFactory factory = new NashornScriptEngineFactory();
+		ScriptEngine scriptEngine = factory.getScriptEngine("-strict", "--no-java", "--no-syntax-extensions");
 
 		scriptEngine.put("assets", assets);
 		scriptEngine.put("player", thePlayer);
 
-		assets.setScriptEngine(scriptEngine);;
+		assets.setScriptEngine(scriptEngine);
 	}
 
 
