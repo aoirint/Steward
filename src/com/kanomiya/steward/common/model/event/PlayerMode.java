@@ -5,18 +5,20 @@ package com.kanomiya.steward.common.model.event;
  *
  */
 public enum PlayerMode {
-	NORMAL(true, true, false, true),
+	NORMAL("normal", true, true, false, true),
 
-	SELECT(true, true, true, false),
-	WIZARD(true, false, true, true),
+	SELECT("select", true, true, true, false),
+	WIZARD("wizard", true, false, true, true),
 
 
 	;
 
+	private String id;
 	private boolean enableMove, enableTurn, enableSelecter, enableSave;
 
 
-	private PlayerMode(boolean enableMove, boolean enableTurn, boolean enableSelecter, boolean enableSave) {
+	private PlayerMode(String id, boolean enableMove, boolean enableTurn, boolean enableSelecter, boolean enableSave) {
+		this.id = id;
 		this.enableMove = enableMove;
 		this.enableTurn = enableTurn;
 		this.enableSelecter = enableSelecter;
@@ -43,16 +45,20 @@ public enum PlayerMode {
 		return enableSave;
 	}
 
+	public String getId()
+	{
+		return id;
+	}
+
+	public String getUnlocalizedName()
+	{
+		return "playerMode." + id;
+	}
+
+
 	@Override
 	public String toString()
 	{
-		switch (this)
-		{
-		case NORMAL: return "Normal";
-		case SELECT: return "Select";
-		case WIZARD: return "Wizard";
-		}
-
 		return name();
 	}
 

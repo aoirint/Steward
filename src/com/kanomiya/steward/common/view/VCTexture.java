@@ -21,24 +21,28 @@ public class VCTexture implements IViewComponent<Texture> {
 	@Override
 	public void paint(Graphics2D g, Texture texture, Assets assets, int frame) {
 
+		if (texture.src == null) return ;
+
 		g.setColor(Color.WHITE);
+
+		int srcLen = texture.src[0].length;
+		int dx = 0;
+		int dy = 0;
+
+
+		if (texture.hasOwner())
+		{
+			if (texture.type.isWalkable()) dx = texture.getOwner().getWalkState().getIconX();
+			if (texture.type.isDirectable()) dy = texture.getOwner().getDirection().getIconY();
+		}
 
 		switch (texture.mode)
 		{
 		case STATIC:
-			int srcLen = texture.src.length;
-			int dx = 0;
-			int dy = 0;
-
-			if (texture.hasOwner())
-			{
-				if (texture.type.isWalkable()) dx = texture.getOwner().getWalkState().getIconX();
-				if (texture.type.isDirectable()) dy = texture.getOwner().getDirection().getIconY();
-			}
 
 			for (int i=0; i<srcLen; i++)
 			{
-				Image img = assets.getCachedImage(texture.src[i]);
+				Image img = assets.getCachedImage(texture.src[0][i]);
 				Dimension dim = assets.getCachedImageDim(img);
 
 				g.drawImage(img, 0,0, dim.width, dim.height, dx, dy, dx +dim.width, dy +dim.height, null);
@@ -56,7 +60,14 @@ public class VCTexture implements IViewComponent<Texture> {
 			}
 			if (texture.src.length <= texture.index) texture.index = 0;
 
-			g.drawImage(assets.getCachedImage(texture.src[texture.index]), 0,0, null);
+			for (int i=0; i<srcLen; i++)
+			{
+				Image img = assets.getCachedImage(texture.src[texture.index][i]);
+				Dimension dim = assets.getCachedImageDim(img);
+
+				g.drawImage(img, 0,0, dim.width, dim.height, dx, dy, dx +dim.width, dy +dim.height, null);
+			}
+
 
 			break;
 

@@ -3,7 +3,6 @@ package com.kanomiya.steward.common.model.assets;
 import java.awt.Image;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -13,17 +12,16 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.Locale;
+import java.util.PropertyResourceBundle;
 
 import javax.imageio.ImageIO;
 
 import com.google.gson.Gson;
+import com.kanomiya.steward.common.model.I18n;
 import com.kanomiya.steward.common.model.area.Area;
 import com.kanomiya.steward.common.model.area.Tip;
 import com.kanomiya.steward.common.model.event.Event;
-import com.kanomiya.steward.common.model.script.Script;
-import com.kanomiya.steward.common.model.script.ScriptEventType;
 
 
 /**
@@ -72,15 +70,18 @@ public class AssetsFactory {
 			initTips(gson, assets);
 			initAreas(gson, assets);
 			initEvents(gson, assets);
+			initScripts(gson, assets);
+			initI18n(assets);
 
 		} catch (IOException e) {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
 		}
 
+		assets.setLocale(Locale.getDefault());
+
 		return assets;
 	}
-
 
 	protected void initTextures(Gson gson, Assets assets) throws IOException
 	{
@@ -103,31 +104,53 @@ public class AssetsFactory {
 
 	}
 
-	protected void initTips(Gson gson, Assets assets) throws FileNotFoundException
+	protected void initTips(Gson gson, Assets assets) throws IOException
 	{
-		File[] tipFiles = new File(assetsDir, "tip").listFiles(jsonFilter);
+		File root = new File(assetsDir, "tip");
 
-		for (File f: tipFiles)
-		{
-			FileReader fr = new FileReader(f);
-			Tip tipObj = gson.fromJson(fr, Tip.class);
+		Files.walkFileTree(root.toPath(), new SimpleFileVisitor<Path>() {
+			@Override
+			public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException
+			{
+				if (! file.toString().endsWith(".json")) return FileVisitResult.CONTINUE;
 
-			assets.addTip(tipObj);
-		}
+				File f = file.toFile();
+				// String path = f.getCanonicalPath().substring(root.getCanonicalPath().length() +1);
+				// path = path.replace('\\', '/');
+
+				FileReader fr = new FileReader(f);
+				Tip tipObj = gson.fromJson(fr, Tip.class);
+
+				assets.addTip(tipObj);
+
+				return FileVisitResult.CONTINUE;
+			}
+		});
 
 	}
 
 	protected void initAreas(Gson gson, Assets assets) throws IOException
 	{
-		File[] areaFiles = new File(assetsDir, "area").listFiles(jsonFilter);
+		File root = new File(assetsDir, "area");
 
-		for (File f: areaFiles)
-		{
-			FileReader fr = new FileReader(f);
-			Area areaObj = gson.fromJson(fr, Area.class);
+		Files.walkFileTree(root.toPath(), new SimpleFileVisitor<Path>() {
+			@Override
+			public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException
+			{
+				if (! file.toString().endsWith(".json")) return FileVisitResult.CONTINUE;
 
-			assets.addArea(areaObj);
-		}
+				File f = file.toFile();
+				// String path = f.getCanonicalPath().substring(root.getCanonicalPath().length() +1);
+				// path = path.replace('\\', '/');
+
+				FileReader fr = new FileReader(f);
+				Area areaObj = gson.fromJson(fr, Area.class);
+
+				assets.addArea(areaObj);
+
+				return FileVisitResult.CONTINUE;
+			}
+		});
 
 	}
 
@@ -139,6 +162,8 @@ public class AssetsFactory {
 			@Override
 			public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException
 			{
+				if (! file.toString().endsWith(".json")) return FileVisitResult.CONTINUE;
+
 				File f = file.toFile();
 				String path = f.getCanonicalPath().substring(root.getCanonicalPath().length() +1);
 				path = path.replace('\\', '/');
@@ -148,35 +173,74 @@ public class AssetsFactory {
 				// boolean isPlayer = file.getFileName().endsWith("player.json");
 				Event eventObj = gson.fromJson(fr, Event.class);
 
-				Map<ScriptEventType, Script> scripts = eventObj.scripts;
-
-				if (scripts != null)
-				{
-					Iterator<Script> itr = scripts.values().iterator();
-
-					while (itr.hasNext())
-					{
-						Script script = itr.next();
-
-						InputStreamReader isrScript = new InputStreamReader(new FileInputStream(new File(assetsDir, "script/" + script.src)), StandardCharsets.UTF_8);
-
-						StringBuilder sb = new StringBuilder();
-
-						while (isrScript.ready())
-						{
-							sb.appendCodePoint(isrScript.read());
-						}
-
-						isrScript.close();
-
-						assets.addScriptCode(script.src, sb.toString());
-
-					}
-
-				}
-
 				eventObj.area.setEvent(eventObj);
 				assets.addEvent(eventObj);
+
+				return FileVisitResult.CONTINUE;
+			}
+		});
+
+	}
+
+	protected void initScripts(Gson gson, Assets assets) throws IOException
+	{
+		File root = new File(assetsDir, "script");
+
+		Files.walkFileTree(root.toPath(), new SimpleFileVisitor<Path>() {
+			@Override
+			public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException
+			{
+				if (! file.toString().endsWith(".js")) return FileVisitResult.CONTINUE;
+
+				File f = file.toFile();
+				String path = f.getCanonicalPath().substring(root.getCanonicalPath().length() +1);
+				path = path.replace('\\', '/');
+
+				InputStreamReader isrScript = new InputStreamReader(new FileInputStream(f), StandardCharsets.UTF_8);
+
+				StringBuilder sb = new StringBuilder();
+
+				while (isrScript.ready())
+				{
+					sb.appendCodePoint(isrScript.read());
+				}
+
+				isrScript.close();
+
+				assets.addScriptCode(path, sb.toString());
+
+				return FileVisitResult.CONTINUE;
+			}
+		});
+
+	}
+
+
+	/**
+	 * @param assets
+	 */
+	protected void initI18n(Assets assets) throws IOException {
+		File root = new File(assetsDir, "lang");
+
+		Files.walkFileTree(root.toPath(), new SimpleFileVisitor<Path>() {
+			@Override
+			public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException
+			{
+				if (! file.toString().endsWith(".lang")) return FileVisitResult.CONTINUE;
+				File f = file.toFile();
+
+				String name = file.getFileName().toString();
+				name = name.substring(0, name.lastIndexOf('.'));
+
+				PropertyResourceBundle bundle = new PropertyResourceBundle(new FileReader(f));
+
+				String[] tags = name.split("_");
+				if (tags.length < 2) return FileVisitResult.CONTINUE;
+
+				Locale.Builder builder = new Locale.Builder().setLanguage(tags[0]).setRegion(tags[1]);
+				if (3 <= tags.length) builder.setVariant(tags[2]);
+
+				assets.addI18n(new I18n(builder.build(), bundle));
 
 				return FileVisitResult.CONTINUE;
 			}

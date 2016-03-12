@@ -68,6 +68,10 @@ public class CPlayer implements IController<Player> {
 		case KeyEvent.VK_F1: // help
 			break;
 
+		case KeyEvent.VK_F3: // debug
+			player.debugVisible = ! player.debugVisible;
+			break;
+
 		case KeyEvent.VK_MULTIPLY: // select
 			turnInfo.controlListener.changeMode((player.mode == PlayerMode.SELECT) ? PlayerMode.NORMAL : PlayerMode.SELECT);
 			break;

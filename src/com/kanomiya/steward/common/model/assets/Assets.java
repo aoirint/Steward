@@ -3,12 +3,14 @@ package com.kanomiya.steward.common.model.assets;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.util.Collection;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
 import javax.script.ScriptEngine;
 
 import com.google.common.collect.Maps;
+import com.kanomiya.steward.common.model.I18n;
 import com.kanomiya.steward.common.model.area.Area;
 import com.kanomiya.steward.common.model.area.Tip;
 import com.kanomiya.steward.common.model.event.Event;
@@ -28,6 +30,8 @@ public class Assets {
 	protected Map<String, Area> idToArea = Maps.newHashMap();
 	protected Map<String, String> srcToScriptCode = Maps.newHashMap();
 	protected Map<String, Event> idToEvent = Maps.newHashMap();
+	protected Map<Locale, I18n> localeToI18n = Maps.newHashMap();
+	public Locale locale;
 
 	protected String assetsDir, saveDir;
 	protected ScriptEngine scriptEngine;
@@ -126,6 +130,16 @@ public class Assets {
 		idToEvent.put(event.getId(), event);
 	}
 
+	public void addI18n(I18n i18n)
+	{
+		localeToI18n.put(i18n.getLocale(), i18n);
+	}
+
+	public void setLocale(Locale locale)
+	{
+		this.locale = locale;
+	}
+
 
 	@Override
 	public String toString()
@@ -200,6 +214,23 @@ public class Assets {
 	}
 
 
+
+
+	/**
+	 * @param unlocalizedName
+	 * @return
+	 */
+	public String translate(String unlocalizedName) {
+		Locale locale = this.locale;
+
+		if (! localeToI18n.containsKey(locale))
+		{
+			if (! localeToI18n.containsKey(Locale.JAPAN)) return unlocalizedName;
+			locale = Locale.JAPAN;
+		}
+
+		return localeToI18n.get(locale).translate(unlocalizedName);
+	}
 
 
 

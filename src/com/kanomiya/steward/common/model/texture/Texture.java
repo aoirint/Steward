@@ -9,7 +9,7 @@ import com.google.gson.annotations.Expose;
  */
 public class Texture {
 
-	@Expose public String[] src;
+	@Expose public String[][] src;
 	@Expose public TextureMode mode;
 	@Expose public TextureType type;
 	@Expose public int interval;
@@ -21,13 +21,23 @@ public class Texture {
 
 	public Texture()
 	{
-		this(null, TextureMode.STATIC, TextureType.front, null, 1000);
+		this((String[][]) null, TextureMode.STATIC, TextureType.FRONT, null, 1000);
 	}
 
 
 	public Texture(String src)
 	{
-		this(new String[] { src }, TextureMode.STATIC, TextureType.front, null, 1000);
+		this(src, TextureMode.STATIC, TextureType.FRONT, null, 1000);
+	}
+
+	public Texture(String src, TextureMode mode, TextureType type, ITextureOwner owner, int interval)
+	{
+		this(new String[][] { new String[] { src } }, mode, type, owner, interval);
+	}
+
+	public Texture(String[] src, TextureMode mode, TextureType type, ITextureOwner owner, int interval)
+	{
+		this(new String[][] { src }, mode, type, owner, interval);
 	}
 
 	/**
@@ -38,11 +48,12 @@ public class Texture {
 	 * @param owner typeがfrontのときはnullでよい
 	 * @param interval
 	 */
-	public Texture(String[] src, TextureMode mode, TextureType type, ITextureOwner owner, int interval)
+	public Texture(String[][] src, TextureMode mode, TextureType type, ITextureOwner owner, int interval)
 	{
 		this.src = src;
 		this.mode = mode;
 		this.type = type;
+		this.owner = owner;
 		this.interval = Math.max(interval, 1000);
 	}
 

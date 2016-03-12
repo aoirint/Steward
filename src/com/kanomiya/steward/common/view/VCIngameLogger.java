@@ -32,7 +32,7 @@ public class VCIngameLogger implements IViewComponent<IngameLogger> {
 		Iterator<LogItem> itr = logger.items.listIterator(Math.max(0, logger.items.size() -14));
 
 		int line = 0;
-		int x = 0;
+		int left = 0;
 
 		while (line < 14 && itr.hasNext())
 		{
@@ -41,41 +41,7 @@ public class VCIngameLogger implements IViewComponent<IngameLogger> {
 
 			g.setColor(item.pretty.color);
 
-			String text = item.pretty.text;
-			int textLen = text.length();
-			int width = g.getFontMetrics().stringWidth(text);
-			int right = x +width;
-
-
-			if (IngameLogger.innerWidth < right) // 折り返し
-			{
-				StringBuilder stack = new StringBuilder(textLen +20);
-				StringBuilder builder = null;
-
-				int dx = x;
-
-				for (int i=0; i<textLen; i++)
-				{
-					if (builder == null) builder = new StringBuilder(textLen);
-
-					builder.append(text.charAt(i));
-
-					int dw = g.getFontMetrics().stringWidth(builder.toString());
-					int dr = dx +dw;
-
-					if (IngameLogger.innerWidth -20 < dr)
-					{
-						stack.append(builder);
-						stack.append('\n');
-						builder = null;
-					}
-
-				}
-
-				if (builder != null) stack.append(builder);
-
-				text = stack.toString();
-			}
+			String text = ViewConsts.wordWrap(item.pretty.text, g, left, IngameLogger.innerWidth);
 
 			if (text.contains("\n"))
 			{
@@ -84,24 +50,27 @@ public class VCIngameLogger implements IViewComponent<IngameLogger> {
 
 				for (int i=0; i<yLen; i++)
 				{
-					g.drawString(lines[i], x, (y +i) *IngameLogger.lineHeight);
-					x = 0;
+					g.drawString(lines[i], left, (y +i) *IngameLogger.lineHeight);
+					left = 0;
 				}
 
-				line += yLen;
+				line += yLen -1;
+
+				left += g.getFontMetrics().stringWidth(lines[yLen -1]);
 
 			} else
 			{
-				g.drawString(text, x, y *IngameLogger.lineHeight);
+				g.drawString(text, left, y *IngameLogger.lineHeight);
+
+				left += g.getFontMetrics().stringWidth(text);
 			}
 
 
-			x = right;
 
 			if (item.lineBreak)
 			{
 				line ++;
-				x = 0;
+				left = 0;
 			}
 		}
 

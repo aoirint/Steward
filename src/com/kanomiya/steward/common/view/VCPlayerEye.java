@@ -39,8 +39,6 @@ public class VCPlayerEye implements IViewComponent<Player> {
 
 		g.translate(-camX, -camY);
 
-		ViewConsts.vcMode.paint(g, player, assets, frame);
-
 		if (player.logger.isVisible()) ViewConsts.vcIngameLogger.paint(g, player.logger, assets, frame);
 
 

@@ -55,7 +55,7 @@ public class EventConverter implements JsonDeserializer<Event>, JsonSerializer<E
 			Player player = (Player) event;
 
 			if (player.mode != PlayerMode.NORMAL) jsObj.add("mode", context.serialize(player.mode));
-			if (! player.debugMode) jsObj.addProperty("debugMode", player.debugMode);
+			if (! player.debugVisible) jsObj.addProperty("debugMode", player.debugVisible);
 
 		}
 

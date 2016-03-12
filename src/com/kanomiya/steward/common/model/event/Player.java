@@ -17,7 +17,7 @@ import com.kanomiya.steward.common.model.texture.Texture;
  */
 public class Player extends Event {
 
-	@Expose public boolean debugMode;
+	@Expose public boolean debugVisible;
 
 	@Expose public PlayerMode mode;
 
@@ -44,7 +44,7 @@ public class Player extends Event {
 		super(id, area, x, y, texture, direction, walkState, access, scripts);
 
 		this.mode = mode;
-		this.debugMode = debugMode;
+		this.debugVisible = debugMode;
 		logger = new IngameLogger();
 
 	}

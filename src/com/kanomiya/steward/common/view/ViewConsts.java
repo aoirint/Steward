@@ -1,6 +1,7 @@
 package com.kanomiya.steward.common.view;
 
 import java.awt.Color;
+import java.awt.Graphics;
 
 import com.kanomiya.steward.common.model.texture.Texture;
 import com.kanomiya.steward.editor.view.ViewTips;
@@ -30,7 +31,7 @@ public class ViewConsts {
 	public static VCBorder vcBorder = new VCBorder();
 
 	public static VCIngameLogger vcIngameLogger = new VCIngameLogger();
-	public static VCMode vcMode = new VCMode();
+	public static VCDebug vcStat = new VCDebug();
 
 	public static VCSelect vcSelect = new VCSelect();
 	public static VCMarker vcMarker = new VCMarker();
@@ -66,6 +67,63 @@ public class ViewConsts {
 		return -camY;
 
 	}
+
+
+
+	/**
+	 *
+	 * 折り返すべき場所に改行(\n)を挿入します
+	 *
+	 * @param text
+	 * @param g
+	 * @param beginLeft
+	 * @param maxWidth
+	 * @return
+	 */
+	public static String wordWrap(String text, Graphics g, int beginLeft, int maxWidth)
+	{
+		int textLen = text.length();
+		int width = g.getFontMetrics().stringWidth(text);
+		int right = beginLeft +width;
+
+
+		if (maxWidth < right) // 折り返し
+		{
+			StringBuilder stack = new StringBuilder(textLen +20);
+			StringBuilder builder = null;
+
+			int dx = beginLeft;
+
+			for (int i=0; i<textLen; i++)
+			{
+				if (builder == null) builder = new StringBuilder(textLen);
+
+				builder.append(text.charAt(i));
+
+				int dw = g.getFontMetrics().stringWidth(builder.toString());
+				int dr = dx +dw;
+
+				if (maxWidth -20 < dr)
+				{
+					stack.append(builder);
+					stack.append('\n');
+					builder = null;
+				}
+
+			}
+
+			if (builder != null) stack.append(builder);
+
+			text = stack.toString();
+		}
+
+		return text;
+	}
+
+
+
+
+
 
 
 }
