@@ -6,7 +6,7 @@ package com.kanomiya.steward.common.model.event;
  */
 public enum WalkState {
 	upright(0), // 直立
-	forward(1), // 前進
+	forward(32), // 前進
 
 	;
 

@@ -26,9 +26,13 @@ public class VCTexture implements IViewComponent<Texture> {
 		g.setColor(Color.WHITE);
 
 		int srcLen = texture.src[0].length;
-		int dx = 0;
-		int dy = 0;
+		int dx = texture.x;
+		int dy = texture.y;
 
+		int width = texture.width;
+		int height = texture.height;
+
+		g.translate(texture.offsetX, texture.offsetY);
 
 		if (texture.hasOwner())
 		{
@@ -45,7 +49,10 @@ public class VCTexture implements IViewComponent<Texture> {
 				Image img = assets.getCachedImage(texture.src[0][i]);
 				Dimension dim = assets.getCachedImageDim(img);
 
-				g.drawImage(img, 0,0, dim.width, dim.height, dx, dy, dx +dim.width, dy +dim.height, null);
+				if (width == -1) width = dim.width;
+				if (height == -1) height = dim.height;
+
+				g.drawImage(img, 0,0, width, height, dx, dy, dx +width, dy +height, null);
 			}
 
 			break;
@@ -72,6 +79,8 @@ public class VCTexture implements IViewComponent<Texture> {
 			break;
 
 		}
+
+		g.translate(-texture.offsetX, -texture.offsetY);
 
 	}
 

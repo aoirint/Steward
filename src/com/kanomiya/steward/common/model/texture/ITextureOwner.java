@@ -9,8 +9,6 @@ import com.kanomiya.steward.common.model.event.WalkState;
  */
 public interface ITextureOwner {
 
-	public Texture getIcon();
-
 	public Direction getDirection();
 	public WalkState getWalkState();
 

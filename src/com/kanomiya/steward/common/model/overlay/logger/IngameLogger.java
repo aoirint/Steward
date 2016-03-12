@@ -44,7 +44,7 @@ public class IngameLogger extends Overlay {
 		super(ViewConsts.viewWidth -560, ViewConsts.viewHeight -232, 560, 232);
 
 		items = Lists.newLinkedList();
-		setBackground(new Texture("background/overlay/ingameLogger.png"));
+		setBackground(new Texture("background/overlay/ingameLogger.png", width, height));
 
 		visible = false;
 		autoCloseLock = false;

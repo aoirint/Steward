@@ -10,6 +10,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
+import com.kanomiya.steward.common.view.ViewConsts;
 
 /**
  * @author Kanomiya
@@ -64,6 +65,22 @@ public class TextureConverter implements JsonSerializer<Texture>, JsonDeserializ
 			}
 		}
 
+		int x = 0;
+		if (jsObj.has("x")) x = jsObj.get("x").getAsInt();
+		int y = 0;
+		if (jsObj.has("y")) y = jsObj.get("y").getAsInt();
+
+		int width = ViewConsts.tileSize;
+		if (jsObj.has("width")) width = jsObj.get("width").getAsInt();
+		int height = ViewConsts.tileSize;
+		if (jsObj.has("height")) height = jsObj.get("height").getAsInt();
+
+		int offsetX = 0;
+		if (jsObj.has("offsetX")) offsetX = jsObj.get("offserX").getAsInt();
+		int offsetY = 0;
+		if (jsObj.has("offsetY")) offsetY = jsObj.get("offsetY").getAsInt();
+
+
 		TextureMode mode = TextureMode.STATIC;
 		if (jsObj.has("mode")) mode = context.deserialize(jsObj.get("mode"), TextureMode.class);
 
@@ -73,7 +90,7 @@ public class TextureConverter implements JsonSerializer<Texture>, JsonDeserializ
 		int interval = 1000;
 		if (mode.requireInterval() && jsObj.has("interval")) interval = jsObj.get("interval").getAsInt();
 
-		return new Texture(src, mode, itype, null, interval);
+		return new Texture(src, x,y, width, height, offsetX,offsetY, mode, itype, null, interval);
 	}
 
 

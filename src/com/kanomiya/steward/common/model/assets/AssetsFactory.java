@@ -173,6 +173,8 @@ public class AssetsFactory {
 				// boolean isPlayer = file.getFileName().endsWith("player.json");
 				Event eventObj = gson.fromJson(fr, Event.class);
 
+				eventObj.texture.owner = eventObj;
+
 				eventObj.area.setEvent(eventObj);
 				assets.addEvent(eventObj);
 

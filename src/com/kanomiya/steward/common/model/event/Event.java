@@ -187,7 +187,6 @@ public class Event implements ITurnObject, ITextureOwner {
 	/**
 	 * @return
 	 */
-	@Override
 	public Texture getIcon()
 	{
 		return texture;

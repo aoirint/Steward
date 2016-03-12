@@ -6,9 +6,9 @@ package com.kanomiya.steward.common.model.event;
  */
 public enum Direction {
 	south(0), // front
-	west(1),
-	east(2),
-	north(3),
+	west(32),
+	east(64),
+	north(96),
 
 	;
 	private int iconY;
