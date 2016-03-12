@@ -48,6 +48,8 @@ public class ControlListener implements KeyListener, MouseListener, MouseMotionL
 		}
 
 		game.thePlayer.mode = mode;
+		game.thePlayer.logger.println("モード切替 " + mode.toString());
+
 	}
 
 
@@ -63,8 +65,7 @@ public class ControlListener implements KeyListener, MouseListener, MouseMotionL
 		// System.out.println("key: " + e.getKeyCode() + " char: " + e.getKeyChar());
 
 		if (keyCode == KeyEvent.VK_COLON && e.isShiftDown()) keyCode = KeyEvent.VK_MULTIPLY;
-
-		boolean turnFlag = false;
+		if (keyCode == KeyEvent.VK_SLASH) keyCode = KeyEvent.VK_DIVIDE;
 
 
 		if (e.isControlDown() && keyCode == KeyEvent.VK_S)
@@ -75,75 +76,11 @@ public class ControlListener implements KeyListener, MouseListener, MouseMotionL
 			}
 		}
 
+		TurnInfo turnInfo = new TurnInfo(this);
 
+		if (! turnInfo.turnIsConsumed) ControlConsts.cPlayer.input(keyCode, turnInfo, game.thePlayer, game.assets);
 
-		switch (keyCode)
-		{
-		case KeyEvent.VK_NUMPAD8:
-		case KeyEvent.VK_UP:
-			turnFlag = game.thePlayer.move(game.assets, 0, -1);
-			break;
-
-		case KeyEvent.VK_NUMPAD2:
-		case KeyEvent.VK_DOWN:
-			turnFlag = game.thePlayer.move(game.assets, 0, 1);
-			break;
-
-		case KeyEvent.VK_NUMPAD4:
-		case KeyEvent.VK_LEFT:
-			turnFlag = game.thePlayer.move(game.assets, -1, 0);
-			break;
-
-		case KeyEvent.VK_NUMPAD6:
-		case KeyEvent.VK_RIGHT:
-			turnFlag = game.thePlayer.move(game.assets, 1, 0);
-			break;
-
-		case KeyEvent.VK_NUMPAD7:
-		case KeyEvent.VK_HOME:
-			turnFlag = game.thePlayer.move(game.assets, -1, -1);
-			break;
-
-		case KeyEvent.VK_NUMPAD9:
-		case KeyEvent.VK_PAGE_UP:
-			turnFlag = game.thePlayer.move(game.assets, 1, -1);
-			break;
-
-		case KeyEvent.VK_NUMPAD1:
-		case KeyEvent.VK_END:
-			turnFlag = game.thePlayer.move(game.assets, -1, 1);
-			break;
-
-		case KeyEvent.VK_NUMPAD3:
-		case KeyEvent.VK_PAGE_DOWN:
-			turnFlag = game.thePlayer.move(game.assets, 1, 1);
-			break;
-
-		case KeyEvent.VK_NUMPAD5:
-		case KeyEvent.VK_CLEAR:
-			turnFlag = true;
-			break;
-
-		case KeyEvent.VK_F1: // help
-			break;
-
-		case KeyEvent.VK_MULTIPLY: // select
-			changeMode((game.thePlayer.mode == PlayerMode.SELECT) ? PlayerMode.NORMAL : PlayerMode.SELECT);
-			break;
-
-		case KeyEvent.VK_DIVIDE: // log
-		case KeyEvent.VK_SLASH: // log
-			game.thePlayer.logger.setVisible(! game.thePlayer.logger.isVisible());
-			break;
-
-		case KeyEvent.VK_F12: // debug
-			changeMode((game.thePlayer.mode == PlayerMode.WIZARD) ? PlayerMode.NORMAL : PlayerMode.WIZARD);
-
-			break;
-		}
-
-
-		if (turnFlag && game.thePlayer.mode.enableTurn()) game.turn();
+		if (turnInfo.turnIsConsumed && game.thePlayer.mode.enableTurn()) game.turn();
 
 	}
 
