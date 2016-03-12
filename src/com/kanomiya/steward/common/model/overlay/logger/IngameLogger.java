@@ -20,6 +20,7 @@ public class IngameLogger extends Overlay {
 	public static Color textColor = Color.WHITE;
 	public static Color effectColor1 = new Color(0x9A, 0xDE, 0x64);
 	public static Color effectColor2 = new Color(0xFF, 0xD7, 0x53);
+	public static Color effectColor3 = new Color(0xD9, 0x94, 0xE0);
 	public static AlphaComposite alpha80 = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.8f);
 	public static Font textFont = new Font(Font.MONOSPACED, Font.PLAIN, lineHeight);
 

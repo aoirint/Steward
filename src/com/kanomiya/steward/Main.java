@@ -104,7 +104,6 @@ public class Main {
 
 		game.thePlayer.logger.println("Hello, world.");
 		game.thePlayer.logger.println("*ジャリ*", IngameLogger.effectColor1);
-		game.thePlayer.logger.println("*保存*", IngameLogger.effectColor2);
 		game.thePlayer.logger.println("ようこそ");
 		game.thePlayer.logger.println("123456789*123456789*123456789*123456789*123456789*123456789*123456789*123456789*123456789*");
 	}
