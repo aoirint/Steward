@@ -1,0 +1,14 @@
+{
+  "id": "player",
+  "area": "test",
+  "x": 2,
+  "y": 9,
+  "icon": {
+    "src": [
+      "event/player.png"
+    ],
+    "type": "walkable"
+  },
+  "mode": "WIZARD",
+  "debugMode": false
+}

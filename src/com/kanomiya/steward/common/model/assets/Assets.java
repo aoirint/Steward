@@ -10,6 +10,8 @@ import javax.script.ScriptEngine;
 import com.google.common.collect.Maps;
 import com.kanomiya.steward.common.model.area.Area;
 import com.kanomiya.steward.common.model.area.Tip;
+import com.kanomiya.steward.common.model.event.Event;
+import com.kanomiya.steward.common.model.event.Player;
 
 
 /**
@@ -23,16 +25,33 @@ public class Assets {
 	protected Map<String, Tip> idToTip = Maps.newHashMap();
 	protected Map<String, Area> idToArea = Maps.newHashMap();
 	protected Map<String, String> srcToScriptCode = Maps.newHashMap();
+	protected Map<String, Event> idToEvent = Maps.newHashMap();
 
-	protected String assetsDir;
+	protected String assetsDir, saveDir;
 	protected ScriptEngine scriptEngine;
 
 
-	public Assets(String assetsDir)
+	public Assets(String assetsDir, String saveDir)
 	{
 		this.assetsDir = assetsDir;
+		this.saveDir = saveDir;
 	}
 
+
+
+	/**
+	 * @return
+	 */
+	public String getAssetsDir() {
+		return assetsDir;
+	}
+
+	/**
+	 * @return
+	 */
+	public String getSaveDir() {
+		return saveDir;
+	}
 
 
 	public Area getArea(String id)
@@ -53,6 +72,11 @@ public class Assets {
 	public String getScriptCode(String path)
 	{
 		return srcToScriptCode.get(path);
+	}
+
+	public Event getEvent(String id)
+	{
+		return idToEvent.get(id);
 	}
 
 
@@ -86,6 +110,11 @@ public class Assets {
 	public void addScriptCode(String path, String source)
 	{
 		srcToScriptCode.put(path, source);
+	}
+
+	public void addEvent(Event event)
+	{
+		idToEvent.put(event.getId(), event);
 	}
 
 
@@ -142,6 +171,10 @@ public class Assets {
 	}
 
 
+	public Player getPlayer()
+	{
+		return (Player) getEvent("player");
+	}
 
 
 
@@ -152,6 +185,15 @@ public class Assets {
 	public Collection<Area> areaList() {
 		return idToArea.values();
 	}
+
+	public Collection<Event> eventList() {
+		return idToEvent.values();
+	}
+
+
+
+
+
 
 
 }

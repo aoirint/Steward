@@ -5,50 +5,43 @@ package com.kanomiya.steward.common.model.event;
  *
  */
 public enum PlayerMode {
-	NORMAL,
+	NORMAL(true, true, false, true),
 
-	SELECT,
-	WIZARD,
+	SELECT(true, true, true, false),
+	WIZARD(true, false, true, true),
 
 
 	;
 
+	private boolean enableMove, enableTurn, enableSelecter, enableSave;
+
+
+	private PlayerMode(boolean enableMove, boolean enableTurn, boolean enableSelecter, boolean enableSave) {
+		this.enableMove = enableMove;
+		this.enableTurn = enableTurn;
+		this.enableSelecter = enableSelecter;
+		this.enableSave = enableSave;
+	}
+
 	public boolean enableMove()
 	{
-		switch (this)
-		{
-		case NORMAL: return true;
-		case SELECT: return true;
-		case WIZARD: return true;
-		}
-
-		return false;
+		return enableMove;
 	}
 
 	public boolean enableTurn()
 	{
-		switch (this)
-		{
-		case NORMAL: return true;
-		case SELECT: return true;
-		case WIZARD: return false;
-		}
-
-		return false;
+		return enableTurn;
 	}
 
 	public boolean enableSelecter()
 	{
-		switch (this)
-		{
-		case NORMAL: return false;
-		case SELECT: return true;
-		case WIZARD: return true;
-		}
-
-		return false;
+		return enableSelecter;
 	}
 
+	public boolean enableSave()
+	{
+		return enableSave;
+	}
 
 	@Override
 	public String toString()

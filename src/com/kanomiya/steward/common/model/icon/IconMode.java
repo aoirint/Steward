@@ -5,16 +5,18 @@ package com.kanomiya.steward.common.model.icon;
  *
  */
 public enum IconMode {
-	STATIC("static"),
-	ANIMATION("animation"),
+	STATIC("static", false),
+	ANIMATION("animation", true),
 
 	;
 
 	private String id;
+	private boolean requireInterval;
 
-	private IconMode(String id)
+	private IconMode(String id, boolean requireInterval)
 	{
 		this.id = id;
+		this.requireInterval = requireInterval;
 	}
 
 	public static IconMode getFromId(String id)
@@ -34,5 +36,9 @@ public enum IconMode {
 		return id;
 	}
 
+	public boolean requireInterval()
+	{
+		return requireInterval;
+	}
 
 }

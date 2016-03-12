@@ -1,8 +1,14 @@
 package com.kanomiya.steward.common.model.event;
 
+import java.util.Map;
+
+import com.google.gson.annotations.Expose;
+import com.kanomiya.steward.common.model.area.AccessType;
 import com.kanomiya.steward.common.model.area.Area;
 import com.kanomiya.steward.common.model.assets.Assets;
 import com.kanomiya.steward.common.model.icon.Icon;
+import com.kanomiya.steward.common.model.script.Script;
+import com.kanomiya.steward.common.model.script.ScriptEventType;
 
 /**
  * @author Kanomiya
@@ -10,18 +16,29 @@ import com.kanomiya.steward.common.model.icon.Icon;
  */
 public class Player extends Event {
 
-	public boolean debugMode = false;
+	@Expose public boolean debugMode;
 
-	public PlayerMode mode = PlayerMode.NORMAL;
+	@Expose public PlayerMode mode;
 
 	public int selectedX, selectedY;
 	public int focusedX, focusedY;
 
-
-
-	public Player(Area area, int x, int y, Icon icon)
+	public Player()
 	{
-		super("player", area, x, y, icon);
+		mode = PlayerMode.NORMAL;
+		debugMode = false;
+	}
+
+	public Player(String id, Area area, int x, int y, Icon icon,
+			Direction direction, WalkState walkState,
+			AccessType access, Map<ScriptEventType, Script> scripts,
+			PlayerMode mode, boolean debugMode)
+	{
+		super(id, area, x, y, icon, direction, walkState, access, scripts);
+
+		this.mode = mode;
+		this.debugMode = debugMode;
+
 	}
 
 	int turnCount = 0;
@@ -40,6 +57,10 @@ public class Player extends Event {
 
 
 
-
+	public static boolean isPlayerId(String id)
+	{
+		System.out.println("hey, im " + id);
+		return id.equals("player");
+	}
 
 }

@@ -6,7 +6,7 @@
 
 	"icon":
 	{
-		"src": ["tip/tree.png"]
+		"src": ["tip/plain.png", "tip/tree.png"]
 	}
 
 }

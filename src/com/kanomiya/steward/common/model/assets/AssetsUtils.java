@@ -9,6 +9,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.kanomiya.steward.common.model.area.Area;
 import com.kanomiya.steward.common.model.area.AreaConverter;
+import com.kanomiya.steward.common.model.event.Event;
+import com.kanomiya.steward.common.model.event.EventConverter;
+import com.kanomiya.steward.common.model.icon.Icon;
+import com.kanomiya.steward.common.model.icon.IconConverter;
 import com.kanomiya.steward.common.model.icon.IconMode;
 import com.kanomiya.steward.common.model.icon.IconModeConverter;
 
@@ -24,28 +28,60 @@ public class AssetsUtils {
 		GsonBuilder gb = new GsonBuilder();
 
 		gb.registerTypeAdapter(Area.class, new AreaConverter(assets));
+		gb.registerTypeHierarchyAdapter(Event.class, new EventConverter(assets));
+		gb.registerTypeAdapter(Icon.class, new IconConverter());
 		gb.registerTypeAdapter(IconMode.class, new IconModeConverter());
 
-		Gson gson = gb.setPrettyPrinting().create();
+		Gson gson = gb.setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
 
 		return gson;
 	}
 
 
 
-	public static void saveAssets(Assets assets)
+	public static void saveAssets(Assets assets, String saveDirPath)
 	{
 		Gson gson = createGson(assets);
 
 		Collection<Area> areaList = assets.areaList();
+		Collection<Event> eventList = assets.eventList();
 
 		try
 		{
+			File saveDir = new File(saveDirPath);
+			File tempDir = new File("temp");
+			if (! tempDir.exists()) tempDir.mkdir();
+
+			File bkSaveDir = new File(tempDir, saveDirPath);
+			if (bkSaveDir.exists()) bkSaveDir.delete();
+			saveDir.renameTo(bkSaveDir);
+
+			saveDir.mkdir();
+
+			File areaDir = new File(saveDir, "area");
+			File eventDir = new File(saveDir, "event");
+
+			if (! areaDir.exists()) areaDir.mkdir();
+			if (! eventDir.exists()) eventDir.mkdir();
+
 			for (Area area: areaList)
 			{
-				saveAsJson(area, gson, new File(assets.assetsDir, "area/" + area.getId() + ".json"));
+				File areaFile = new File(areaDir, area.getId() + ".json");
+				File aDir = areaFile.getParentFile();
+				if (! aDir.exists()) aDir.mkdirs();
+
+
+				saveAsJson(area, gson, areaFile);
 			}
 
+			for (Event event: eventList)
+			{
+				File eventFile = new File(eventDir, event.getId() + ".json");
+				File eDir = eventFile.getParentFile();
+				if (! eDir.exists()) eDir.mkdirs();
+
+				saveAsJson(event, gson, eventFile);
+			}
 
 		} catch (IOException e)
 		{

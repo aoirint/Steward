@@ -50,11 +50,11 @@ public class AreaConverter implements JsonSerializer<Area>, JsonDeserializer<Are
 
 			for (int x=0; x<width; x++)
 			{
-				if (area.tileExists(x, y))
+				if (area.tipExists(x, y))
 				{
-					Tile tile = area.getTile(x, y);
+					Tip tip = area.getTip(x, y);
 
-					tipLine.add(tile.getTip().getId());
+					tipLine.add(tip.getId());
 				}
 			}
 
@@ -71,6 +71,11 @@ public class AreaConverter implements JsonSerializer<Area>, JsonDeserializer<Are
 	*/
 	@Override
 	public Area deserialize(JsonElement jsElm, Type type, JsonDeserializationContext jdc) throws JsonParseException {
+
+		if (jsElm.isJsonPrimitive()) // for id
+		{
+			return assets.getArea(jsElm.getAsString());
+		}
 
 		JsonObject jsObj = jsElm.getAsJsonObject();
 

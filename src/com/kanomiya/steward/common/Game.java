@@ -5,7 +5,6 @@ import jdk.nashorn.api.scripting.NashornScriptEngineFactory;
 
 import com.kanomiya.steward.common.model.assets.Assets;
 import com.kanomiya.steward.common.model.event.Player;
-import com.kanomiya.steward.common.model.icon.Icon;
 
 /**
  * @author Kanomiya
@@ -18,10 +17,10 @@ public class Game{
 	public Assets assets;
 	public Player thePlayer;
 
-	public Game(Assets assets)
+	public Game(Assets assets, Player thePlayer)
 	{
 		this.assets = assets;
-		thePlayer = new Player(assets.getArea("test"), 3, 3, new Icon("event/player.png")); // TODO: ソース直書き
+		this.thePlayer = thePlayer;
 
 		NashornScriptEngineFactory factory = new NashornScriptEngineFactory();
 		ScriptEngine scriptEngine = factory.getScriptEngine("-strict", "--no-java", "--no-syntax-extensions");

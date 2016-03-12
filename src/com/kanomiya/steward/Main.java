@@ -22,8 +22,8 @@ public class Main {
 	 */
 	public static void main(String[] args)
 	{
-		File saveDir = new File("saves");
-		if (! saveDir.exists()) saveDir.mkdir();
+		File savesDir = new File("saves");
+		if (! savesDir.exists()) savesDir.mkdir();
 
 
 
@@ -36,8 +36,7 @@ public class Main {
 		// System.out.println(assets.toString());
 
 
-
-		Game game = new Game(assets);
+		Game game = new Game(assets, assets.getPlayer());
 
 
 		FrameWithView frame = new FrameWithView(ViewConsts.viewGame, game);
@@ -70,6 +69,9 @@ public class Main {
 		cl.game = game;
 		cl.gameFrame = frame;
 		cl.frameInsets = frame.getInsets();
+
+		cl.changeMode(game.thePlayer.mode);
+
 		frame.addKeyListener(cl);
 		frame.addMouseListener(cl);
 		frame.addMouseMotionListener(cl);

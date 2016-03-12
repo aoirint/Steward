@@ -38,13 +38,14 @@ public class AssetsFactory {
 	protected AssetsFactory() {  }
 
 
-	protected String assetsDir;
+	protected String assetsDir, saveDir;
 
 	public static AssetsFactory newInstance()
 	{
 		AssetsFactory afact = new AssetsFactory();
 
 		afact.setAssetsDir("assets");
+		afact.setSaveDir("saves");
 
 		return afact;
 	}
@@ -54,10 +55,15 @@ public class AssetsFactory {
 		this.assetsDir = assetsDir;
 	}
 
+	public void setSaveDir(String saveDir)
+	{
+		this.saveDir = saveDir;
+	}
+
 
 	public Assets newAssets()
 	{
-		Assets assets = new Assets(assetsDir);
+		Assets assets = new Assets(assetsDir, saveDir);
 
 		Gson gson = AssetsUtils.createGson(assets);
 
@@ -65,6 +71,7 @@ public class AssetsFactory {
 			initTextures(gson, assets);
 			initTips(gson, assets);
 			initAreas(gson, assets);
+			initEvents(gson, assets);
 
 		} catch (IOException e) {
 			// TODO 自動生成された catch ブロック
@@ -73,7 +80,6 @@ public class AssetsFactory {
 
 		return assets;
 	}
-
 
 
 	protected void initTextures(Gson gson, Assets assets) throws IOException
@@ -85,10 +91,10 @@ public class AssetsFactory {
 			public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException
 			{
 				File f = file.toFile();
-				Image image = ImageIO.read(f);
 				String path = f.getCanonicalPath().substring(root.getCanonicalPath().length() +1);
-
 				path = path.replace('\\', '/');
+
+				Image image = ImageIO.read(f);
 
 				assets.addTexture(path, image);
 				return FileVisitResult.CONTINUE;
@@ -120,53 +126,61 @@ public class AssetsFactory {
 			FileReader fr = new FileReader(f);
 			Area areaObj = gson.fromJson(fr, Area.class);
 
-			initEvents(areaObj, gson, assets);
-
 			assets.addArea(areaObj);
 		}
 
 	}
 
-	protected void initEvents(Area area, Gson gson, Assets assets) throws IOException
+	protected void initEvents(Gson gson, Assets assets) throws IOException
 	{
-		File[] eventFiles = new File(assetsDir, "event/" + area.getId()).listFiles(jsonFilter);
+		File root = new File(assetsDir, "event");
 
-		for (File f: eventFiles)
-		{
-			FileReader fr = new FileReader(f);
-			Event eventObj = gson.fromJson(fr, Event.class);
-
-			Map<ScriptEventType, Script> scripts = eventObj.scripts;
-
-			if (scripts != null)
+		Files.walkFileTree(root.toPath(), new SimpleFileVisitor<Path>() {
+			@Override
+			public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException
 			{
-				Iterator<Script> itr = scripts.values().iterator();
+				File f = file.toFile();
+				String path = f.getCanonicalPath().substring(root.getCanonicalPath().length() +1);
+				path = path.replace('\\', '/');
 
-				while (itr.hasNext())
+				FileReader fr = new FileReader(f);
+
+				// boolean isPlayer = file.getFileName().endsWith("player.json");
+				Event eventObj = gson.fromJson(fr, Event.class);
+
+				Map<ScriptEventType, Script> scripts = eventObj.scripts;
+
+				if (scripts != null)
 				{
-					Script script = itr.next();
+					Iterator<Script> itr = scripts.values().iterator();
 
-					InputStreamReader isrScript = new InputStreamReader(new FileInputStream(new File(assetsDir, "script/" + script.src)), StandardCharsets.UTF_8);
-
-					StringBuilder sb = new StringBuilder();
-
-					while (isrScript.ready())
+					while (itr.hasNext())
 					{
-						sb.appendCodePoint(isrScript.read());
+						Script script = itr.next();
+
+						InputStreamReader isrScript = new InputStreamReader(new FileInputStream(new File(assetsDir, "script/" + script.src)), StandardCharsets.UTF_8);
+
+						StringBuilder sb = new StringBuilder();
+
+						while (isrScript.ready())
+						{
+							sb.appendCodePoint(isrScript.read());
+						}
+
+						isrScript.close();
+
+						assets.addScriptCode(script.src, sb.toString());
+
 					}
-
-					isrScript.close();
-
-					assets.addScriptCode(script.src, sb.toString());
 
 				}
 
+				eventObj.area.setEvent(eventObj);
+				assets.addEvent(eventObj);
+
+				return FileVisitResult.CONTINUE;
 			}
-
-
-			area.setEvent(eventObj);
-		}
-
+		});
 
 	}
 

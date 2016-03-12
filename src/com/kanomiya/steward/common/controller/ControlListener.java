@@ -29,6 +29,27 @@ public class ControlListener implements KeyListener, MouseListener, MouseMotionL
 	public FrameTip frameTip;
 
 
+	public void changeMode(PlayerMode mode)
+	{
+		if (frameTip != null)
+		{
+			frameTip.dispose();
+			frameTip = null;
+		}
+
+		if (mode == PlayerMode.WIZARD)
+		{
+			frameTip = new FrameTip(game);
+			frameTip.setLocation(gameFrame.getX() +gameFrame.getWidth(), gameFrame.getY());
+
+			frameTip.setAutoRequestFocus(false); // 自動アクティブ無効化
+			frameTip.setVisible(true);
+
+		}
+
+		game.thePlayer.mode = mode;
+	}
+
 
 	/**
 	* @inheritDoc
@@ -46,9 +67,12 @@ public class ControlListener implements KeyListener, MouseListener, MouseMotionL
 		boolean turnFlag = false;
 
 
-		if (game.thePlayer.mode == PlayerMode.WIZARD && e.isControlDown() && keyCode == KeyEvent.VK_S)
+		if (e.isControlDown() && keyCode == KeyEvent.VK_S)
 		{
-			AssetsUtils.saveAssets(game.assets);
+			if (game.thePlayer.mode.enableSave())
+			{
+				AssetsUtils.saveAssets(game.assets, (game.thePlayer.mode == PlayerMode.WIZARD) ? game.assets.getAssetsDir() : game.assets.getSaveDir());
+			}
 		}
 
 
@@ -104,23 +128,11 @@ public class ControlListener implements KeyListener, MouseListener, MouseMotionL
 			break;
 
 		case KeyEvent.VK_MULTIPLY: // select
-			game.thePlayer.mode = (game.thePlayer.mode == PlayerMode.SELECT) ? PlayerMode.NORMAL : PlayerMode.SELECT;
+			changeMode((game.thePlayer.mode == PlayerMode.SELECT) ? PlayerMode.NORMAL : PlayerMode.SELECT);
 			break;
 
 		case KeyEvent.VK_F12: // debug
-			game.thePlayer.mode = (game.thePlayer.mode == PlayerMode.WIZARD) ? PlayerMode.NORMAL : PlayerMode.WIZARD;
-
-			if (game.thePlayer.mode == PlayerMode.WIZARD)
-			{
-				frameTip = new FrameTip(game);
-				frameTip.setLocation(gameFrame.getX() +gameFrame.getWidth(), gameFrame.getY());
-				frameTip.setVisible(true);
-
-			} else if (frameTip != null)
-			{
-				frameTip.dispose();
-				frameTip = null;
-			}
+			changeMode((game.thePlayer.mode == PlayerMode.WIZARD) ? PlayerMode.NORMAL : PlayerMode.WIZARD);
 
 			break;
 		}
@@ -191,12 +203,12 @@ public class ControlListener implements KeyListener, MouseListener, MouseMotionL
 				int x = game.thePlayer.selectedX;
 				int y = game.thePlayer.selectedY;
 
-				game.thePlayer.area.getTile(x, y).setTip(tip);
+				game.thePlayer.area.setTip(tip, x, y);
 
 				break;
 			case MouseEvent.BUTTON3: // 右クリック スポイト
 
-				tip = game.thePlayer.area.getTile(game.thePlayer.selectedX, game.thePlayer.selectedY).getTip();
+				tip = game.thePlayer.area.getTip(game.thePlayer.selectedX, game.thePlayer.selectedY);
 
 				if (tip != null) frameTip.selectTip(tip);
 

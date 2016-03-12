@@ -1,5 +1,8 @@
 package com.kanomiya.steward.common.model.area;
 
+import java.util.List;
+
+import com.google.common.collect.Lists;
 import com.kanomiya.steward.common.model.event.Event;
 
 
@@ -13,8 +16,12 @@ public class Area {
 	protected String id, name;
 
 	protected int width, height;
+	protected int chunkWidth, chunkHeight;
 
-	protected Tile[][] tiles;
+	protected Tip[][] tips;
+	protected List<Event> eventList;
+	protected Chunk[][] chunks;
+
 
 	public Area(String id, String name, int width, int height, Tip[][] tips)
 	{
@@ -22,17 +29,22 @@ public class Area {
 		this.name = name;
 		this.width = width;
 		this.height = height;
+		this.tips = tips;
 
-		tiles = new Tile[width][height];
+		eventList = Lists.newArrayList();
 
-		for (int x=0; x<width; x++)
+		chunkWidth = width /Chunk.chunkSize +1;
+		chunkHeight = height /Chunk.chunkSize +1;
+		chunks = new Chunk[chunkWidth][chunkHeight];
+
+		for (int x=0; x<chunkWidth; x++)
 		{
-			for (int y=0; y<height; y++)
+			for (int y=0; y<chunkHeight; y++)
 			{
-				tiles[x][y] = new Tile(x, y);
-				tiles[x][y].setTip(tips[x][y]);
+				chunks[x][y] = new Chunk(this);
 			}
 		}
+
 	}
 
 	/**
@@ -91,6 +103,15 @@ public class Area {
 		this.height = height;
 	}
 
+	public Chunk getChunk(int x, int y)
+	{
+		int chunkX = x /Chunk.chunkSize;
+		int chunkY = y /Chunk.chunkSize;
+		if (width -Chunk.chunkSize < x) chunkX += 1;
+		if (height -Chunk.chunkSize < y) chunkY += 1;
+
+		return chunks[chunkX][chunkY];
+	}
 
 	public boolean inArea(int x, int y)
 	{
@@ -98,35 +119,65 @@ public class Area {
 		return true;
 	}
 
-	public boolean tileExists(int x, int y)
+	public boolean tipExists(int x, int y)
 	{
 		if (! inArea(x, y)) return false;
-		return (tiles[x][y] != null);
+		return (tips[x][y] != null);
 	}
 
-	public Tile getTile(int x, int y)
+	public Tip getTip(int x, int y)
 	{
-		if (! tileExists(x, y)) return null;
-		return tiles[x][y];
+		if (! tipExists(x, y)) return null;
+		return tips[x][y];
+	}
+
+	/**
+	 * @param tip
+	 * @param x
+	 * @param y
+	 */
+	public void setTip(Tip tip, int x, int y) {
+		tips[x][y] = tip;
 	}
 
 
 	public boolean canEnter(Event event, int x, int y)
 	{
-		if (! tileExists(x, y)) return false;
-		return getTile(x, y).canEnter(event);
+		if (! tipExists(x, y)) return false;
+		if (getTip(x, y).getAccessType() == AccessType.deny) return false;
+
+		List<Event> ceventList = getChunk(x, y).eventList;
+		for (Event cevent: ceventList)
+		{
+			if (x == cevent.x && y == cevent.y && cevent.getAccessType() == AccessType.deny) return false;
+		}
+
+		return true;
 	}
 
 
 	/**
 	 *
 	 * @param event
-	 * @param x
-	 * @param y
 	 */
 	public void setEvent(Event event)
 	{
-		tiles[event.x][event.y].setEvent(event);
+		if (event.area != null) event.area.eventList.remove(event);
+		event.area = this;
+		if (! eventList.contains(event)) eventList.add(event);
+
+
+		if (event.chunk != null) event.chunk.eventList.remove(event);
+		event.chunk = getChunk(event.x, event.y);
+		if (! event.chunk.eventList.contains(event)) event.chunk.eventList.add(event);
+
+	}
+
+	/**
+	 * @return
+	 */
+	public List<Event> eventList() {
+		return eventList;
 	}
 
 	@Override
@@ -146,6 +197,8 @@ public class Area {
 
 		return new String(builder);
 	}
+
+
 
 
 

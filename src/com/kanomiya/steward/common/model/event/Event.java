@@ -1,14 +1,18 @@
 package com.kanomiya.steward.common.model.event;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.script.ScriptException;
 
+import com.google.gson.annotations.Expose;
 import com.kanomiya.steward.common.model.ITurnObject;
 import com.kanomiya.steward.common.model.area.AccessType;
 import com.kanomiya.steward.common.model.area.Area;
-import com.kanomiya.steward.common.model.area.Tile;
+import com.kanomiya.steward.common.model.area.Chunk;
+import com.kanomiya.steward.common.model.area.Tip;
 import com.kanomiya.steward.common.model.assets.Assets;
+import com.kanomiya.steward.common.model.icon.IIconOwner;
 import com.kanomiya.steward.common.model.icon.Icon;
 import com.kanomiya.steward.common.model.script.Script;
 import com.kanomiya.steward.common.model.script.ScriptEventType;
@@ -17,20 +21,22 @@ import com.kanomiya.steward.common.model.script.ScriptEventType;
  * @author Kanomiya
  *
  */
-public class Event implements ITurnObject {
+public class Event implements ITurnObject, IIconOwner {
 
-	public String id;
+	@Expose public String id;
 	public Area area;
-	public int x, y;
+	public Chunk chunk;
 
-	public AccessType access;
-	public Map<ScriptEventType, Script> scripts;
+	@Expose public int x, y;
+	public EventStatus status;
 
-	public Icon icon;
+	@Expose public Direction direction;
+	@Expose public WalkState walkState;
 
-	/*
-	 * 直接Areaオブジェクトを持つように
-	 */
+	@Expose public AccessType access;
+	@Expose public Map<ScriptEventType, Script> scripts;
+
+	@Expose public Icon icon;
 
 	public Event()
 	{
@@ -44,17 +50,23 @@ public class Event implements ITurnObject {
 
 	public Event(String id, Area area, int x, int y, Icon icon, AccessType access)
 	{
-		this(id, area, x, y, icon, access, null);
+		this(id, area, x, y, icon, Direction.south, WalkState.upright, access, null);
 	}
 
-	public Event(String id, Area area, int x, int y, Icon icon, AccessType access, Map<ScriptEventType, Script> scripts)
+	public Event(String id, Area area, int x, int y, Icon icon,
+			Direction direction, WalkState walkState,
+			AccessType access, Map<ScriptEventType, Script> scripts)
 	{
 		this.id = id;
 		this.area = area;
+
 		this.x = x;
 		this.y = y;
 
 		this.icon = icon;
+		this.direction = direction;
+		this.walkState = walkState;
+
 		this.access = access;
 		this.scripts = scripts;
 
@@ -75,22 +87,30 @@ public class Event implements ITurnObject {
 		int fx = x +offsetX;
 		int fy = y +offsetY;
 
-		if (! area.tileExists(fx, fy)) return false;
+		if (icon.type.isDirectable()) direction = Direction.getDirection(x, y, fx, fy, direction);
+		if (icon.type.isWalkable()) walkState = walkState.next();
 
-		Tile ftile = area.getTile(fx, fy);
+		if (! area.tipExists(fx, fy)) return false;
 
-		if (ftile.hasEvent())
+		Chunk fchunk = area.getChunk(fx, fy);
+
+		if (fchunk.hasEvent())
 		{
-			Event fevent = ftile.getEvent();
+			List<Event> feventList = fchunk.eventList();
 
-			fevent.launchScript(assets, ScriptEventType.onColided);
+			for (Event fevent: feventList)
+			{
+				if (fevent.x == fx && fevent.y == fy) fevent.launchScript(assets, ScriptEventType.onColided);
+			}
+
 		}
 
 		if (! area.canEnter(this, fx, fy)) return false;
 
-
 		x = fx;
 		y = fy;
+
+		area.setEvent(this);
 
 		return true;
 	}
@@ -113,17 +133,45 @@ public class Event implements ITurnObject {
 	 *
 	 * @return 足元のタイル
 	 */
-	public Tile getFootTile() {
-		return area.getTile(x, y);
+	public Tip getFootTip() {
+		return area.getTip(x, y);
 	}
 
 
 
+	public String getId()
+	{
+		return id;
+	}
+
+	public Area getArea()
+	{
+		return area;
+	}
+
 	/**
 	 * @return
 	 */
-	public Icon getIcon() {
+	@Override
+	public Icon getIcon()
+	{
 		return icon;
+	}
+
+	/**
+	* @inheritDoc
+	*/
+	@Override
+	public Direction getDirection() {
+		return direction;
+	}
+
+	/**
+	* @inheritDoc
+	*/
+	@Override
+	public WalkState getWalkState() {
+		return walkState;
 	}
 
 	/**
@@ -158,6 +206,10 @@ public class Event implements ITurnObject {
 	{
 		return id;
 	}
+
+
+
+
 
 
 }

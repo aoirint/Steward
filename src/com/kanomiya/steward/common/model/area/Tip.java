@@ -1,5 +1,6 @@
 package com.kanomiya.steward.common.model.area;
 
+import com.google.gson.annotations.Expose;
 import com.kanomiya.steward.common.model.icon.Icon;
 
 /**
@@ -7,9 +8,9 @@ import com.kanomiya.steward.common.model.icon.Icon;
  *
  */
 public class Tip {
-	protected String id, name;
-	protected Icon icon;
-	protected AccessType access; // optional
+	@Expose protected String id, name;
+	@Expose protected Icon icon;
+	@Expose protected AccessType access; // optional
 
 	public Tip()
 	{

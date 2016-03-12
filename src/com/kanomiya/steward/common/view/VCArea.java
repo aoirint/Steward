@@ -1,10 +1,12 @@
 package com.kanomiya.steward.common.view;
 
 import java.awt.Graphics;
+import java.util.List;
 
 import com.kanomiya.steward.common.model.area.Area;
-import com.kanomiya.steward.common.model.area.Tile;
+import com.kanomiya.steward.common.model.area.Tip;
 import com.kanomiya.steward.common.model.assets.Assets;
+import com.kanomiya.steward.common.model.event.Event;
 
 /**
  * @author Kanomiya
@@ -26,17 +28,23 @@ public class VCArea implements IViewComponent<Area> {
 		{
 			for (int x=0; x<width; x++)
 			{
-				if (! area.tileExists(x, y)) continue;
+				if (! area.tipExists(x, y)) continue;
 
-				Tile tile = area.getTile(x, y);
+				Tip tip = area.getTip(x, y);
 
 				g.translate(x *ViewConsts.tileSize, y * ViewConsts.tileSize);
-				if (tile.hasTip()) ViewConsts.vcIcon.paint(g, tile.getTip().getIcon(), assets, frame);
-				if (tile.hasEvent()) ViewConsts.vcIcon.paint(g, tile.getEvent().getIcon(), assets, frame);
+				ViewConsts.vcIcon.paint(g, tip.getIcon(), assets, frame);
 				g.translate(-x *ViewConsts.tileSize, -y * ViewConsts.tileSize);
 			}
 		}
 
+		List<Event> eventList = area.eventList();
+		for (Event tevent: eventList)
+		{
+			g.translate(tevent.x *ViewConsts.tileSize, tevent.y * ViewConsts.tileSize);
+			ViewConsts.vcIcon.paint(g, tevent.getIcon(), assets, frame);
+			g.translate(-tevent.x *ViewConsts.tileSize, -tevent.y * ViewConsts.tileSize);
+		}
 
 	}
 
