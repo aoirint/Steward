@@ -2,6 +2,7 @@ package com.kanomiya.steward.common.view;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 /**
@@ -12,7 +13,7 @@ public class ViewBuffered<T> extends View<T> {
 
 	protected int width, height;
 	public BufferedImage buffer;
-	public Graphics bufferGraph;
+	public Graphics2D bufferGraph;
 
 	/**
 	 * @param maxFrame
@@ -37,7 +38,7 @@ public class ViewBuffered<T> extends View<T> {
 		if (buffer == null || bufferGraph == null || width != buffer.getWidth() || height != buffer.getHeight())
 		{
 			buffer = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-			bufferGraph = buffer.getGraphics();
+			bufferGraph = buffer.createGraphics();
 		}
 
 		bufferGraph.setColor(Color.BLACK);
@@ -48,7 +49,7 @@ public class ViewBuffered<T> extends View<T> {
 		g.drawImage(buffer, 0, 0, null);
 	}
 
-	public void paintBuffer(Graphics g, T model, int frame)
+	public void paintBuffer(Graphics2D g, T model, int frame)
 	{
 
 	}

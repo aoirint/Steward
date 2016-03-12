@@ -1,6 +1,6 @@
 package com.kanomiya.steward.common.view;
 
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.util.List;
 
 import com.kanomiya.steward.common.model.area.Area;
@@ -18,7 +18,7 @@ public class VCArea implements IViewComponent<Area> {
 	* @inheritDoc
 	*/
 	@Override
-	public void paint(Graphics g, Area area, Assets assets, int frame) {
+	public void paint(Graphics2D g, Area area, Assets assets, int frame) {
 		if (area == null) return ;
 
 		int width = area.getWidth();

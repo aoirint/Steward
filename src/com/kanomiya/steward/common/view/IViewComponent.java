@@ -1,6 +1,6 @@
 package com.kanomiya.steward.common.view;
 
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 import com.kanomiya.steward.common.model.assets.Assets;
 
@@ -10,6 +10,6 @@ import com.kanomiya.steward.common.model.assets.Assets;
  */
 public interface IViewComponent<T> {
 
-	public void paint(Graphics g, T model, Assets assets, int frame);
+	public void paint(Graphics2D g, T model, Assets assets, int frame);
 
 }

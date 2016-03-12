@@ -5,6 +5,7 @@ import jdk.nashorn.api.scripting.NashornScriptEngineFactory;
 
 import com.kanomiya.steward.common.model.assets.Assets;
 import com.kanomiya.steward.common.model.event.Player;
+import com.kanomiya.steward.common.model.overlay.logger.IngameLogger;
 
 /**
  * @author Kanomiya
@@ -27,6 +28,8 @@ public class Game{
 
 		scriptEngine.put("assets", assets);
 		scriptEngine.put("player", thePlayer);
+
+		scriptEngine.put("IngameLogger", IngameLogger.class);
 
 		assets.setScriptEngine(scriptEngine);
 	}

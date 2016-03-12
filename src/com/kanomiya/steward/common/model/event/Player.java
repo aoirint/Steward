@@ -6,6 +6,7 @@ import com.google.gson.annotations.Expose;
 import com.kanomiya.steward.common.model.area.AccessType;
 import com.kanomiya.steward.common.model.area.Area;
 import com.kanomiya.steward.common.model.assets.Assets;
+import com.kanomiya.steward.common.model.overlay.logger.IngameLogger;
 import com.kanomiya.steward.common.model.script.Script;
 import com.kanomiya.steward.common.model.script.ScriptEventType;
 import com.kanomiya.steward.common.model.texture.Texture;
@@ -23,11 +24,17 @@ public class Player extends Event {
 	public int selectedX, selectedY;
 	public int focusedX, focusedY;
 
+	public IngameLogger logger;
+
+	/*
 	public Player()
 	{
 		mode = PlayerMode.NORMAL;
 		debugMode = false;
+
+		ingameLogger = new IngameLogger(0, 0);
 	}
+	*/
 
 	public Player(String id, Area area, int x, int y, Texture texture,
 			Direction direction, WalkState walkState,
@@ -38,6 +45,7 @@ public class Player extends Event {
 
 		this.mode = mode;
 		this.debugMode = debugMode;
+		logger = new IngameLogger();
 
 	}
 

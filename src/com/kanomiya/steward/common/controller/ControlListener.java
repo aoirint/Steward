@@ -131,6 +131,11 @@ public class ControlListener implements KeyListener, MouseListener, MouseMotionL
 			changeMode((game.thePlayer.mode == PlayerMode.SELECT) ? PlayerMode.NORMAL : PlayerMode.SELECT);
 			break;
 
+		case KeyEvent.VK_DIVIDE: // log
+		case KeyEvent.VK_SLASH: // log
+			game.thePlayer.logger.setVisible(! game.thePlayer.logger.isVisible());
+			break;
+
 		case KeyEvent.VK_F12: // debug
 			changeMode((game.thePlayer.mode == PlayerMode.WIZARD) ? PlayerMode.NORMAL : PlayerMode.WIZARD);
 

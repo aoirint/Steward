@@ -1,6 +1,6 @@
 package com.kanomiya.steward.common.view;
 
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 import com.kanomiya.steward.common.model.assets.Assets;
 import com.kanomiya.steward.common.model.event.Player;
@@ -16,7 +16,7 @@ public class VCSelect implements IViewComponent<Player> {
 	* @inheritDoc
 	*/
 	@Override
-	public void paint(Graphics g, Player player, Assets assets, int frame)
+	public void paint(Graphics2D g, Player player, Assets assets, int frame)
 	{
 		if (player.mode.enableSelecter())
 		{

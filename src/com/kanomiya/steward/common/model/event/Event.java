@@ -97,9 +97,11 @@ public class Event implements ITurnObject, ITextureOwner {
 		if (fchunk.hasEvent())
 		{
 			List<Event> feventList = fchunk.eventList();
+			int feventListLen = feventList.size();
 
-			for (Event fevent: feventList)
+			for (int i=0; i<feventListLen; i++)
 			{
+				Event fevent = feventList.get(i);
 				if (fevent.x == fx && fevent.y == fy) fevent.launchScript(assets, ScriptEventType.onColided);
 			}
 
@@ -126,6 +128,39 @@ public class Event implements ITurnObject, ITextureOwner {
 		this.x = x;
 		this.y = y;
 	}
+
+	public void goForward(Assets assets)
+	{
+		int dx = 0;
+		int dy = 0;
+
+		switch(direction)
+		{
+		case south: dy = 1; break;
+		case north: dy = -1; break;
+		case east: dx = 1; break;
+		case west: dx = -1; break;
+		}
+
+		move(assets, dx, dy);
+	}
+
+	public void goBack(Assets assets)
+	{
+		int dx = 0;
+		int dy = 0;
+
+		switch(direction)
+		{
+		case south: dy = -1; break;
+		case north: dy = 1; break;
+		case east: dx = -1; break;
+		case west: dx = 1; break;
+		}
+
+		move(assets, dx, dy);
+	}
+
 
 
 	/**

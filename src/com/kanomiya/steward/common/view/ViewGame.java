@@ -1,6 +1,6 @@
 package com.kanomiya.steward.common.view;
 
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 import com.kanomiya.steward.common.Game;
 
@@ -21,7 +21,7 @@ public class ViewGame extends ViewBuffered<Game> {
 	* @inheritDoc
 	*/
 	@Override
-	public void paintBuffer(Graphics g, Game game, int frame)
+	public void paintBuffer(Graphics2D g, Game game, int frame)
 	{
 		ViewConsts.viewPlayerEye.paint(g, game.thePlayer, game.assets, frame);
 

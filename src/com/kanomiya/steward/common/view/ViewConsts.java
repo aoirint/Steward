@@ -29,6 +29,7 @@ public class ViewConsts {
 	public static VCTexture vcTexture = new VCTexture();
 	public static VCBorder vcBorder = new VCBorder();
 
+	public static VCIngameLogger vcIngameLogger = new VCIngameLogger();
 	public static VCMode vcMode = new VCMode();
 
 	public static VCSelect vcSelect = new VCSelect();

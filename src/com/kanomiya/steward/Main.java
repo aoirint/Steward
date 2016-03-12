@@ -11,6 +11,7 @@ import com.kanomiya.steward.common.Game;
 import com.kanomiya.steward.common.controller.ControlListener;
 import com.kanomiya.steward.common.model.assets.Assets;
 import com.kanomiya.steward.common.model.assets.AssetsFactory;
+import com.kanomiya.steward.common.model.overlay.logger.IngameLogger;
 import com.kanomiya.steward.common.view.ViewConsts;
 
 
@@ -100,6 +101,12 @@ public class Main {
 
 		repainter.start();
 
+
+		game.thePlayer.logger.println("Hello, world.");
+		game.thePlayer.logger.println("*ジャリ*", IngameLogger.effectColor1);
+		game.thePlayer.logger.println("*保存*", IngameLogger.effectColor2);
+		game.thePlayer.logger.println("ようこそ");
+		game.thePlayer.logger.println("123456789*123456789*123456789*123456789*123456789*123456789*123456789*123456789*123456789*");
 	}
 
 }

@@ -2,7 +2,7 @@ package com.kanomiya.steward.common.view;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 
 import com.kanomiya.steward.common.model.assets.Assets;
@@ -19,7 +19,7 @@ public class VCTexture implements IViewComponent<Texture> {
 	* @inheritDoc
 	*/
 	@Override
-	public void paint(Graphics g, Texture texture, Assets assets, int frame) {
+	public void paint(Graphics2D g, Texture texture, Assets assets, int frame) {
 
 		g.setColor(Color.WHITE);
 
@@ -35,7 +35,6 @@ public class VCTexture implements IViewComponent<Texture> {
 				if (texture.type.isWalkable()) dx = texture.getOwner().getWalkState().getIconX();
 				if (texture.type.isDirectable()) dy = texture.getOwner().getDirection().getIconY();
 			}
-
 
 			for (int i=0; i<srcLen; i++)
 			{

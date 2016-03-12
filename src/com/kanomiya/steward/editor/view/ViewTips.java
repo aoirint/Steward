@@ -1,6 +1,6 @@
 package com.kanomiya.steward.editor.view;
 
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -32,7 +32,7 @@ public class ViewTips extends ViewBuffered<Game> {
 	* @inheritDoc
 	*/
 	@Override
-	public void paintBuffer(Graphics g, Game game, int frame)
+	public void paintBuffer(Graphics2D g, Game game, int frame)
 	{
 		if (tipList == null)
 		{

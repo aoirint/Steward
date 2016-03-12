@@ -1,0 +1,17 @@
+{
+  "id": "test/ped2",
+  "area": "test",
+  "x": 10,
+  "y": 11,
+  "access": "deny",
+  "icon": {
+    "src": [
+      "event/ped2.png"
+    ]
+  },
+  "scripts": {
+    "onColided": {
+      "src": "test/ped2/onColided.js"
+    }
+  }
+}
