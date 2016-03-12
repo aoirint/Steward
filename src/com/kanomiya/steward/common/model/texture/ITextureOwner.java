@@ -1,4 +1,4 @@
-package com.kanomiya.steward.common.model.icon;
+package com.kanomiya.steward.common.model.texture;
 
 import com.kanomiya.steward.common.model.event.Direction;
 import com.kanomiya.steward.common.model.event.WalkState;
@@ -7,9 +7,9 @@ import com.kanomiya.steward.common.model.event.WalkState;
  * @author Kanomiya
  *
  */
-public interface IIconOwner {
+public interface ITextureOwner {
 
-	public Icon getIcon();
+	public Texture getIcon();
 
 	public Direction getDirection();
 	public WalkState getWalkState();

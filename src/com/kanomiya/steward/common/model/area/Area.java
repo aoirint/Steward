@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 import com.kanomiya.steward.common.model.event.Event;
+import com.kanomiya.steward.common.model.texture.Texture;
 
 
 
@@ -17,6 +18,7 @@ public class Area {
 
 	protected int width, height;
 	protected int chunkWidth, chunkHeight;
+	protected Texture background;
 
 	protected Tip[][] tips;
 	protected List<Event> eventList;
@@ -102,6 +104,31 @@ public class Area {
 	public void setHeight(int height) {
 		this.height = height;
 	}
+
+
+	public boolean hasBackground()
+	{
+		return (background != null);
+	}
+
+	/**
+	 * @return background
+	 */
+	public Texture getBackground() {
+		return background;
+	}
+
+	/**
+	 * @param background セットする background
+	 */
+	public void setBackground(Texture background) {
+		this.background = background;
+	}
+
+
+
+
+
 
 	public Chunk getChunk(int x, int y)
 	{

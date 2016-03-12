@@ -6,7 +6,7 @@ import java.util.Iterator;
 
 import com.kanomiya.steward.common.Game;
 import com.kanomiya.steward.common.model.area.Tip;
-import com.kanomiya.steward.common.model.icon.Icon;
+import com.kanomiya.steward.common.model.texture.Texture;
 import com.kanomiya.steward.common.view.ViewBuffered;
 import com.kanomiya.steward.common.view.ViewConsts;
 import com.kanomiya.steward.editor.FrameTip;
@@ -50,10 +50,10 @@ public class ViewTips extends ViewBuffered<Game> {
 				if (itr.hasNext())
 				{
 					Tip tip = itr.next();
-					Icon icon = tip.getIcon();
+					Texture texture = tip.getIcon();
 
 					g.translate(x *ViewConsts.tileSize, y *ViewConsts.tileSize);
-					ViewConsts.vcIcon.paint(g, icon, game.assets, frame);
+					ViewConsts.vcTexture.paint(g, texture, game.assets, frame);
 					g.translate(-x *ViewConsts.tileSize, -y *ViewConsts.tileSize);
 
 				}

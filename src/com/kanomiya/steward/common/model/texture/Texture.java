@@ -1,4 +1,4 @@
-package com.kanomiya.steward.common.model.icon;
+package com.kanomiya.steward.common.model.texture;
 
 import com.google.gson.annotations.Expose;
 
@@ -7,27 +7,27 @@ import com.google.gson.annotations.Expose;
  * @author Kanomiya
  *
  */
-public class Icon {
+public class Texture {
 
 	@Expose public String[] src;
-	@Expose public IconMode mode;
-	@Expose public IconType type;
+	@Expose public TextureMode mode;
+	@Expose public TextureType type;
 	@Expose public int interval;
 
 	public int count = 0;
 	public int index = 0;
 
-	public IIconOwner owner;
+	public ITextureOwner owner;
 
-	public Icon()
+	public Texture()
 	{
-		this(null, IconMode.STATIC, IconType.front, null, 1000);
+		this(null, TextureMode.STATIC, TextureType.front, null, 1000);
 	}
 
 
-	public Icon(String src)
+	public Texture(String src)
 	{
-		this(new String[] { src }, IconMode.STATIC, IconType.front, null, 1000);
+		this(new String[] { src }, TextureMode.STATIC, TextureType.front, null, 1000);
 	}
 
 	/**
@@ -38,7 +38,7 @@ public class Icon {
 	 * @param owner typeがfrontのときはnullでよい
 	 * @param interval
 	 */
-	public Icon(String[] src, IconMode mode, IconType type, IIconOwner owner, int interval)
+	public Texture(String[] src, TextureMode mode, TextureType type, ITextureOwner owner, int interval)
 	{
 		this.src = src;
 		this.mode = mode;
@@ -51,7 +51,7 @@ public class Icon {
 		return (owner != null);
 	}
 
-	public IIconOwner getOwner()
+	public ITextureOwner getOwner()
 	{
 		return owner;
 	}

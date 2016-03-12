@@ -11,6 +11,7 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import com.kanomiya.steward.common.model.assets.Assets;
+import com.kanomiya.steward.common.model.texture.Texture;
 
 /**
  * @author Kanomiya
@@ -29,7 +30,7 @@ public class AreaConverter implements JsonSerializer<Area>, JsonDeserializer<Are
 	* @inheritDoc
 	*/
 	@Override
-	public JsonElement serialize(Area area, Type type, JsonSerializationContext jsc) {
+	public JsonElement serialize(Area area, Type type, JsonSerializationContext context) {
 
 		JsonObject jsObj = new JsonObject();
 
@@ -41,6 +42,8 @@ public class AreaConverter implements JsonSerializer<Area>, JsonDeserializer<Are
 
 		jsObj.addProperty("width", width);
 		jsObj.addProperty("height", height);
+
+		if (area.hasBackground()) jsObj.add("background", context.serialize(area.getBackground()));
 
 		JsonArray tips = new JsonArray();
 
@@ -70,7 +73,7 @@ public class AreaConverter implements JsonSerializer<Area>, JsonDeserializer<Are
 	* @inheritDoc
 	*/
 	@Override
-	public Area deserialize(JsonElement jsElm, Type type, JsonDeserializationContext jdc) throws JsonParseException {
+	public Area deserialize(JsonElement jsElm, Type type, JsonDeserializationContext context) throws JsonParseException {
 
 		if (jsElm.isJsonPrimitive()) // for id
 		{
@@ -84,6 +87,7 @@ public class AreaConverter implements JsonSerializer<Area>, JsonDeserializer<Are
 
 		int width = jsObj.get("width").getAsInt();
 		int height = jsObj.get("height").getAsInt();
+
 
 		JsonArray tileArray = jsObj.getAsJsonArray("tips");
 		Tip[][] tips = new Tip[width][height];
@@ -105,7 +109,13 @@ public class AreaConverter implements JsonSerializer<Area>, JsonDeserializer<Are
 			}
 		}
 
-		return new Area(id, name, width, height, tips);
+		Area area = new Area(id, name, width, height, tips);
+
+
+
+		if (jsObj.has("background")) area.setBackground(context.deserialize(jsObj.get("background"), Texture.class));
+
+		return area;
 	}
 
 

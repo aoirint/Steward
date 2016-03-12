@@ -1,8 +1,10 @@
 {
   "id": "player",
   "area": "test",
-  "x": 2,
-  "y": 9,
+  "x": 5,
+  "y": 3,
+  "direction": "west",
+  "walkState": "forward",
   "icon": {
     "src": [
       "event/player.png"

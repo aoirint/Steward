@@ -32,7 +32,7 @@ public class VCPlayerEye implements IViewComponent<Player> {
 		g.translate(player.x *ViewConsts.tileSize, player.y *ViewConsts.tileSize);
 
 		// TODO: others
-		ViewConsts.vcIcon.paint(g, player.getIcon(), assets, frame);
+		ViewConsts.vcTexture.paint(g, player.getIcon(), assets, frame);
 		g.translate(-player.x *ViewConsts.tileSize, -player.y *ViewConsts.tileSize);
 
 		ViewConsts.vcSelect.paint(g, player, assets, frame);

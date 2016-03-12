@@ -12,16 +12,16 @@ import com.kanomiya.steward.common.model.area.Area;
 import com.kanomiya.steward.common.model.area.Chunk;
 import com.kanomiya.steward.common.model.area.Tip;
 import com.kanomiya.steward.common.model.assets.Assets;
-import com.kanomiya.steward.common.model.icon.IIconOwner;
-import com.kanomiya.steward.common.model.icon.Icon;
 import com.kanomiya.steward.common.model.script.Script;
 import com.kanomiya.steward.common.model.script.ScriptEventType;
+import com.kanomiya.steward.common.model.texture.ITextureOwner;
+import com.kanomiya.steward.common.model.texture.Texture;
 
 /**
  * @author Kanomiya
  *
  */
-public class Event implements ITurnObject, IIconOwner {
+public class Event implements ITurnObject, ITextureOwner {
 
 	@Expose public String id;
 	public Area area;
@@ -36,24 +36,24 @@ public class Event implements ITurnObject, IIconOwner {
 	@Expose public AccessType access;
 	@Expose public Map<ScriptEventType, Script> scripts;
 
-	@Expose public Icon icon;
+	@Expose public Texture texture;
 
 	public Event()
 	{
 		this(null, null, 0, 0, null);
 	}
 
-	public Event(String id, Area area, int x, int y, Icon icon)
+	public Event(String id, Area area, int x, int y, Texture texture)
 	{
-		this(id, area, x, y, icon, AccessType.allow);
+		this(id, area, x, y, texture, AccessType.allow);
 	}
 
-	public Event(String id, Area area, int x, int y, Icon icon, AccessType access)
+	public Event(String id, Area area, int x, int y, Texture texture, AccessType access)
 	{
-		this(id, area, x, y, icon, Direction.south, WalkState.upright, access, null);
+		this(id, area, x, y, texture, Direction.south, WalkState.upright, access, null);
 	}
 
-	public Event(String id, Area area, int x, int y, Icon icon,
+	public Event(String id, Area area, int x, int y, Texture texture,
 			Direction direction, WalkState walkState,
 			AccessType access, Map<ScriptEventType, Script> scripts)
 	{
@@ -63,7 +63,7 @@ public class Event implements ITurnObject, IIconOwner {
 		this.x = x;
 		this.y = y;
 
-		this.icon = icon;
+		this.texture = texture;
 		this.direction = direction;
 		this.walkState = walkState;
 
@@ -87,8 +87,8 @@ public class Event implements ITurnObject, IIconOwner {
 		int fx = x +offsetX;
 		int fy = y +offsetY;
 
-		if (icon.type.isDirectable()) direction = Direction.getDirection(x, y, fx, fy, direction);
-		if (icon.type.isWalkable()) walkState = walkState.next();
+		if (texture.type.isDirectable()) direction = Direction.getDirection(x, y, fx, fy, direction);
+		if (texture.type.isWalkable()) walkState = walkState.next();
 
 		if (! area.tipExists(fx, fy)) return false;
 
@@ -153,9 +153,9 @@ public class Event implements ITurnObject, IIconOwner {
 	 * @return
 	 */
 	@Override
-	public Icon getIcon()
+	public Texture getIcon()
 	{
-		return icon;
+		return texture;
 	}
 
 	/**

@@ -1,10 +1,10 @@
-package com.kanomiya.steward.common.model.icon;
+package com.kanomiya.steward.common.model.texture;
 
 /**
  * @author Kanomiya
  *
  */
-public enum IconMode {
+public enum TextureMode {
 	STATIC("static", false),
 	ANIMATION("animation", true),
 
@@ -13,17 +13,17 @@ public enum IconMode {
 	private String id;
 	private boolean requireInterval;
 
-	private IconMode(String id, boolean requireInterval)
+	private TextureMode(String id, boolean requireInterval)
 	{
 		this.id = id;
 		this.requireInterval = requireInterval;
 	}
 
-	public static IconMode getFromId(String id)
+	public static TextureMode getFromId(String id)
 	{
-		IconMode[] values = values();
+		TextureMode[] values = values();
 
-		for (IconMode mode: values)
+		for (TextureMode mode: values)
 		{
 			if (id.equals(mode.id)) return mode;
 		}

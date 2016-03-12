@@ -6,9 +6,9 @@ import com.google.gson.annotations.Expose;
 import com.kanomiya.steward.common.model.area.AccessType;
 import com.kanomiya.steward.common.model.area.Area;
 import com.kanomiya.steward.common.model.assets.Assets;
-import com.kanomiya.steward.common.model.icon.Icon;
 import com.kanomiya.steward.common.model.script.Script;
 import com.kanomiya.steward.common.model.script.ScriptEventType;
+import com.kanomiya.steward.common.model.texture.Texture;
 
 /**
  * @author Kanomiya
@@ -29,12 +29,12 @@ public class Player extends Event {
 		debugMode = false;
 	}
 
-	public Player(String id, Area area, int x, int y, Icon icon,
+	public Player(String id, Area area, int x, int y, Texture texture,
 			Direction direction, WalkState walkState,
 			AccessType access, Map<ScriptEventType, Script> scripts,
 			PlayerMode mode, boolean debugMode)
 	{
-		super(id, area, x, y, icon, direction, walkState, access, scripts);
+		super(id, area, x, y, texture, direction, walkState, access, scripts);
 
 		this.mode = mode;
 		this.debugMode = debugMode;

@@ -24,6 +24,8 @@ public class VCArea implements IViewComponent<Area> {
 		int width = area.getWidth();
 		int height = area.getHeight();
 
+		if (area.hasBackground()) ViewConsts.vcTexture.paint(g, area.getBackground(), assets, frame);
+
 		for (int y=0; y<height; y++)
 		{
 			for (int x=0; x<width; x++)
@@ -33,7 +35,7 @@ public class VCArea implements IViewComponent<Area> {
 				Tip tip = area.getTip(x, y);
 
 				g.translate(x *ViewConsts.tileSize, y * ViewConsts.tileSize);
-				ViewConsts.vcIcon.paint(g, tip.getIcon(), assets, frame);
+				ViewConsts.vcTexture.paint(g, tip.getIcon(), assets, frame);
 				g.translate(-x *ViewConsts.tileSize, -y * ViewConsts.tileSize);
 			}
 		}
@@ -42,7 +44,7 @@ public class VCArea implements IViewComponent<Area> {
 		for (Event tevent: eventList)
 		{
 			g.translate(tevent.x *ViewConsts.tileSize, tevent.y * ViewConsts.tileSize);
-			ViewConsts.vcIcon.paint(g, tevent.getIcon(), assets, frame);
+			ViewConsts.vcTexture.paint(g, tevent.getIcon(), assets, frame);
 			g.translate(-tevent.x *ViewConsts.tileSize, -tevent.y * ViewConsts.tileSize);
 		}
 

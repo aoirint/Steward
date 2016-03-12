@@ -1,10 +1,10 @@
-package com.kanomiya.steward.common.model.icon;
+package com.kanomiya.steward.common.model.texture;
 
 /**
  * @author Kanomiya
  *
  */
-public enum IconType {
+public enum TextureType {
 	front(false, false), // 前方 1x1
 	directable(true, false), // 向き 1x4
 	// aslant, // 斜め
@@ -14,7 +14,7 @@ public enum IconType {
 	;
 	private boolean isDirectable, isWalkable;
 
-	private IconType(boolean isDirectable, boolean isWalkable)
+	private TextureType(boolean isDirectable, boolean isWalkable)
 	{
 		this.isDirectable = isDirectable;
 		this.isWalkable = isWalkable;

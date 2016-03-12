@@ -96,7 +96,7 @@ public class AssetsFactory {
 
 				Image image = ImageIO.read(f);
 
-				assets.addTexture(path, image);
+				assets.cacheImage(path, image);
 				return FileVisitResult.CONTINUE;
 			}
 		});

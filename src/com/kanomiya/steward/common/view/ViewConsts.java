@@ -2,7 +2,7 @@ package com.kanomiya.steward.common.view;
 
 import java.awt.Color;
 
-import com.kanomiya.steward.common.model.icon.Icon;
+import com.kanomiya.steward.common.model.texture.Texture;
 import com.kanomiya.steward.editor.view.ViewTips;
 
 /**
@@ -26,7 +26,7 @@ public class ViewConsts {
 	public static VCPlayerEye viewPlayerEye = new VCPlayerEye();
 
 	public static VCArea viewArea = new VCArea();
-	public static VCIcon vcIcon = new VCIcon();
+	public static VCTexture vcTexture = new VCTexture();
 	public static VCBorder vcBorder = new VCBorder();
 
 	public static VCMode vcMode = new VCMode();
@@ -34,7 +34,7 @@ public class ViewConsts {
 	public static VCSelect vcSelect = new VCSelect();
 	public static VCMarker vcMarker = new VCMarker();
 
-	public static Icon iconUnknown = new Icon("unknown.png");
+	public static Texture iconUnknown = new Texture("unknown.png");
 
 	public static Color colorSelected = new Color(0xFF, 0x00, 0xFF, 0xDD);
 	public static Color colorFocused = new Color(0xFF, 0x00, 0xFF, 0xAA);

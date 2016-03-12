@@ -11,10 +11,10 @@ import com.kanomiya.steward.common.model.area.Area;
 import com.kanomiya.steward.common.model.area.AreaConverter;
 import com.kanomiya.steward.common.model.event.Event;
 import com.kanomiya.steward.common.model.event.EventConverter;
-import com.kanomiya.steward.common.model.icon.Icon;
-import com.kanomiya.steward.common.model.icon.IconConverter;
-import com.kanomiya.steward.common.model.icon.IconMode;
-import com.kanomiya.steward.common.model.icon.IconModeConverter;
+import com.kanomiya.steward.common.model.texture.Texture;
+import com.kanomiya.steward.common.model.texture.TextureConverter;
+import com.kanomiya.steward.common.model.texture.TextureMode;
+import com.kanomiya.steward.common.model.texture.TextureModeConverter;
 
 /**
  * @author Kanomiya
@@ -29,8 +29,8 @@ public class AssetsUtils {
 
 		gb.registerTypeAdapter(Area.class, new AreaConverter(assets));
 		gb.registerTypeHierarchyAdapter(Event.class, new EventConverter(assets));
-		gb.registerTypeAdapter(Icon.class, new IconConverter());
-		gb.registerTypeAdapter(IconMode.class, new IconModeConverter());
+		gb.registerTypeAdapter(Texture.class, new TextureConverter());
+		gb.registerTypeAdapter(TextureMode.class, new TextureModeConverter());
 
 		Gson gson = gb.setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
 

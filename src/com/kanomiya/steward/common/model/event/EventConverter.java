@@ -14,9 +14,9 @@ import com.google.gson.reflect.TypeToken;
 import com.kanomiya.steward.common.model.area.AccessType;
 import com.kanomiya.steward.common.model.area.Area;
 import com.kanomiya.steward.common.model.assets.Assets;
-import com.kanomiya.steward.common.model.icon.Icon;
 import com.kanomiya.steward.common.model.script.Script;
 import com.kanomiya.steward.common.model.script.ScriptEventType;
+import com.kanomiya.steward.common.model.texture.Texture;
 
 /**
  * @author Kanomiya
@@ -86,7 +86,7 @@ public class EventConverter implements JsonDeserializer<Event>, JsonSerializer<E
 		AccessType access = AccessType.allow;
 		if (jsObj.has("access")) access = context.deserialize(jsObj.get("access"), AccessType.class);
 
-		Icon icon = context.deserialize(jsObj.get("icon"), Icon.class);
+		Texture texture = context.deserialize(jsObj.get("icon"), Texture.class);
 
 		if (Player.isPlayerId(id))
 		{
@@ -95,14 +95,14 @@ public class EventConverter implements JsonDeserializer<Event>, JsonSerializer<E
 			boolean debugMode = false;
 			if(jsObj.has("debugMode")) debugMode = jsObj.get("debugMode").getAsBoolean();
 
-			return new Player(id, area, x, y, icon, direction, walkState, access, null, mode, debugMode);
+			return new Player(id, area, x, y, texture, direction, walkState, access, null, mode, debugMode);
 		}
 
 		Map<ScriptEventType, Script> scripts = null;
 		Type sceventScriptMap = new TypeToken<Map<ScriptEventType, Script>>(){}.getType();
 		if (jsObj.has("scripts")) scripts = context.deserialize(jsObj.get("scripts"), sceventScriptMap);
 
-		return new Event(id, area, x, y, icon, direction, walkState, access, scripts);
+		return new Event(id, area, x, y, texture, direction, walkState, access, scripts);
 	}
 
 }

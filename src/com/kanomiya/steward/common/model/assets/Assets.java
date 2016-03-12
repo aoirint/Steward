@@ -1,5 +1,6 @@
 package com.kanomiya.steward.common.model.assets;
 
+import java.awt.Dimension;
 import java.awt.Image;
 import java.util.Collection;
 import java.util.Map;
@@ -21,7 +22,8 @@ import com.kanomiya.steward.common.model.event.Player;
 public class Assets {
 
 
-	protected Map<String, Image> srcToTexture = Maps.newHashMap();
+	protected Map<String, Image> srcToImage = Maps.newHashMap();
+	protected Map<Image, Dimension> imageToSize = Maps.newHashMap();
 	protected Map<String, Tip> idToTip = Maps.newHashMap();
 	protected Map<String, Area> idToArea = Maps.newHashMap();
 	protected Map<String, String> srcToScriptCode = Maps.newHashMap();
@@ -59,10 +61,16 @@ public class Assets {
 		return idToArea.get(id);
 	}
 
-	public Image getTexture(String path)
+	public Image getCachedImage(String path)
 	{
-		return srcToTexture.get(path);
+		return srcToImage.get(path);
 	}
+
+	public Dimension getCachedImageDim(Image cachedImage)
+	{
+		return imageToSize.get(cachedImage);
+	}
+
 
 	public Tip getTip(String id)
 	{
@@ -92,9 +100,10 @@ public class Assets {
 
 
 
-	public void addTexture(String path, Image image)
+	public void cacheImage(String path, Image image)
 	{
-		srcToTexture.put(path, image);
+		srcToImage.put(path, image);
+		imageToSize.put(image, new Dimension(image.getWidth(null), image.getHeight(null)));
 	}
 
 	public void addTip(Tip tip)
@@ -130,7 +139,7 @@ public class Assets {
 		builder.append("textures");
 		builder.append('[');
 
-		Set<String> texKeys = srcToTexture.keySet();
+		Set<String> texKeys = srcToImage.keySet();
 		for (String key: texKeys)
 		{
 			builder.append(key);
