@@ -29,12 +29,12 @@ public class VCIngameLogger implements IViewComponent<IngameLogger> {
 		g.setFont(IngameLogger.textFont);
 
 
-		Iterator<LogItem> itr = logger.items.listIterator(Math.max(0, logger.items.size() -14));
+		Iterator<LogItem> itr = logger.items.subList(logger.getTopIndexToShow(), logger.getLastIndexToShow()).iterator();
 
 		int line = 0;
 		int left = 0;
 
-		while (line < 14 && itr.hasNext())
+		while (line < IngameLogger.oneHeight && itr.hasNext())
 		{
 			LogItem item = itr.next();
 			int y = line +1;

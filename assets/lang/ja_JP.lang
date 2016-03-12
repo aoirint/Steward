@@ -1,5 +1,8 @@
+
+
 playerMode=モード
 playerMode.normal=通常
 playerMode.select=選択
 playerMode.wizard=管理者
 
+vocabulary.welcome=ようこそ

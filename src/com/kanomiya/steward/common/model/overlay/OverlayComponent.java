@@ -6,22 +6,34 @@ import com.kanomiya.steward.common.model.texture.Texture;
  * @author Kanomiya
  *
  */
-public abstract class Overlay {
+public abstract class OverlayComponent {
 
 	public int x, y, width, height;
+	public String label;
 	public Texture background;
 
-	public Overlay(int x, int y, int width, int height) {
+
+	public OverlayComponent(int x, int y, int width, int height)
+	{
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
+
 	}
 
+	/**
+	 * @return label
+	 */
+	public String getLabel() {
+		return label;
+	}
 
-	public boolean hasBackground()
-	{
-		return (background != null);
+	/**
+	 * @param label セットする label
+	 */
+	public void setLabel(String label) {
+		this.label = label;
 	}
 
 	/**
@@ -37,11 +49,5 @@ public abstract class Overlay {
 	public void setBackground(Texture background) {
 		this.background = background;
 	}
-
-	public boolean contains(int tgtX, int tgtY)
-	{
-		return x <= tgtX && tgtX < x +width && y <= tgtY && tgtY < y +height;
-	}
-
 
 }

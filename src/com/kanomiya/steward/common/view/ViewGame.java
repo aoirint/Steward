@@ -28,4 +28,5 @@ public class ViewGame extends ViewBuffered<Game> {
 
 	}
 
+
 }

@@ -102,10 +102,8 @@ public class Main {
 		repainter.start();
 
 
-		game.thePlayer.logger.println("Hello, world.");
-		game.thePlayer.logger.println("*ジャリ*", IngameLogger.effectColor1);
-		game.thePlayer.logger.println("ようこそ");
-		game.thePlayer.logger.println("123456789*123456789*123456789*123456789*123456789*123456789*123456789*123456789*123456789");
+		game.thePlayer.logger.println(game.assets.translate("vocabulary.welcome"), IngameLogger.colorOrange);
+		game.thePlayer.logger.println("*ジャリ*", IngameLogger.colorGreen);
 	}
 
 }

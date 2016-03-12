@@ -54,4 +54,10 @@ public class ViewBuffered<T> extends View<T> {
 
 	}
 
+
+	public BufferedImage screenShot()
+	{
+		return buffer;
+	}
+
 }

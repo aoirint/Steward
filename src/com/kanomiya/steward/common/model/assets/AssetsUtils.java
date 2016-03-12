@@ -94,7 +94,7 @@ public class AssetsUtils {
 			e.printStackTrace();
 		}
 
-		assets.getPlayer().logger.println("*保存*", (assets.getPlayer().mode == PlayerMode.WIZARD) ? IngameLogger.effectColor3 : IngameLogger.effectColor2);
+		assets.getPlayer().logger.println("*保存*", (assets.getPlayer().mode == PlayerMode.WIZARD) ? IngameLogger.colorPurple : IngameLogger.colorOrange);
 
 	}
 

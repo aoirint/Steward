@@ -6,7 +6,7 @@ import com.kanomiya.steward.common.model.assets.Assets;
  * @author Kanomiya
  *
  */
-public interface IController<T> {
+public abstract class IController<T> {
 
 	/**
 	 *
@@ -15,6 +15,10 @@ public interface IController<T> {
 	 * @param assets
 	 * @return
 	 */
-	public void input(int keyCode, TurnInfo turnInfo, T model, Assets assets);
+	public boolean input(int keyCode, ControlListener controlListener, T model, Assets assets) { return false; }
+
+	public boolean click(int button, int x, int y, ControlListener controlListener, T model, Assets assets) { return false; }
+
+	public boolean mouseMove(int x, int y, ControlListener controlListener, T model, Assets assets) { return false; }
 
 }

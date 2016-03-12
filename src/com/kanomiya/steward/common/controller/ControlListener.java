@@ -13,6 +13,7 @@ import com.kanomiya.steward.common.model.area.Area;
 import com.kanomiya.steward.common.model.area.Tip;
 import com.kanomiya.steward.common.model.assets.AssetsUtils;
 import com.kanomiya.steward.common.model.event.PlayerMode;
+import com.kanomiya.steward.common.model.overlay.logger.IngameLogger;
 import com.kanomiya.steward.common.view.ViewConsts;
 import com.kanomiya.steward.editor.FrameTip;
 
@@ -76,11 +77,11 @@ public class ControlListener implements KeyListener, MouseListener, MouseMotionL
 			}
 		}
 
-		TurnInfo turnInfo = new TurnInfo(this);
+		boolean consumed = false;
 
-		if (! turnInfo.turnIsConsumed) ControlConsts.cPlayer.input(keyCode, turnInfo, game.thePlayer, game.assets);
+		consumed = consumed || ControlConsts.cPlayer.input(keyCode, this, game.thePlayer, game.assets);
 
-		if (turnInfo.turnIsConsumed && game.thePlayer.mode.enableTurn()) game.turn();
+		if (consumed && game.thePlayer.mode.enableTurn()) game.turn();
 
 	}
 
@@ -99,10 +100,25 @@ public class ControlListener implements KeyListener, MouseListener, MouseMotionL
 	@Override
 	public void mousePressed(MouseEvent e)
 	{
+		boolean consumed = false;
 
-		selectOnMouseEvent(e);
-		wizardOnMouseEvent(e);
+		int x = e.getX() -frameInsets.left;
+		int y = e.getY() -frameInsets.top;
 
+		IngameLogger logger = game.thePlayer.logger;
+
+		if (logger.contains(x, y))
+		{
+			consumed = consumed || ControlConsts.cIngameLogger.click(e.getButton(), x -logger.x, y -logger.y, this, logger, game.assets);
+		}
+
+
+
+		if (! consumed)
+		{
+			selectOnMouseEvent(e);
+			wizardOnMouseEvent(e);
+		}
 
 	}
 
