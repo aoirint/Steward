@@ -1,8 +1,13 @@
 
 
 playerMode=モード
+playerMode.change=モード切替
 playerMode.normal=通常
 playerMode.select=選択
 playerMode.wizard=管理者
 
 vocabulary.welcome=ようこそ
+
+se.gravel=*ジャリ*
+se.pop=*ぽわん*
+se.photo=*カシャ*

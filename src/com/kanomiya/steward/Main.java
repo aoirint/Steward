@@ -103,7 +103,7 @@ public class Main {
 
 
 		game.thePlayer.logger.println(game.assets.translate("vocabulary.welcome"), IngameLogger.colorOrange);
-		game.thePlayer.logger.println("*ジャリ*", IngameLogger.colorGreen);
+		game.thePlayer.logger.println(game.assets.translate("se.gravel"), IngameLogger.colorGreen);
 	}
 
 }

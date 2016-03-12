@@ -9,6 +9,7 @@ import javax.imageio.ImageIO;
 import com.kanomiya.steward.common.model.assets.Assets;
 import com.kanomiya.steward.common.model.event.Player;
 import com.kanomiya.steward.common.model.event.PlayerMode;
+import com.kanomiya.steward.common.model.overlay.logger.IngameLogger;
 import com.kanomiya.steward.common.view.ViewConsts;
 
 /**
@@ -89,7 +90,7 @@ public class CPlayer extends IController<Player> {
 				e.printStackTrace();
 			}
 
-
+			player.logger.println(assets.translate("se.photo"), IngameLogger.colorGreen);
 
 			break;
 

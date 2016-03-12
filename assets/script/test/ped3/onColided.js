@@ -1,2 +1,2 @@
 
-player.logger.println("*トン*");
+player.logger.println(assets.translate("se.gravel"));

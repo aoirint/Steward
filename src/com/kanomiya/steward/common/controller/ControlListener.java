@@ -49,7 +49,7 @@ public class ControlListener implements KeyListener, MouseListener, MouseMotionL
 		}
 
 		game.thePlayer.mode = mode;
-		game.thePlayer.logger.println("モード切替 " + mode.toString());
+		game.thePlayer.logger.println(game.assets.translate("playerMode.change") + " " + game.assets.translate(mode.getUnlocalizedName()), IngameLogger.colorOrange);
 
 	}
 
