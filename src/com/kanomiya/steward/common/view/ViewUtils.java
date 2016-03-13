@@ -49,7 +49,7 @@ public class ViewUtils {
 	}
 
 	public static int xCenterInWindow(int camX) {
-		return camX + ViewConsts.viewWidth /2;
+		return camX + ViewConsts.tileCols /2;
 	}
 
 	public static int yCenterInWindow(Event eye) {
@@ -57,7 +57,7 @@ public class ViewUtils {
 	}
 
 	public static int yCenterInWindow(int camY) {
-		return camY + ViewConsts.viewHeight /2;
+		return camY + ViewConsts.tileRows /2;
 	}
 
 

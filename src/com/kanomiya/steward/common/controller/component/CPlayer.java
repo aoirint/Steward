@@ -129,7 +129,13 @@ public class CPlayer extends IControllerComponent<Player> {
 
 		case KeyEvent.VK_NUMPAD5:
 		case KeyEvent.VK_CLEAR:
-			if (player.mode.enableTurn())
+
+			if (player.mode.enableSelecter())
+			{
+				player.focusedX = ViewUtils.xCenterInWindow(player);
+				player.focusedY = ViewUtils.yCenterInWindow(player);
+
+			} else if (player.mode.enableTurn())
 			{
 				player.walkState = player.walkState.next();
 				turnConsumed = true;
