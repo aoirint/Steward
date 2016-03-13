@@ -103,29 +103,20 @@ public class Event implements ITextureOwner {
 
 	public boolean move(int offsetX, int offsetY)
 	{
-		Area area = this.area;
-		int x = this.x;
-		int y = this.y;
-
 		int fx = x +offsetX;
 		int fy = y +offsetY;
 
 		if (texture.type.isDirectable()) direction = Direction.getDirection(x, y, fx, fy, direction);
 		if (texture.type.isWalkable()) walkState = walkState.next();
 
-		if (! area.tipExists(fx, fy)) return false;
+		if (! canTravel(area, fx, fy)) return false;
+
+		x = fx;
+		y = fy;
+
+		area.setEvent(this);
 
 		area.launchEvent(this, fx, fy, ScriptEventType.ONCOLIDED, assets);
-
-		if (area != this.area || x != this.x || y != this.y) return false;
-
-
-		if (! area.canEnter(this, fx, fy)) return false;
-
-		this.x = fx;
-		this.y = fy;
-
-		this.area.setEvent(this);
 
 		return true;
 	}
