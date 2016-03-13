@@ -1,4 +1,6 @@
 
+area=エリア
+player=プレイヤー
 
 playerMode=モード
 playerMode.change=モード切替
@@ -7,6 +9,10 @@ playerMode.select=選択
 playerMode.wizard=管理者
 
 vocabulary.welcome=ようこそ
+vocabulary.size=大きさ
+vocabulary.name=名前
+vocabulary.coordinate=座標
+
 
 se.gravel=*ジャリ*
 se.pop=*ぽわん*

@@ -134,8 +134,8 @@ public class Area {
 	{
 		int chunkX = x /Chunk.chunkSize;
 		int chunkY = y /Chunk.chunkSize;
-		if (width -Chunk.chunkSize < x) chunkX += 1;
-		if (height -Chunk.chunkSize < y) chunkY += 1;
+		if (width -width %Chunk.chunkSize < x) chunkX += 1;
+		if (height -height %Chunk.chunkSize < y) chunkY += 1;
 
 		return chunks[chunkX][chunkY];
 	}
