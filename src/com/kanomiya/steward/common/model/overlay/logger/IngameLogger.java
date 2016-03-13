@@ -1,11 +1,7 @@
 package com.kanomiya.steward.common.model.overlay.logger;
 
-import java.awt.AlphaComposite;
-import java.util.LinkedList;
-
-import com.google.common.collect.Lists;
-import com.kanomiya.steward.common.model.overlay.Overlay;
 import com.kanomiya.steward.common.model.overlay.PrettyText;
+import com.kanomiya.steward.common.model.overlay.message.MessageBox;
 import com.kanomiya.steward.common.model.texture.Texture;
 import com.kanomiya.steward.common.view.ViewConsts;
 
@@ -13,21 +9,16 @@ import com.kanomiya.steward.common.view.ViewConsts;
  * @author Kanomiya
  *
  */
-public class IngameLogger extends Overlay {
+public class IngameLogger extends MessageBox {
 
-	public static AlphaComposite alpha80 = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.8f);
 	public static int millsWait = 5000;
 
 	public static int innerWidth = 520;
 	public static int innerHeight = 212;
 	public static int oneHeight = 14;
 
-	public LinkedList<PrettyText> items;
-
-	public boolean visible;
 	protected int millsCountShow, millsCountLock;
 
-	public int beginIndex;
 	public boolean autoCloseLock;
 	public boolean autoScroolLock;
 
@@ -35,54 +26,24 @@ public class IngameLogger extends Overlay {
 	{
 		super(ViewConsts.viewWidth -560, ViewConsts.viewHeight -232, 560, 232);
 
-		items = Lists.newLinkedList();
-		setBackground(new Texture("background/overlay/ingameLogger.png", width, height));
+		setBackground(new Texture("background/overlay/ingameLogger.png", true));
 
-		visible = false;
 		autoCloseLock = false;
 		autoScroolLock = false;
 	}
 
+	@Override
 	public void print(PrettyText text)
 	{
-		items.addLast(text);
+		super.print(text);
 
 		if (! autoScroolLock) beginIndex = Math.max(0, items.size() -IngameLogger.oneHeight +2);
 
 		show(millsWait);
 	}
 
-	public void println(PrettyText text)
-	{
-		print(text.lineBreak());
-	}
-
-	public void print(String text)
-	{
-		print(PrettyText.create(text));
-	}
-
-	public void println(String text)
-	{
-		print(PrettyText.create(text).lineBreak());
-	}
 
 
-
-	public int getTopIndexToShow()
-	{
-		return beginIndex;
-	}
-
-	public int getLastIndexToShow()
-	{
-		return Math.min(beginIndex +IngameLogger.oneHeight, items.size());
-	}
-
-	public boolean isVisible()
-	{
-		return visible;
-	}
 
 	public void show(int mills)
 	{
@@ -150,9 +111,11 @@ public class IngameLogger extends Overlay {
 		thread.start();
 	}
 
+	@Override
 	public void setVisible(boolean bool)
 	{
-		visible = bool;
+		super.setVisible(bool);
+
 		autoCloseLock = false;
 		autoScroolLock = false;
 	}

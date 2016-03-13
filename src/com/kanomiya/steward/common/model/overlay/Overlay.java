@@ -10,12 +10,16 @@ public abstract class Overlay {
 
 	public int x, y, width, height;
 	public Texture background;
+	public boolean visible;
 
 	public Overlay(int x, int y, int width, int height) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
+
+		visible = false;
+
 	}
 
 
@@ -43,5 +47,15 @@ public abstract class Overlay {
 		return x <= tgtX && tgtX < x +width && y <= tgtY && tgtY < y +height;
 	}
 
+
+	public boolean isVisible()
+	{
+		return visible;
+	}
+
+	public void setVisible(boolean bool)
+	{
+		visible = bool;
+	}
 
 }

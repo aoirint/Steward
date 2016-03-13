@@ -8,14 +8,14 @@ import java.awt.Font;
  *
  */
 public class PrettyText {
+	public static int lineHeight = 14;
+
 	public static Font textFont = new Font(Font.MONOSPACED, Font.PLAIN, PrettyText.lineHeight);
 	public static Font textFontBold = new Font(Font.MONOSPACED, Font.BOLD, PrettyText.lineHeight);
 	public static Color textColor = Color.WHITE;
 	public static Color colorPurple = new Color(0xD9, 0x94, 0xE0);
 	public static Color colorOrange = new Color(0xFF, 0xD7, 0x53);
 	public static Color colorGreen = new Color(0x9A, 0xDE, 0x64);
-
-	public static int lineHeight = 14;
 
 
 	public String text;

@@ -7,29 +7,30 @@ import java.util.Iterator;
 import com.kanomiya.steward.common.model.assets.Assets;
 import com.kanomiya.steward.common.model.overlay.PrettyText;
 import com.kanomiya.steward.common.model.overlay.logger.IngameLogger;
+import com.kanomiya.steward.common.model.overlay.message.MessageBox;
 
 /**
  * @author Kanomiya
  *
  */
-public class VCIngameLogger implements IViewComponent<IngameLogger> {
+public class VCMessageBox implements IViewComponent<MessageBox> {
 
 	/**
 	* @inheritDoc
 	*/
 	@Override
-	public void paint(Graphics2D g, IngameLogger logger, Assets assets, int frame) {
-		g.translate(logger.x, logger.y);
+	public void paint(Graphics2D g, MessageBox box, Assets assets, int frame) {
+		g.translate(box.x, box.y);
 
-		g.setComposite(IngameLogger.alpha80);
-		if (logger.hasBackground()) ViewConsts.vcTexture.paint(g, logger.getBackground(), assets, frame);
+		g.setComposite(ViewConsts.alpha80);
+		if (box.hasBackground()) ViewConsts.vcTexture.paint(g, box.getBackground(), assets, frame);
 		g.setComposite(AlphaComposite.SrcOver);
 
 		g.translate(PrettyText.lineHeight, PrettyText.lineHeight);
 		g.setFont(PrettyText.textFont);
 
 
-		Iterator<PrettyText> itr = logger.items.subList(logger.getTopIndexToShow(), logger.getLastIndexToShow()).iterator();
+		Iterator<PrettyText> itr = box.items.subList(box.getTopIndexToShow(), box.getLastIndexToShow(IngameLogger.oneHeight)).iterator();
 
 		int line = 0;
 		int left = 0;
@@ -79,11 +80,14 @@ public class VCIngameLogger implements IViewComponent<IngameLogger> {
 				line ++;
 				left = 0;
 			}
+
 		}
+
+
 
 		g.translate(-PrettyText.lineHeight, -PrettyText.lineHeight);
 
-		g.translate(-logger.x, -logger.y);
+		g.translate(-box.x, -box.y);
 	}
 
 }

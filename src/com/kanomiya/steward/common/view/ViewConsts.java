@@ -1,5 +1,6 @@
 package com.kanomiya.steward.common.view;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics;
 
@@ -30,7 +31,7 @@ public class ViewConsts {
 	public static VCTexture vcTexture = new VCTexture();
 	public static VCBorder vcBorder = new VCBorder();
 
-	public static VCIngameLogger vcIngameLogger = new VCIngameLogger();
+	public static VCMessageBox vcMessageBox = new VCMessageBox();
 	public static VCDebug vcStat = new VCDebug();
 
 	public static VCSelect vcSelect = new VCSelect();
@@ -119,6 +120,10 @@ public class ViewConsts {
 
 		return text;
 	}
+
+
+
+	public static AlphaComposite alpha80 = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.8f);
 
 
 

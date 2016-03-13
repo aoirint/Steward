@@ -49,8 +49,11 @@ public class VCTexture implements IViewComponent<Texture> {
 				Image img = assets.getCachedImage(texture.src[0][i]);
 				Dimension dim = assets.getCachedImageDim(img);
 
-				if (width == -1) width = dim.width;
-				if (height == -1) height = dim.height;
+				if (texture.autoSize)
+				{
+					width = dim.width;
+					height = dim.height;
+				}
 
 				g.drawImage(img, 0,0, width, height, dx, dy, dx +width, dy +height, null);
 			}

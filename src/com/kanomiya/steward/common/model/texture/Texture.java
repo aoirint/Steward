@@ -34,9 +34,19 @@ public class Texture {
 		this(src, ViewConsts.tileSize, ViewConsts.tileSize);
 	}
 
+	public Texture(String src, boolean autoSize)
+	{
+		this(src, 0,0, true);
+	}
+
 	public Texture(String src, int width, int height)
 	{
-		this(new String[][] { new String[] { src } }, 0,0, width, height, false, 0,0, TextureMode.STATIC, TextureType.FRONT, null, 1000);
+		this(src, width, height, false);
+	}
+
+	public Texture(String src, int width, int height, boolean autoSize)
+	{
+		this(new String[][] { new String[] { src } }, 0,0, width, height, autoSize, 0,0, TextureMode.STATIC, TextureType.FRONT, null, 1000);
 	}
 
 	/**
