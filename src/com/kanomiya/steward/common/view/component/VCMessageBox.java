@@ -1,4 +1,4 @@
-package com.kanomiya.steward.common.view;
+package com.kanomiya.steward.common.view.component;
 
 import java.awt.AlphaComposite;
 import java.awt.Graphics2D;
@@ -6,8 +6,9 @@ import java.util.Iterator;
 
 import com.kanomiya.steward.common.model.assets.Assets;
 import com.kanomiya.steward.common.model.overlay.PrettyText;
-import com.kanomiya.steward.common.model.overlay.logger.IngameLogger;
+import com.kanomiya.steward.common.model.overlay.message.IngameLogger;
 import com.kanomiya.steward.common.model.overlay.message.MessageBox;
+import com.kanomiya.steward.common.view.ViewConsts;
 
 /**
  * @author Kanomiya

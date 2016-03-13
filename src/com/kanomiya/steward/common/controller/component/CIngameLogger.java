@@ -1,13 +1,15 @@
-package com.kanomiya.steward.common.controller;
+package com.kanomiya.steward.common.controller.component;
 
+import com.kanomiya.steward.common.controller.ControlListener;
+import com.kanomiya.steward.common.controller.IControllerComponent;
 import com.kanomiya.steward.common.model.assets.Assets;
-import com.kanomiya.steward.common.model.overlay.logger.IngameLogger;
+import com.kanomiya.steward.common.model.overlay.message.IngameLogger;
 
 /**
  * @author Kanomiya
  *
  */
-public class CIngameLogger extends IController<IngameLogger> {
+public class CIngameLogger extends IControllerComponent<IngameLogger> {
 
 	/**
 	* @inheritDoc

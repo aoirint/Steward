@@ -1,4 +1,4 @@
-package com.kanomiya.steward.common.view;
+package com.kanomiya.steward.common.view.component;
 
 import java.awt.Graphics2D;
 

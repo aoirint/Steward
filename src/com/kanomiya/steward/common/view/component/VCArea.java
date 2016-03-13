@@ -1,4 +1,4 @@
-package com.kanomiya.steward.common.view;
+package com.kanomiya.steward.common.view.component;
 
 import java.awt.Graphics2D;
 import java.util.List;
@@ -7,6 +7,7 @@ import com.kanomiya.steward.common.model.area.Area;
 import com.kanomiya.steward.common.model.area.Tip;
 import com.kanomiya.steward.common.model.assets.Assets;
 import com.kanomiya.steward.common.model.event.Event;
+import com.kanomiya.steward.common.view.ViewConsts;
 
 /**
  * @author Kanomiya

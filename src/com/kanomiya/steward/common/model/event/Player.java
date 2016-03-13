@@ -6,7 +6,7 @@ import com.google.gson.annotations.Expose;
 import com.kanomiya.steward.common.model.area.AccessType;
 import com.kanomiya.steward.common.model.area.Area;
 import com.kanomiya.steward.common.model.assets.Assets;
-import com.kanomiya.steward.common.model.overlay.logger.IngameLogger;
+import com.kanomiya.steward.common.model.overlay.message.IngameLogger;
 import com.kanomiya.steward.common.model.script.Script;
 import com.kanomiya.steward.common.model.script.ScriptEventType;
 import com.kanomiya.steward.common.model.texture.Texture;

@@ -1,4 +1,4 @@
-package com.kanomiya.steward.common.controller;
+package com.kanomiya.steward.common.controller.component;
 
 import java.awt.event.KeyEvent;
 import java.io.File;
@@ -6,6 +6,8 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import com.kanomiya.steward.common.controller.ControlListener;
+import com.kanomiya.steward.common.controller.IControllerComponent;
 import com.kanomiya.steward.common.model.assets.Assets;
 import com.kanomiya.steward.common.model.event.Player;
 import com.kanomiya.steward.common.model.event.PlayerMode;
@@ -16,7 +18,7 @@ import com.kanomiya.steward.common.view.ViewConsts;
  * @author Kanomiya
  *
  */
-public class CPlayer extends IController<Player> {
+public class CPlayer extends IControllerComponent<Player> {
 
 	/**
 	* @inheritDoc

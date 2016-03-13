@@ -5,6 +5,14 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 import com.kanomiya.steward.common.model.texture.Texture;
+import com.kanomiya.steward.common.view.component.VCArea;
+import com.kanomiya.steward.common.view.component.VCBorder;
+import com.kanomiya.steward.common.view.component.VCDebug;
+import com.kanomiya.steward.common.view.component.VCMarker;
+import com.kanomiya.steward.common.view.component.VCMessageBox;
+import com.kanomiya.steward.common.view.component.VCPlayerEye;
+import com.kanomiya.steward.common.view.component.VCSelect;
+import com.kanomiya.steward.common.view.component.VCTexture;
 import com.kanomiya.steward.editor.view.ViewTips;
 
 /**

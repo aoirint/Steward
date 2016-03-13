@@ -1,10 +1,11 @@
-package com.kanomiya.steward.common.view;
+package com.kanomiya.steward.common.view.component;
 
 import java.awt.Graphics2D;
 
 import com.kanomiya.steward.common.model.area.Area;
 import com.kanomiya.steward.common.model.assets.Assets;
 import com.kanomiya.steward.common.model.event.Player;
+import com.kanomiya.steward.common.view.ViewConsts;
 
 /**
  * @author Kanomiya

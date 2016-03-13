@@ -6,7 +6,7 @@ import com.kanomiya.steward.common.model.assets.Assets;
  * @author Kanomiya
  *
  */
-public abstract class IController<T> {
+public abstract class IControllerComponent<T> {
 
 	/**
 	 *

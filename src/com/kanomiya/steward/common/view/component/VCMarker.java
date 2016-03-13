@@ -1,9 +1,10 @@
-package com.kanomiya.steward.common.view;
+package com.kanomiya.steward.common.view.component;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
 
 import com.kanomiya.steward.common.model.assets.Assets;
+import com.kanomiya.steward.common.view.ViewConsts;
 
 
 /**

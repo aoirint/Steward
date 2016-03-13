@@ -1,7 +1,6 @@
-package com.kanomiya.steward.common.model.overlay.logger;
+package com.kanomiya.steward.common.model.overlay.message;
 
 import com.kanomiya.steward.common.model.overlay.PrettyText;
-import com.kanomiya.steward.common.model.overlay.message.MessageBox;
 import com.kanomiya.steward.common.model.texture.Texture;
 import com.kanomiya.steward.common.view.ViewConsts;
 

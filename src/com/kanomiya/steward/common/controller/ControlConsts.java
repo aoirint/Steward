@@ -1,5 +1,8 @@
 package com.kanomiya.steward.common.controller;
 
+import com.kanomiya.steward.common.controller.component.CIngameLogger;
+import com.kanomiya.steward.common.controller.component.CPlayer;
+
 /**
  * @author Kanomiya
  *

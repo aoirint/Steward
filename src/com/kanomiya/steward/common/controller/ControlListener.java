@@ -14,7 +14,7 @@ import com.kanomiya.steward.common.model.area.Tip;
 import com.kanomiya.steward.common.model.assets.AssetsUtils;
 import com.kanomiya.steward.common.model.event.PlayerMode;
 import com.kanomiya.steward.common.model.overlay.PrettyText;
-import com.kanomiya.steward.common.model.overlay.logger.IngameLogger;
+import com.kanomiya.steward.common.model.overlay.message.IngameLogger;
 import com.kanomiya.steward.common.view.ViewConsts;
 import com.kanomiya.steward.editor.FrameTip;
 
