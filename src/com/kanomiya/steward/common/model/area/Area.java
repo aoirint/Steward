@@ -169,6 +169,26 @@ public class Area {
 		tips[x][y] = tip;
 	}
 
+	/**
+	 * @param x
+	 * @param y
+	 * @return
+	 */
+	public List<Event> getEvents(int x, int y)
+	{
+		List<Event> result = Lists.newArrayList();
+
+		List<Event> ceventList = getChunk(x, y).eventList;
+		for (Event cevent: ceventList)
+		{
+			if (x == cevent.x && y == cevent.y)
+			{
+				result.add(cevent);
+			}
+		}
+
+		return result;
+	}
 
 	public boolean canEnter(Event event, int x, int y)
 	{
@@ -226,9 +246,9 @@ public class Area {
 	{
 		boolean success = false;
 
-		Chunk fchunk = getChunk(x, y);
+		// System.out.println(launcher.id + ": " + launcher.x + "/" + launcher.y);
 
-		System.out.println(launcher.id + ": " + launcher.x + "/" + launcher.y);
+		Chunk fchunk = getChunk(x, y);
 
 		if (fchunk.hasEvent())
 		{
@@ -268,6 +288,8 @@ public class Area {
 
 		return new String(builder);
 	}
+
+
 
 
 

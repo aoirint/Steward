@@ -1,5 +1,6 @@
 package com.kanomiya.steward.common.model.event;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.script.ScriptException;
@@ -109,14 +110,32 @@ public class Event implements ITextureOwner {
 		if (texture.type.isDirectable()) direction = Direction.getDirection(x, y, fx, fy, direction);
 		if (texture.type.isWalkable()) walkState = walkState.next();
 
-		if (! canTravel(area, fx, fy)) return false;
+		if (! area.tipExists(x, y)) return false;
+		if (area.getTip(fx, fy).getAccessType() == AccessType.deny) return false;
 
-		x = fx;
-		y = fy;
+		Area area = this.area;
+		int x = this.x;
+		int y = this.y;
 
-		area.setEvent(this);
+		this.x = fx;
+		this.y = fy;
 
-		area.launchEvent(this, fx, fy, ScriptEventType.ONCOLIDED, assets);
+		List<Event> elist = area.getEvents(fx, fy);
+		boolean canEnter = true;
+
+		for (int i=0; i<elist.size(); i++)
+		{
+			elist.get(i).launchScript(assets, ScriptEventType.ONCOLIDED);
+			canEnter = canEnter && (elist.get(i).access != AccessType.deny);
+		}
+
+		if (! canEnter && area == this.area)
+		{
+			this.x = x;
+			this.y = y;
+		}
+
+		this.area.setEvent(this);
 
 		return true;
 	}
