@@ -1,4 +1,4 @@
 
 player.area.setTip(assets.getTip("tree"), player.x, player.y);
-player.logger.println(assets.translate("se.pop"), IngameLogger.static.colorGreen);
+player.logger.println(PrettyText.static.create(assets.translate("se.pop")).color(PrettyText.static.colorGreen));
 player.goBack(assets);

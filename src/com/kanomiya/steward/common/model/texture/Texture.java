@@ -16,6 +16,7 @@ public class Texture {
 	public int x, y;
 	public int offsetX, offsetY;
 	public int width, height;
+	public boolean autoSize;
 
 	public int count = 0;
 	public int index = 0;
@@ -24,7 +25,7 @@ public class Texture {
 
 	public Texture()
 	{
-		this((String[][]) null, 0,0, ViewConsts.tileSize, ViewConsts.tileSize, 0,0, TextureMode.STATIC, TextureType.FRONT, null, 1000);
+		this((String[][]) null, 0,0, ViewConsts.tileSize, ViewConsts.tileSize, false, 0,0, TextureMode.STATIC, TextureType.FRONT, null, 1000);
 	}
 
 
@@ -35,7 +36,7 @@ public class Texture {
 
 	public Texture(String src, int width, int height)
 	{
-		this(new String[][] { new String[] { src } }, 0,0, width, height, 0,0, TextureMode.STATIC, TextureType.FRONT, null, 1000);
+		this(new String[][] { new String[] { src } }, 0,0, width, height, false, 0,0, TextureMode.STATIC, TextureType.FRONT, null, 1000);
 	}
 
 	/**
@@ -46,7 +47,7 @@ public class Texture {
 	 * @param owner typeがfrontのときはnullでよい
 	 * @param interval
 	 */
-	public Texture(String[][] src, int x, int y, int width, int height, int offsetX, int offsetY, TextureMode mode, TextureType type, ITextureOwner owner, int interval)
+	public Texture(String[][] src, int x, int y, int width, int height, boolean autoSize, int offsetX, int offsetY, TextureMode mode, TextureType type, ITextureOwner owner, int interval)
 	{
 		this.src = src;
 
@@ -54,6 +55,7 @@ public class Texture {
 		this.y = y;
 		this.width = width;
 		this.height = height;
+		this.autoSize = autoSize;
 
 		this.offsetX = offsetX;
 		this.offsetY = offsetY;

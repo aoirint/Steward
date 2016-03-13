@@ -11,7 +11,7 @@ import com.kanomiya.steward.common.Game;
 import com.kanomiya.steward.common.controller.ControlListener;
 import com.kanomiya.steward.common.model.assets.Assets;
 import com.kanomiya.steward.common.model.assets.AssetsFactory;
-import com.kanomiya.steward.common.model.overlay.logger.IngameLogger;
+import com.kanomiya.steward.common.model.overlay.PrettyText;
 import com.kanomiya.steward.common.view.ViewConsts;
 
 
@@ -102,8 +102,8 @@ public class Main {
 		repainter.start();
 
 
-		game.thePlayer.logger.println(game.assets.translate("vocabulary.welcome"), IngameLogger.colorOrange);
-		game.thePlayer.logger.println(game.assets.translate("se.gravel"), IngameLogger.colorGreen);
+		game.thePlayer.logger.println(PrettyText.create(game.assets.translate("vocabulary.welcome")).color(PrettyText.colorOrange));
+
 	}
 
 }

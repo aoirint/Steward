@@ -10,11 +10,11 @@ import java.util.Set;
 import javax.script.ScriptEngine;
 
 import com.google.common.collect.Maps;
-import com.kanomiya.steward.common.model.I18n;
 import com.kanomiya.steward.common.model.area.Area;
 import com.kanomiya.steward.common.model.area.Tip;
 import com.kanomiya.steward.common.model.event.Event;
 import com.kanomiya.steward.common.model.event.Player;
+import com.kanomiya.steward.common.model.lang.I18n;
 
 
 /**
@@ -220,7 +220,7 @@ public class Assets {
 	 * @param unlocalizedName
 	 * @return
 	 */
-	public String translate(String unlocalizedName) {
+	public String translate(String unlocalizedName, String... args) {
 		Locale locale = this.locale;
 
 		if (! localeToI18n.containsKey(locale))
@@ -229,7 +229,7 @@ public class Assets {
 			locale = Locale.JAPAN;
 		}
 
-		return localeToI18n.get(locale).translate(unlocalizedName);
+		return localeToI18n.get(locale).translate(unlocalizedName, args);
 	}
 
 

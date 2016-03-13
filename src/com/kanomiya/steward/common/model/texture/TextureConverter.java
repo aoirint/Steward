@@ -75,6 +75,9 @@ public class TextureConverter implements JsonSerializer<Texture>, JsonDeserializ
 		int height = ViewConsts.tileSize;
 		if (jsObj.has("height")) height = jsObj.get("height").getAsInt();
 
+		boolean autoSize = false;
+		if (jsObj.has("autoSize")) autoSize = jsObj.get("autoSize").getAsBoolean();
+
 		int offsetX = 0;
 		if (jsObj.has("offsetX")) offsetX = jsObj.get("offserX").getAsInt();
 		int offsetY = 0;
@@ -90,7 +93,7 @@ public class TextureConverter implements JsonSerializer<Texture>, JsonDeserializ
 		int interval = 1000;
 		if (mode.requireInterval() && jsObj.has("interval")) interval = jsObj.get("interval").getAsInt();
 
-		return new Texture(src, x,y, width, height, offsetX,offsetY, mode, itype, null, interval);
+		return new Texture(src, x,y, width, height, autoSize, offsetX,offsetY, mode, itype, null, interval);
 	}
 
 

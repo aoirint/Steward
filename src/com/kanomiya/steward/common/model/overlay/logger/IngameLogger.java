@@ -1,12 +1,11 @@
 package com.kanomiya.steward.common.model.overlay.logger;
 
 import java.awt.AlphaComposite;
-import java.awt.Color;
-import java.awt.Font;
 import java.util.LinkedList;
 
 import com.google.common.collect.Lists;
 import com.kanomiya.steward.common.model.overlay.Overlay;
+import com.kanomiya.steward.common.model.overlay.PrettyText;
 import com.kanomiya.steward.common.model.texture.Texture;
 import com.kanomiya.steward.common.view.ViewConsts;
 
@@ -16,21 +15,14 @@ import com.kanomiya.steward.common.view.ViewConsts;
  */
 public class IngameLogger extends Overlay {
 
-	public static int lineHeight = 14;
-	public static Color textColor = Color.WHITE;
-	public static Color colorGreen = new Color(0x9A, 0xDE, 0x64);
-	public static Color colorOrange = new Color(0xFF, 0xD7, 0x53);
-	public static Color colorPurple = new Color(0xD9, 0x94, 0xE0);
 	public static AlphaComposite alpha80 = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.8f);
-	public static Font textFont = new Font(Font.MONOSPACED, Font.PLAIN, lineHeight);
-
 	public static int millsWait = 5000;
 
 	public static int innerWidth = 520;
 	public static int innerHeight = 212;
 	public static int oneHeight = 14;
 
-	public LinkedList<LogItem> items;
+	public LinkedList<PrettyText> items;
 
 	public boolean visible;
 	protected int millsCountShow, millsCountLock;
@@ -51,39 +43,30 @@ public class IngameLogger extends Overlay {
 		autoScroolLock = false;
 	}
 
-	public void print(String text, Color textColor, boolean lineBreak)
+	public void print(PrettyText text)
 	{
-		items.addLast(new LogItem(new PrettyText(text, textColor), lineBreak));
+		items.addLast(text);
 
 		if (! autoScroolLock) beginIndex = Math.max(0, items.size() -IngameLogger.oneHeight +2);
 
 		show(millsWait);
 	}
 
-	protected void print(String text, boolean lineBreak)
+	public void println(PrettyText text)
 	{
-		print(text, textColor, lineBreak);
+		print(text.lineBreak());
 	}
 
 	public void print(String text)
 	{
-		print(text, false);
+		print(PrettyText.create(text));
 	}
 
 	public void println(String text)
 	{
-		print(text, true);
+		print(PrettyText.create(text).lineBreak());
 	}
 
-
-	/**
-	 * @param text
-	 * @param textColor
-	 */
-	public void println(String text, Color textColor)
-	{
-		print(text, textColor, true);
-	}
 
 
 	public int getTopIndexToShow()

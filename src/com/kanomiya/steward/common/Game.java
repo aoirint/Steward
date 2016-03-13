@@ -1,11 +1,12 @@
 package com.kanomiya.steward.common;
 import javax.script.ScriptEngine;
+import javax.script.ScriptException;
 
 import jdk.nashorn.api.scripting.NashornScriptEngineFactory;
 
 import com.kanomiya.steward.common.model.assets.Assets;
 import com.kanomiya.steward.common.model.event.Player;
-import com.kanomiya.steward.common.model.overlay.logger.IngameLogger;
+import com.kanomiya.steward.common.model.overlay.PrettyText;
 
 /**
  * @author Kanomiya
@@ -29,7 +30,17 @@ public class Game{
 		scriptEngine.put("assets", assets);
 		scriptEngine.put("player", thePlayer);
 
-		scriptEngine.put("IngameLogger", IngameLogger.class);
+		scriptEngine.put("logger", thePlayer.logger);
+		scriptEngine.put("PrettyText", PrettyText.class);
+
+		try {
+			scriptEngine.eval("var translate = function(unlocalized, args) { assets.translate(unlocalized, args); };");
+
+		} catch (ScriptException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		}
+
 
 		assets.setScriptEngine(scriptEngine);
 	}

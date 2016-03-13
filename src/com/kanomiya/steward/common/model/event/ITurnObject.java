@@ -1,4 +1,4 @@
-package com.kanomiya.steward.common.model;
+package com.kanomiya.steward.common.model.event;
 
 import com.kanomiya.steward.common.model.assets.Assets;
 

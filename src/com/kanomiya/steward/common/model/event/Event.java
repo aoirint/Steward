@@ -6,7 +6,6 @@ import java.util.Map;
 import javax.script.ScriptException;
 
 import com.google.gson.annotations.Expose;
-import com.kanomiya.steward.common.model.ITurnObject;
 import com.kanomiya.steward.common.model.area.AccessType;
 import com.kanomiya.steward.common.model.area.Area;
 import com.kanomiya.steward.common.model.area.Chunk;

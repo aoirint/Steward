@@ -5,8 +5,8 @@ import java.awt.Graphics2D;
 import java.util.Iterator;
 
 import com.kanomiya.steward.common.model.assets.Assets;
+import com.kanomiya.steward.common.model.overlay.PrettyText;
 import com.kanomiya.steward.common.model.overlay.logger.IngameLogger;
-import com.kanomiya.steward.common.model.overlay.logger.LogItem;
 
 /**
  * @author Kanomiya
@@ -25,23 +25,25 @@ public class VCIngameLogger implements IViewComponent<IngameLogger> {
 		if (logger.hasBackground()) ViewConsts.vcTexture.paint(g, logger.getBackground(), assets, frame);
 		g.setComposite(AlphaComposite.SrcOver);
 
-		g.translate(IngameLogger.lineHeight, IngameLogger.lineHeight);
-		g.setFont(IngameLogger.textFont);
+		g.translate(PrettyText.lineHeight, PrettyText.lineHeight);
+		g.setFont(PrettyText.textFont);
 
 
-		Iterator<LogItem> itr = logger.items.subList(logger.getTopIndexToShow(), logger.getLastIndexToShow()).iterator();
+		Iterator<PrettyText> itr = logger.items.subList(logger.getTopIndexToShow(), logger.getLastIndexToShow()).iterator();
 
 		int line = 0;
 		int left = 0;
 
 		while (line < IngameLogger.oneHeight && itr.hasNext())
 		{
-			LogItem item = itr.next();
-			int y = line +1;
+			PrettyText item = itr.next();
+			int top = (line +1) *PrettyText.lineHeight;
 
-			g.setColor(item.pretty.color);
+			g.setColor(item.color);
+			g.setFont(PrettyText.textFont);
+			if (item.bold) g.setFont(PrettyText.textFontBold);
 
-			String text = ViewConsts.wordWrap(item.pretty.text, g, left, IngameLogger.innerWidth);
+			String text = ViewConsts.wordWrap(item.text, g, left, IngameLogger.innerWidth);
 
 			if (text.contains("\n"))
 			{
@@ -50,7 +52,11 @@ public class VCIngameLogger implements IViewComponent<IngameLogger> {
 
 				for (int i=0; i<yLen; i++)
 				{
-					g.drawString(lines[i], left, (y +i) *IngameLogger.lineHeight);
+					top += i *PrettyText.lineHeight;
+
+					g.drawString(lines[i], left, top);
+					if (item.underline) g.drawLine(left, top, g.getFontMetrics().stringWidth(lines[i]), top);
+
 					left = 0;
 				}
 
@@ -60,7 +66,8 @@ public class VCIngameLogger implements IViewComponent<IngameLogger> {
 
 			} else
 			{
-				g.drawString(text, left, y *IngameLogger.lineHeight);
+				g.drawString(text, left, top);
+				if (item.underline) g.drawLine(left, top, g.getFontMetrics().stringWidth(text), top);
 
 				left += g.getFontMetrics().stringWidth(text);
 			}
@@ -74,7 +81,7 @@ public class VCIngameLogger implements IViewComponent<IngameLogger> {
 			}
 		}
 
-		g.translate(-IngameLogger.lineHeight, -IngameLogger.lineHeight);
+		g.translate(-PrettyText.lineHeight, -PrettyText.lineHeight);
 
 		g.translate(-logger.x, -logger.y);
 	}

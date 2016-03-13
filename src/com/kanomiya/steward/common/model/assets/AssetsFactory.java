@@ -18,10 +18,10 @@ import java.util.PropertyResourceBundle;
 import javax.imageio.ImageIO;
 
 import com.google.gson.Gson;
-import com.kanomiya.steward.common.model.I18n;
 import com.kanomiya.steward.common.model.area.Area;
 import com.kanomiya.steward.common.model.area.Tip;
 import com.kanomiya.steward.common.model.event.Event;
+import com.kanomiya.steward.common.model.lang.I18n;
 
 
 /**
@@ -30,8 +30,6 @@ import com.kanomiya.steward.common.model.event.Event;
  */
 public class AssetsFactory {
 
-	protected static final ExtensionFilter jsonFilter = new ExtensionFilter("json");
-	protected static final ExtensionFilter imageFilter = new ExtensionFilter("png");
 
 	protected AssetsFactory() {  }
 
