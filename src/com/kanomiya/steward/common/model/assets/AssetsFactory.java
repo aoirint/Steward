@@ -1,6 +1,6 @@
 package com.kanomiya.steward.common.model.assets;
 
-import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
@@ -93,7 +93,7 @@ public class AssetsFactory {
 				String path = f.getCanonicalPath().substring(root.getCanonicalPath().length() +1);
 				path = path.replace('\\', '/');
 
-				Image image = ImageIO.read(f);
+				BufferedImage image = ImageIO.read(f);
 
 				assets.cacheImage(path, image);
 				return FileVisitResult.CONTINUE;

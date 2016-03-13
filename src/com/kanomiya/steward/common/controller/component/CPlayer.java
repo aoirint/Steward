@@ -31,42 +31,42 @@ public class CPlayer extends IControllerComponent<Player> {
 		{
 		case KeyEvent.VK_NUMPAD8:
 		case KeyEvent.VK_UP:
-			consumed = player.move(assets, 0, -1);
+			consumed = player.move(0, -1);
 			break;
 
 		case KeyEvent.VK_NUMPAD2:
 		case KeyEvent.VK_DOWN:
-			consumed = player.move(assets, 0, 1);
+			consumed = player.move(0, 1);
 			break;
 
 		case KeyEvent.VK_NUMPAD4:
 		case KeyEvent.VK_LEFT:
-			consumed = player.move(assets, -1, 0);
+			consumed = player.move(-1, 0);
 			break;
 
 		case KeyEvent.VK_NUMPAD6:
 		case KeyEvent.VK_RIGHT:
-			consumed = player.move(assets, 1, 0);
+			consumed = player.move(1, 0);
 			break;
 
 		case KeyEvent.VK_NUMPAD7:
 		case KeyEvent.VK_HOME:
-			consumed = player.move(assets, -1, -1);
+			consumed = player.move(-1, -1);
 			break;
 
 		case KeyEvent.VK_NUMPAD9:
 		case KeyEvent.VK_PAGE_UP:
-			consumed = player.move(assets, 1, -1);
+			consumed = player.move(1, -1);
 			break;
 
 		case KeyEvent.VK_NUMPAD1:
 		case KeyEvent.VK_END:
-			consumed = player.move(assets, -1, 1);
+			consumed = player.move(-1, 1);
 			break;
 
 		case KeyEvent.VK_NUMPAD3:
 		case KeyEvent.VK_PAGE_DOWN:
-			consumed = player.move(assets, 1, 1);
+			consumed = player.move(1, 1);
 			break;
 
 		case KeyEvent.VK_NUMPAD5:

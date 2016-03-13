@@ -3,7 +3,7 @@ package com.kanomiya.steward.common.view.component;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.Image;
+import java.awt.image.BufferedImage;
 
 import com.kanomiya.steward.common.model.assets.Assets;
 import com.kanomiya.steward.common.model.texture.Texture;
@@ -34,6 +34,10 @@ public class VCTexture implements IViewComponent<Texture> {
 
 		g.translate(texture.offsetX, texture.offsetY);
 
+		double rad = Math.toRadians(texture.rotation);
+
+		g.rotate(-rad);
+
 		if (texture.hasOwner())
 		{
 			if (texture.type.isWalkable()) dx = texture.getOwner().getWalkState().getIconX();
@@ -46,7 +50,7 @@ public class VCTexture implements IViewComponent<Texture> {
 
 			for (int i=0; i<srcLen; i++)
 			{
-				Image img = assets.getCachedImage(texture.src[0][i]);
+				BufferedImage img = assets.getCachedImage(texture.src[0][i]);
 				Dimension dim = assets.getCachedImageDim(img);
 
 				if (texture.autoSize)
@@ -56,6 +60,7 @@ public class VCTexture implements IViewComponent<Texture> {
 				}
 
 				g.drawImage(img, 0,0, width, height, dx, dy, dx +width, dy +height, null);
+
 			}
 
 			break;
@@ -72,7 +77,7 @@ public class VCTexture implements IViewComponent<Texture> {
 
 			for (int i=0; i<srcLen; i++)
 			{
-				Image img = assets.getCachedImage(texture.src[texture.index][i]);
+				BufferedImage img = assets.getCachedImage(texture.src[texture.index][i]);
 				Dimension dim = assets.getCachedImageDim(img);
 
 				g.drawImage(img, 0,0, dim.width, dim.height, dx, dy, dx +dim.width, dy +dim.height, null);
@@ -83,6 +88,8 @@ public class VCTexture implements IViewComponent<Texture> {
 
 		}
 
+
+		g.rotate(rad);
 		g.translate(-texture.offsetX, -texture.offsetY);
 
 	}

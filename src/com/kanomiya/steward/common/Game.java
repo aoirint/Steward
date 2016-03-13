@@ -1,10 +1,13 @@
 package com.kanomiya.steward.common;
+import java.util.List;
+
 import javax.script.ScriptEngine;
 import javax.script.ScriptException;
 
 import jdk.nashorn.api.scripting.NashornScriptEngineFactory;
 
 import com.kanomiya.steward.common.model.assets.Assets;
+import com.kanomiya.steward.common.model.event.Event;
 import com.kanomiya.steward.common.model.event.Player;
 import com.kanomiya.steward.common.model.overlay.PrettyText;
 
@@ -12,7 +15,7 @@ import com.kanomiya.steward.common.model.overlay.PrettyText;
  * @author Kanomiya
  *
  */
-public class Game{
+public class Game {
 
 	public static int tickMills = 100;
 
@@ -50,7 +53,17 @@ public class Game{
 	{
 		// TODO: others
 
-		thePlayer.turn(assets);
+		thePlayer.turn();
+
+		List<Event> eventList = thePlayer.area.eventList();
+		int elLen = eventList.size();
+
+		for (int i=0; i<elLen; i++)
+		{
+			eventList.get(i).turn();
+		}
+
 	}
+
 
 }

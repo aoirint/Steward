@@ -34,6 +34,8 @@ public class PrettyText {
 	public PrettyText(String text)
 	{
 		this.text = text;
+		color = PrettyText.textColor;
+
 	}
 
 	/**

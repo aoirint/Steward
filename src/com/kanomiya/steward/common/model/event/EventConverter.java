@@ -95,14 +95,14 @@ public class EventConverter implements JsonDeserializer<Event>, JsonSerializer<E
 			boolean debugMode = false;
 			if(jsObj.has("debugMode")) debugMode = jsObj.get("debugMode").getAsBoolean();
 
-			return new Player(id, area, x, y, texture, direction, walkState, access, null, mode, debugMode);
+			return new Player(id, area, x, y, texture, direction, walkState, access, null, mode, debugMode, assets);
 		}
 
 		Map<ScriptEventType, Script> scripts = null;
 		Type sceventScriptMap = new TypeToken<Map<ScriptEventType, Script>>(){}.getType();
 		if (jsObj.has("scripts")) scripts = context.deserialize(jsObj.get("scripts"), sceventScriptMap);
 
-		return new Event(id, area, x, y, texture, direction, walkState, access, scripts);
+		return new Event(id, area, x, y, texture, direction, walkState, access, scripts, assets);
 	}
 
 }

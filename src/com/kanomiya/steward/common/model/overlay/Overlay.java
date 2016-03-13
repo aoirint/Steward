@@ -1,6 +1,9 @@
 package com.kanomiya.steward.common.model.overlay;
 
+import com.kanomiya.steward.common.model.TBLR;
+import com.kanomiya.steward.common.model.assets.Assets;
 import com.kanomiya.steward.common.model.texture.Texture;
+import com.kanomiya.steward.common.view.ViewConsts;
 
 /**
  * @author Kanomiya
@@ -12,7 +15,18 @@ public abstract class Overlay {
 	public Texture background;
 	public boolean visible;
 
-	public Overlay(int x, int y, int width, int height) {
+	public Overlay()
+	{
+		this(0,0, 0,0);
+	}
+
+	public Overlay(int x, int y)
+	{
+		this(x,y, 0,0);
+	}
+
+	public Overlay(int x, int y, int width, int height)
+	{
 		this.x = x;
 		this.y = y;
 		this.width = width;
@@ -34,6 +48,7 @@ public abstract class Overlay {
 	public Texture getBackground() {
 		return background;
 	}
+
 
 	/**
 	 * @param background セットする background
@@ -57,5 +72,46 @@ public abstract class Overlay {
 	{
 		visible = bool;
 	}
+
+
+	public void autoSize(Assets assets)
+	{
+		if (! hasBackground()) return ;
+
+		String[][] src = getBackground().src;
+
+		for (int i=0; i<src.length; i++)
+		{
+			for (int j=0; j<src[i].length; j++)
+			{
+				width = Math.max(width, assets.getCachedImageDim(src[i][j]).width);
+				height = Math.max(height, assets.getCachedImageDim(src[i][j]).height);
+			}
+		}
+
+	}
+
+	public void autoLocation(LocationType loc)
+	{
+		autoLocation(loc, ViewConsts.viewWidth, ViewConsts.viewHeight);
+	}
+
+	public void autoLocation(LocationType loc, int regionWidth, int regionHeight)
+	{
+		if (loc == LocationType.CENTER)
+		{
+			x = regionWidth /2 -width /2;
+			y = regionHeight /2 -height /2;
+
+			return;
+		}
+
+		if (loc.has(TBLR.TOP)) y = 0;
+		if (loc.has(TBLR.BOTTOM)) y = regionHeight -height;
+		if (loc.has(TBLR.LEFT)) x = 0;
+		if (loc.has(TBLR.RIGHT)) x = regionWidth -width;
+
+	}
+
 
 }

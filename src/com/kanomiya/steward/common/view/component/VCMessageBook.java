@@ -7,31 +7,62 @@ import java.util.Iterator;
 import com.kanomiya.steward.common.model.assets.Assets;
 import com.kanomiya.steward.common.model.overlay.PrettyText;
 import com.kanomiya.steward.common.model.overlay.message.IngameLogger;
-import com.kanomiya.steward.common.model.overlay.message.MessageBox;
+import com.kanomiya.steward.common.model.overlay.message.MessageBook;
 import com.kanomiya.steward.common.view.ViewConsts;
 
 /**
  * @author Kanomiya
  *
  */
-public class VCMessageBox implements IViewComponent<MessageBox> {
+public class VCMessageBook implements IViewComponent<MessageBook> {
 
 	/**
 	* @inheritDoc
 	*/
 	@Override
-	public void paint(Graphics2D g, MessageBox box, Assets assets, int frame) {
-		g.translate(box.x, box.y);
+	public void paint(Graphics2D g, MessageBook book, Assets assets, int frame) {
+
+		if (! book.hasPage()) return;
+		if (! book.currentPage().hasItem()) return;
+
+		g.translate(book.x, book.y);
 
 		g.setComposite(ViewConsts.alpha80);
-		if (box.hasBackground()) ViewConsts.vcTexture.paint(g, box.getBackground(), assets, frame);
+		if (book.hasBackground()) ViewConsts.vcTexture.paint(g, book.getBackground(), assets, frame);
+
+		g.translate(book.width -60, 20);
+		if (0 < book.getCurrentPageIndex())
+			ViewConsts.vcTexture.paint(g, ViewConsts.texArrowBtnLeft, assets, frame);
+		g.translate(27, 0);
+		if (book.getCurrentPageIndex() < book.pageCount() -1)
+			ViewConsts.vcTexture.paint(g, ViewConsts.texArrowBtnRight, assets, frame);
+		else if (book.getCurrentPageIndex() == book.pageCount() -1)
+			ViewConsts.vcTexture.paint(g, ViewConsts.texCheck, assets, frame);
+
+		g.translate(-27, -20);
+
+		g.translate(2, book.height -30);
+		if (0 < book.getTopIndexToShow())
+			ViewConsts.vcTexture.paint(g, ViewConsts.texArrowBtnUp, assets, frame); // 492, 196
+		g.translate(24, 0);
+		if (book.getTopIndexToShow() < book.currentPage().itemCount() -1)
+			ViewConsts.vcTexture.paint(g, ViewConsts.texArrowBtnDown, assets, frame); // 516, 196
+		g.translate(-26, 0);
+
+		g.translate(-(book.width -60), 0);
+		g.translate(0, -(book.height -30));
+
+
+
 		g.setComposite(AlphaComposite.SrcOver);
+
+
 
 		g.translate(PrettyText.lineHeight, PrettyText.lineHeight);
 		g.setFont(PrettyText.textFont);
 
 
-		Iterator<PrettyText> itr = box.items.subList(box.getTopIndexToShow(), box.getLastIndexToShow(IngameLogger.oneHeight)).iterator();
+		Iterator<PrettyText> itr = book.currentPage().items().subList(book.getTopIndexToShow(), book.getLastIndexToShow(IngameLogger.oneHeight)).iterator();
 
 		int line = 0;
 		int left = 0;
@@ -88,7 +119,7 @@ public class VCMessageBox implements IViewComponent<MessageBox> {
 
 		g.translate(-PrettyText.lineHeight, -PrettyText.lineHeight);
 
-		g.translate(-box.x, -box.y);
+		g.translate(-book.x, -book.y);
 	}
 
 }

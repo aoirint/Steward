@@ -1,6 +1,6 @@
 package com.kanomiya.steward.common.controller;
 
-import com.kanomiya.steward.common.controller.component.CIngameLogger;
+import com.kanomiya.steward.common.controller.component.CMessageBook;
 import com.kanomiya.steward.common.controller.component.CPlayer;
 
 /**
@@ -10,7 +10,7 @@ import com.kanomiya.steward.common.controller.component.CPlayer;
 public class ControlConsts {
 
 	public static CPlayer cPlayer = new CPlayer();
-	public static CIngameLogger cIngameLogger = new CIngameLogger();
+	public static CMessageBook cMessageBook = new CMessageBook();
 
 
 }

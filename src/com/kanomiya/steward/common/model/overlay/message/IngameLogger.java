@@ -1,46 +1,71 @@
 package com.kanomiya.steward.common.model.overlay.message;
 
+import com.kanomiya.steward.common.model.assets.Assets;
+import com.kanomiya.steward.common.model.overlay.LocationType;
 import com.kanomiya.steward.common.model.overlay.PrettyText;
 import com.kanomiya.steward.common.model.texture.Texture;
-import com.kanomiya.steward.common.view.ViewConsts;
 
 /**
  * @author Kanomiya
  *
  */
-public class IngameLogger extends MessageBox {
+public class IngameLogger extends MessageBook {
 
 	public static int millsWait = 5000;
 
 	public static int innerWidth = 520;
 	public static int innerHeight = 212;
 	public static int oneHeight = 14;
+	public static String bgTextureSrc = "background/overlay/ingameLogger.png";
+	public static Texture bgTexture = new Texture(bgTextureSrc);
 
 	protected int millsCountShow, millsCountLock;
 
 	public boolean autoCloseLock;
 	public boolean autoScroolLock;
 
-	public IngameLogger()
+	public IngameLogger(Assets assets)
 	{
-		super(ViewConsts.viewWidth -560, ViewConsts.viewHeight -232, 560, 232);
+		super();
 
-		setBackground(new Texture("background/overlay/ingameLogger.png", true));
+		setBackground(bgTexture);
 
 		autoCloseLock = false;
 		autoScroolLock = false;
+
+		autoSize(assets);
+		autoLocation(LocationType.BOTTOM_RIGHT);
+
+		append(new Message());
 	}
 
-	@Override
-	public void print(PrettyText text)
-	{
-		super.print(text);
 
-		if (! autoScroolLock) beginIndex = Math.max(0, items.size() -IngameLogger.oneHeight +2);
+
+	public IngameLogger print(PrettyText text)
+	{
+		super.print(0, text);
+
+		if (! autoScroolLock) beginIndex = Math.max(0, itemCount(0) -IngameLogger.oneHeight +2);
 
 		show(millsWait);
+
+		return this;
 	}
 
+	public IngameLogger println(PrettyText text)
+	{
+		return print(text.lineBreak());
+	}
+
+	public IngameLogger print(String text)
+	{
+		return print(PrettyText.create(text));
+	}
+
+	public IngameLogger println(String text)
+	{
+		return print(PrettyText.create(text).lineBreak());
+	}
 
 
 
@@ -118,5 +143,7 @@ public class IngameLogger extends MessageBox {
 		autoCloseLock = false;
 		autoScroolLock = false;
 	}
+
+
 
 }

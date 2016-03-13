@@ -12,6 +12,8 @@ import com.kanomiya.steward.common.controller.ControlListener;
 import com.kanomiya.steward.common.model.assets.Assets;
 import com.kanomiya.steward.common.model.assets.AssetsFactory;
 import com.kanomiya.steward.common.model.overlay.PrettyText;
+import com.kanomiya.steward.common.model.overlay.message.Message;
+import com.kanomiya.steward.common.model.overlay.message.MessageBook;
 import com.kanomiya.steward.common.view.ViewConsts;
 
 
@@ -103,6 +105,25 @@ public class Main {
 
 
 		game.thePlayer.logger.println(PrettyText.create(game.assets.translate("vocabulary.welcome")).color(PrettyText.colorOrange));
+
+		game.thePlayer.showMessage(
+				MessageBook.create().append(
+						Message.create().println(PrettyText.create("*ぽえー*").color(PrettyText.colorGreen))
+						).append(
+								Message.create().println(PrettyText.create("Stewardを起動しました").color(PrettyText.colorOrange)
+										).println(PrettyText.create("改行てすと")
+												).println(PrettyText.create("改行てすと")
+														).println(PrettyText.create("改行てすと")
+																).println(PrettyText.create("改行てすと")
+																		).println(PrettyText.create("改行てすと")
+																				).println(PrettyText.create("改行てすと")
+																						).println(PrettyText.create("改行てすと")
+																								).println(PrettyText.create("改行てすと")
+										)
+								).append(
+										Message.create().println(PrettyText.create("@は仮テクスチャのイベントテストです").color(PrettyText.colorOrange))
+										)
+				);
 
 	}
 

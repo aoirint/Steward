@@ -83,6 +83,9 @@ public class TextureConverter implements JsonSerializer<Texture>, JsonDeserializ
 		int offsetY = 0;
 		if (jsObj.has("offsetY")) offsetY = jsObj.get("offsetY").getAsInt();
 
+		double rotation = 0;
+		if (jsObj.has("rotation")) rotation = jsObj.get("rotation").getAsDouble();
+
 
 		TextureMode mode = TextureMode.STATIC;
 		if (jsObj.has("mode")) mode = context.deserialize(jsObj.get("mode"), TextureMode.class);
@@ -93,7 +96,7 @@ public class TextureConverter implements JsonSerializer<Texture>, JsonDeserializ
 		int interval = 1000;
 		if (mode.requireInterval() && jsObj.has("interval")) interval = jsObj.get("interval").getAsInt();
 
-		return new Texture(src, x,y, width, height, autoSize, offsetX,offsetY, mode, itype, null, interval);
+		return new Texture(src, x,y, width, height, autoSize, offsetX,offsetY, rotation, mode, itype, null, interval);
 	}
 
 

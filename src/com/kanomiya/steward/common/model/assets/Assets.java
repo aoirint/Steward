@@ -1,7 +1,7 @@
 package com.kanomiya.steward.common.model.assets;
 
 import java.awt.Dimension;
-import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.util.Collection;
 import java.util.Locale;
 import java.util.Map;
@@ -24,8 +24,8 @@ import com.kanomiya.steward.common.model.lang.I18n;
 public class Assets {
 
 
-	protected Map<String, Image> srcToImage = Maps.newHashMap();
-	protected Map<Image, Dimension> imageToSize = Maps.newHashMap();
+	protected Map<String, BufferedImage> srcToImage = Maps.newHashMap();
+	protected Map<BufferedImage, Dimension> imageToSize = Maps.newHashMap();
 	protected Map<String, Tip> idToTip = Maps.newHashMap();
 	protected Map<String, Area> idToArea = Maps.newHashMap();
 	protected Map<String, String> srcToScriptCode = Maps.newHashMap();
@@ -65,16 +65,23 @@ public class Assets {
 		return idToArea.get(id);
 	}
 
-	public Image getCachedImage(String path)
+	public BufferedImage getCachedImage(String path)
 	{
 		return srcToImage.get(path);
 	}
 
-	public Dimension getCachedImageDim(Image cachedImage)
+	public Dimension getCachedImageDim(BufferedImage cachedImage)
 	{
 		return imageToSize.get(cachedImage);
 	}
 
+	/**
+	 * @param bgTextureSrc
+	 * @return
+	 */
+	public Dimension getCachedImageDim(String path) {
+		return getCachedImageDim(getCachedImage(path));
+	}
 
 	public Tip getTip(String id)
 	{
@@ -104,7 +111,7 @@ public class Assets {
 
 
 
-	public void cacheImage(String path, Image image)
+	public void cacheImage(String path, BufferedImage image)
 	{
 		srcToImage.put(path, image);
 		imageToSize.put(image, new Dimension(image.getWidth(null), image.getHeight(null)));
@@ -231,6 +238,10 @@ public class Assets {
 
 		return localeToI18n.get(locale).translate(unlocalizedName, args);
 	}
+
+
+
+
 
 
 

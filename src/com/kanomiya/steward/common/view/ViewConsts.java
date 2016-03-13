@@ -9,7 +9,7 @@ import com.kanomiya.steward.common.view.component.VCArea;
 import com.kanomiya.steward.common.view.component.VCBorder;
 import com.kanomiya.steward.common.view.component.VCDebug;
 import com.kanomiya.steward.common.view.component.VCMarker;
-import com.kanomiya.steward.common.view.component.VCMessageBox;
+import com.kanomiya.steward.common.view.component.VCMessageBook;
 import com.kanomiya.steward.common.view.component.VCPlayerEye;
 import com.kanomiya.steward.common.view.component.VCSelect;
 import com.kanomiya.steward.common.view.component.VCTexture;
@@ -39,13 +39,18 @@ public class ViewConsts {
 	public static VCTexture vcTexture = new VCTexture();
 	public static VCBorder vcBorder = new VCBorder();
 
-	public static VCMessageBox vcMessageBox = new VCMessageBox();
+	public static VCMessageBook vcMessageBox = new VCMessageBook();
 	public static VCDebug vcStat = new VCDebug();
 
 	public static VCSelect vcSelect = new VCSelect();
 	public static VCMarker vcMarker = new VCMarker();
 
-	public static Texture iconUnknown = new Texture("unknown.png");
+	public static Texture texUnknown = new Texture("unknown.png");
+	public static Texture texArrowBtnUp = new Texture("arrowButtonUp.png");
+	public static Texture texArrowBtnDown = new Texture("arrowButtonDown.png");
+	public static Texture texArrowBtnRight = new Texture("arrowButtonRight.png");
+	public static Texture texArrowBtnLeft = new Texture("arrowButtonLeft.png");
+	public static Texture texCheck = new Texture("check.png");
 
 	public static Color colorSelected = new Color(0xFF, 0x00, 0xFF, 0xDD);
 	public static Color colorFocused = new Color(0xFF, 0x00, 0xFF, 0xAA);

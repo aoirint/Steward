@@ -20,7 +20,7 @@ import com.kanomiya.steward.common.model.texture.Texture;
  * @author Kanomiya
  *
  */
-public class Event implements ITurnObject, ITextureOwner {
+public class Event implements ITextureOwner {
 
 	@Expose public String id;
 	public Area area;
@@ -37,24 +37,28 @@ public class Event implements ITurnObject, ITextureOwner {
 
 	@Expose public Texture texture;
 
-	public Event()
+	public Assets assets;
+
+
+	public Event(Assets assets)
 	{
-		this(null, null, 0, 0, null);
+		this(null, null, 0, 0, null, assets);
 	}
 
-	public Event(String id, Area area, int x, int y, Texture texture)
+	public Event(String id, Area area, int x, int y, Texture texture, Assets assets)
 	{
-		this(id, area, x, y, texture, AccessType.allow);
+		this(id, area, x, y, texture, AccessType.allow, assets);
 	}
 
-	public Event(String id, Area area, int x, int y, Texture texture, AccessType access)
+	public Event(String id, Area area, int x, int y, Texture texture, AccessType access, Assets assets)
 	{
-		this(id, area, x, y, texture, Direction.south, WalkState.upright, access, null);
+		this(id, area, x, y, texture, Direction.south, WalkState.upright, access, null, assets);
 	}
 
 	public Event(String id, Area area, int x, int y, Texture texture,
 			Direction direction, WalkState walkState,
-			AccessType access, Map<ScriptEventType, Script> scripts)
+			AccessType access, Map<ScriptEventType, Script> scripts,
+			Assets assets)
 	{
 		this.id = id;
 		this.area = area;
@@ -69,19 +73,16 @@ public class Event implements ITurnObject, ITextureOwner {
 		this.access = access;
 		this.scripts = scripts;
 
+		this.assets = assets;
 	}
 
 
-	/**
-	* @inheritDoc
-	*/
-	@Override
-	public void turn(Assets assets) {
+	public void turn() {
 
 	}
 
 
-	public boolean move(Assets assets, int offsetX, int offsetY)
+	public boolean move(int offsetX, int offsetY)
 	{
 		int fx = x +offsetX;
 		int fy = y +offsetY;
@@ -128,7 +129,7 @@ public class Event implements ITurnObject, ITextureOwner {
 		this.y = y;
 	}
 
-	public void goForward(Assets assets)
+	public void goForward()
 	{
 		int dx = 0;
 		int dy = 0;
@@ -141,10 +142,10 @@ public class Event implements ITurnObject, ITextureOwner {
 		case west: dx = -1; break;
 		}
 
-		move(assets, dx, dy);
+		move(dx, dy);
 	}
 
-	public void goBack(Assets assets)
+	public void goBack()
 	{
 		int dx = 0;
 		int dy = 0;
@@ -157,7 +158,7 @@ public class Event implements ITurnObject, ITextureOwner {
 		case west: dx = 1; break;
 		}
 
-		move(assets, dx, dy);
+		move(dx, dy);
 	}
 
 

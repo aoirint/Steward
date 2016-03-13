@@ -15,6 +15,7 @@ import com.kanomiya.steward.common.model.assets.AssetsUtils;
 import com.kanomiya.steward.common.model.event.PlayerMode;
 import com.kanomiya.steward.common.model.overlay.PrettyText;
 import com.kanomiya.steward.common.model.overlay.message.IngameLogger;
+import com.kanomiya.steward.common.model.overlay.message.MessageBook;
 import com.kanomiya.steward.common.view.ViewConsts;
 import com.kanomiya.steward.editor.FrameTip;
 
@@ -106,16 +107,28 @@ public class ControlListener implements KeyListener, MouseListener, MouseMotionL
 	{
 		boolean consumed = false;
 
+		int button = e.getButton();
 		int x = e.getX() -frameInsets.left;
 		int y = e.getY() -frameInsets.top;
 
 		IngameLogger logger = game.thePlayer.logger;
 
-		if (logger.contains(x, y))
+		if (! consumed && logger.isVisible() && logger.contains(x, y))
 		{
-			consumed = consumed || ControlConsts.cIngameLogger.click(e.getButton(), x -logger.x, y -logger.y, this, logger, game.assets);
+			consumed = ControlConsts.cMessageBook.click(button, x -logger.x, y -logger.y, this, logger, game.assets);
 		}
 
+
+		if (! consumed && game.thePlayer.hasMessage())
+		{
+			MessageBook messageBook = game.thePlayer.getMessage();
+
+			if (messageBook.isVisible() && messageBook.contains(x, y))
+			{
+				consumed = ControlConsts.cMessageBook.click(button, x -messageBook.x, y -messageBook.y, this, messageBook, game.assets);
+			}
+
+		}
 
 
 		if (! consumed)
