@@ -2,12 +2,12 @@
   "id": "player",
   "area": "test",
   "x": 5,
-  "y": 3,
-  "direction": "west",
-  "walkState": "forward",
+  "y": 7,
   "icon": {
     "src": [
-      "event/player.png"
+      [
+        "event/player.png"
+      ]
     ],
     "type": "walkable"
   },

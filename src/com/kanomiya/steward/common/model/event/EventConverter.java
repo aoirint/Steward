@@ -1,7 +1,9 @@
 package com.kanomiya.steward.common.model.event;
 
 import java.lang.reflect.Type;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -54,12 +56,26 @@ public class EventConverter implements JsonDeserializer<Event>, JsonSerializer<E
 		{
 			Player player = (Player) event;
 
-			if (player.mode != PlayerMode.NORMAL) jsObj.add("mode", context.serialize(player.mode));
+			// if (player.mode != PlayerMode.NORMAL) jsObj.add("mode", context.serialize(player.mode));
 			if (! player.debugVisible) jsObj.addProperty("debugMode", player.debugVisible);
 
 		}
 
-		if (event.scripts != null) jsObj.add("scripts", context.serialize(event.scripts));
+		if (event.scripts != null)
+		{
+			Iterator<Entry<ScriptEventType, Script>> itr = event.scripts.entrySet().iterator();
+
+			JsonObject scriptObj = new JsonObject();
+
+			while (itr.hasNext())
+			{
+				Entry<ScriptEventType, Script> entry = itr.next();
+
+				scriptObj.add(entry.getKey().getId(), context.serialize(entry.getValue()));
+			}
+
+			jsObj.add("scripts", scriptObj);
+		}
 
 		return jsObj;
 	}
@@ -91,7 +107,7 @@ public class EventConverter implements JsonDeserializer<Event>, JsonSerializer<E
 		if (Player.isPlayerId(id))
 		{
 			PlayerMode mode = PlayerMode.NORMAL;
-			if(jsObj.has("mode")) mode = context.deserialize(jsObj.get("mode"), PlayerMode.class);
+			// if(jsObj.has("mode")) mode = context.deserialize(jsObj.get("mode"), PlayerMode.class);
 			boolean debugMode = false;
 			if(jsObj.has("debugMode")) debugMode = jsObj.get("debugMode").getAsBoolean();
 

@@ -44,7 +44,6 @@ public class TextureConverter implements JsonSerializer<Texture>, JsonDeserializ
 
 		JsonElement srcElm = jsObj.get("src");
 		String[][] src;
-		context.deserialize(jsObj.get("src"), String[].class);
 
 		if (srcElm.isJsonNull()) src = null;
 		else if (srcElm.isJsonPrimitive()) src = new String[][] { new String[] { srcElm.getAsString() } };
@@ -75,8 +74,6 @@ public class TextureConverter implements JsonSerializer<Texture>, JsonDeserializ
 		int height = ViewConsts.tileSize;
 		if (jsObj.has("height")) height = jsObj.get("height").getAsInt();
 
-		boolean autoSize = false;
-		if (jsObj.has("autoSize")) autoSize = jsObj.get("autoSize").getAsBoolean();
 
 		int offsetX = 0;
 		if (jsObj.has("offsetX")) offsetX = jsObj.get("offserX").getAsInt();
@@ -95,6 +92,12 @@ public class TextureConverter implements JsonSerializer<Texture>, JsonDeserializ
 
 		int interval = 1000;
 		if (mode.requireInterval() && jsObj.has("interval")) interval = jsObj.get("interval").getAsInt();
+
+
+		boolean autoSize = (itype == TextureType.FRONT);
+		if (jsObj.has("autoSize")) autoSize = jsObj.get("autoSize").getAsBoolean();
+
+
 
 		return new Texture(src, x,y, width, height, autoSize, offsetX,offsetY, rotation, mode, itype, null, interval);
 	}

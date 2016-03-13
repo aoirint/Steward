@@ -99,7 +99,7 @@ public class Player extends Event {
 
 	public static boolean isPlayerId(String id)
 	{
-		System.out.println("hey, im " + id);
+		System.out.println("hey, im " + id); // TODO: デバッグ用コード
 		return id.equals("player");
 	}
 

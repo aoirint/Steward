@@ -1,5 +1,9 @@
 
 area=エリア
+
+area.test=テストエリア
+area.test2=テストエリア2
+
 player=プレイヤー
 
 playerMode=モード

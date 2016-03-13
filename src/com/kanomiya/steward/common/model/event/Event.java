@@ -1,6 +1,5 @@
 package com.kanomiya.steward.common.model.event;
 
-import java.util.List;
 import java.util.Map;
 
 import javax.script.ScriptException;
@@ -104,6 +103,10 @@ public class Event implements ITextureOwner {
 
 	public boolean move(int offsetX, int offsetY)
 	{
+		Area area = this.area;
+		int x = this.x;
+		int y = this.y;
+
 		int fx = x +offsetX;
 		int fy = y +offsetY;
 
@@ -112,41 +115,57 @@ public class Event implements ITextureOwner {
 
 		if (! area.tipExists(fx, fy)) return false;
 
-		Chunk fchunk = area.getChunk(fx, fy);
+		area.launchEvent(this, fx, fy, ScriptEventType.ONCOLIDED, assets);
 
-		if (fchunk.hasEvent())
-		{
-			List<Event> feventList = fchunk.eventList();
-			int feventListLen = feventList.size();
+		if (area != this.area || x != this.x || y != this.y) return false;
 
-			for (int i=0; i<feventListLen; i++)
-			{
-				Event fevent = feventList.get(i);
-				if (fevent.x == fx && fevent.y == fy) fevent.launchScript(assets, ScriptEventType.ONCOLIDED);
-			}
-
-		}
 
 		if (! area.canEnter(this, fx, fy)) return false;
 
-		x = fx;
-		y = fy;
+		this.x = fx;
+		this.y = fy;
 
-		area.setEvent(this);
+		this.area.setEvent(this);
 
 		return true;
 	}
 
-	public void warp(int x, int y)
+	public boolean warp(int x, int y)
 	{
-		this.x = x;
-		this.y = y;
+		return travel(area, x, y);
 	}
 
-	public void travel(String areaId, int x, int y)
+	public boolean canTravel(Area area, int x, int y)
 	{
+		if (! area.tipExists(x, y)) return false;
+		if (! area.canEnter(this, x, y)) return false;
+
+		return true;
+	}
+
+
+	public boolean travel(Area area, int x, int y)
+	{
+		if (! canTravel(area, x, y)) return false;
+
+		area.launchEvent(this, x, y, ScriptEventType.ONCOLIDED, assets);
+
+		System.out.println(this.x + "/" + this.y); // TODO: デバッグ
 		this.x = x;
 		this.y = y;
+
+		System.out.println(this.x + "/" + this.y);
+
+		area.setEvent(this);
+
+		System.out.println(this.x + "/" + this.y);
+
+		return true;
+	}
+
+	public boolean travel(String areaId, int x, int y)
+	{
+		return travel(assets.getArea(areaId), x, y);
 	}
 
 	public void goForward()

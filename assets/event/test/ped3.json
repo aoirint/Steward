@@ -6,7 +6,9 @@
   "access": "deny",
   "icon": {
     "src": [
-      "event/ped3.png"
+      [
+        "event/ped3.png"
+      ]
     ]
   },
   "scripts": {

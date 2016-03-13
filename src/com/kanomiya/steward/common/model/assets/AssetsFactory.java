@@ -90,12 +90,12 @@ public class AssetsFactory {
 			public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException
 			{
 				File f = file.toFile();
-				String path = f.getCanonicalPath().substring(root.getCanonicalPath().length() +1);
-				path = path.replace('\\', '/');
+				String relative = f.getCanonicalPath().substring(root.getCanonicalPath().length() +1);
+				relative = relative.replace('\\', '/');
 
 				BufferedImage image = ImageIO.read(f);
 
-				assets.cacheImage(path, image);
+				assets.cacheImage(relative, image);
 				return FileVisitResult.CONTINUE;
 			}
 		});
@@ -113,8 +113,8 @@ public class AssetsFactory {
 				if (! file.toString().endsWith(".json")) return FileVisitResult.CONTINUE;
 
 				File f = file.toFile();
-				// String path = f.getCanonicalPath().substring(root.getCanonicalPath().length() +1);
-				// path = path.replace('\\', '/');
+				// String relative = f.getCanonicalPath().substring(root.getCanonicalPath().length() +1);
+				// relative = relative.replace('\\', '/');
 
 				FileReader fr = new FileReader(f);
 				Tip tipObj = gson.fromJson(fr, Tip.class);
@@ -138,8 +138,8 @@ public class AssetsFactory {
 				if (! file.toString().endsWith(".json")) return FileVisitResult.CONTINUE;
 
 				File f = file.toFile();
-				// String path = f.getCanonicalPath().substring(root.getCanonicalPath().length() +1);
-				// path = path.replace('\\', '/');
+				// String relative = f.getCanonicalPath().substring(root.getCanonicalPath().length() +1);
+				// relative = relative.replace('\\', '/');
 
 				FileReader fr = new FileReader(f);
 				Area areaObj = gson.fromJson(fr, Area.class);
@@ -163,8 +163,8 @@ public class AssetsFactory {
 				if (! file.toString().endsWith(".json")) return FileVisitResult.CONTINUE;
 
 				File f = file.toFile();
-				String path = f.getCanonicalPath().substring(root.getCanonicalPath().length() +1);
-				path = path.replace('\\', '/');
+				String relative = f.getCanonicalPath().substring(root.getCanonicalPath().length() +1);
+				relative = relative.replace('\\', '/');
 
 				FileReader fr = new FileReader(f);
 
@@ -193,8 +193,8 @@ public class AssetsFactory {
 				if (! file.toString().endsWith(".js")) return FileVisitResult.CONTINUE;
 
 				File f = file.toFile();
-				String path = f.getCanonicalPath().substring(root.getCanonicalPath().length() +1);
-				path = path.replace('\\', '/');
+				String relative = f.getCanonicalPath().substring(root.getCanonicalPath().length() +1);
+				relative = relative.replace('\\', '/');
 
 				InputStreamReader isrScript = new InputStreamReader(new FileInputStream(f), StandardCharsets.UTF_8);
 
@@ -207,7 +207,7 @@ public class AssetsFactory {
 
 				isrScript.close();
 
-				assets.addScriptCode(path, sb.toString());
+				assets.addScriptCode(relative, sb.toString());
 
 				return FileVisitResult.CONTINUE;
 			}
