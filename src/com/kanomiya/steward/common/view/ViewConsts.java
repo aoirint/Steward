@@ -2,7 +2,6 @@ package com.kanomiya.steward.common.view;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;
-import java.awt.Graphics;
 
 import com.kanomiya.steward.common.model.texture.Texture;
 import com.kanomiya.steward.common.view.component.VCArea;
@@ -59,84 +58,8 @@ public class ViewConsts {
 	public static ViewTips viewTips = new ViewTips();
 
 
-	public static int getCamX(int x, int width)
-	{
-		int camX = x -ViewConsts.tileCols /2;
-		if (camX < 0) return 0;
-
-		int r = width -ViewConsts.tileCols;
-		if (r < camX) return -r;
-
-		return -camX;
-	}
-
-	public static int getCamY(int y, int height)
-	{
-		int camY = y -ViewConsts.tileRows /2;
-		if (camY < 0) return 0;
-
-		int b = height -ViewConsts.tileRows;
-		if (b < camY) return -b;
-
-		return -camY;
-
-	}
-
-
-
-	/**
-	 *
-	 * 折り返すべき場所に改行(\n)を挿入します
-	 *
-	 * @param text
-	 * @param g
-	 * @param beginLeft
-	 * @param maxWidth
-	 * @return
-	 */
-	public static String wordWrap(String text, Graphics g, int beginLeft, int maxWidth)
-	{
-		int textLen = text.length();
-		int width = g.getFontMetrics().stringWidth(text);
-		int right = beginLeft +width;
-
-
-		if (maxWidth < right) // 折り返し
-		{
-			StringBuilder stack = new StringBuilder(textLen +20);
-			StringBuilder builder = null;
-
-			int dx = beginLeft;
-
-			for (int i=0; i<textLen; i++)
-			{
-				if (builder == null) builder = new StringBuilder(textLen);
-
-				builder.append(text.charAt(i));
-
-				int dw = g.getFontMetrics().stringWidth(builder.toString());
-				int dr = dx +dw;
-
-				if (maxWidth -20 < dr)
-				{
-					stack.append(builder);
-					stack.append('\n');
-					builder = null;
-				}
-
-			}
-
-			if (builder != null) stack.append(builder);
-
-			text = stack.toString();
-		}
-
-		return text;
-	}
-
-
-
 	public static AlphaComposite alpha80 = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.8f);
+
 
 
 

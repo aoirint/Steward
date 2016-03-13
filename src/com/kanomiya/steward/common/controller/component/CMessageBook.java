@@ -1,5 +1,7 @@
 package com.kanomiya.steward.common.controller.component;
 
+import java.awt.event.MouseEvent;
+
 import com.kanomiya.steward.common.controller.ControlListener;
 import com.kanomiya.steward.common.controller.IControllerComponent;
 import com.kanomiya.steward.common.model.assets.Assets;
@@ -16,7 +18,7 @@ public class CMessageBook extends IControllerComponent<MessageBook> {
 	* @inheritDoc
 	*/
 	@Override
-	public boolean click(int button, int x, int y, ControlListener controlListener, MessageBook book, Assets assets)
+	public boolean click(MouseEvent mouseEvent, int x, int y, ControlListener controlListener, MessageBook book, Assets assets)
 	{
 		if (book instanceof IngameLogger) ((IngameLogger) book).autoCloseLock = true;
 
@@ -24,26 +26,17 @@ public class CMessageBook extends IControllerComponent<MessageBook> {
 		{
 			if (book.width -60 <= x && x < book.width -60 +18)
 			{
-				if (0 < book.getCurrentPageIndex())
-				{
-					book.currentPageIndex --;
-					book.beginIndex = 0;
-				}
+				book.prevPage();
+
 				if (book instanceof IngameLogger) ((IngameLogger) book).autoScrollLock(IngameLogger.millsWait);
 				return true;
 			}
 
 			if (book.width -60 +27 <= x && x < book.width -60 +27 +18)
 			{
-				if (book.getCurrentPageIndex() < book.pageCount() -1)
-				{
-					book.currentPageIndex ++;
-					book.beginIndex = 0;
-				}
-				else if (book.getCurrentPageIndex() == book.pageCount() -1) book.setVisible(false);
+				if (! book.nextPage()) book.setVisible(false);
 
 				if (book instanceof IngameLogger) ((IngameLogger) book).autoScrollLock(IngameLogger.millsWait);
-
 				return true;
 			}
 
@@ -54,14 +47,16 @@ public class CMessageBook extends IControllerComponent<MessageBook> {
 
 			if (book.width -60 +2 <= x && x < book.width -60 +2 +18)
 			{
-				if (0 < book.beginIndex) book.beginIndex --;
+				book.prevLine();
+
 				if (book instanceof IngameLogger) ((IngameLogger) book).autoScrollLock(IngameLogger.millsWait);
 				return true;
 			}
 
 			if (book.width -60 +2 +24 <= x && x < book.width -60 +2 +24 +18)
 			{
-				if (book.beginIndex < book.currentPage().itemCount() -1) book.beginIndex ++;
+				book.nextLine();
+
 				if (book instanceof IngameLogger) ((IngameLogger) book).autoScrollLock(IngameLogger.millsWait);
 				return true;
 			}

@@ -6,6 +6,7 @@ import com.kanomiya.steward.common.model.area.Area;
 import com.kanomiya.steward.common.model.assets.Assets;
 import com.kanomiya.steward.common.model.event.Player;
 import com.kanomiya.steward.common.view.ViewConsts;
+import com.kanomiya.steward.common.view.ViewUtils;
 
 /**
  * @author Kanomiya
@@ -23,8 +24,8 @@ public class VCPlayerEye implements IViewComponent<Player> {
 
 		Area area = player.area;
 
-		int camX = ViewConsts.getCamX(player.x, area.getWidth()) *ViewConsts.tileSize;
-		int camY = ViewConsts.getCamY(player.y, area.getHeight()) *ViewConsts.tileSize;
+		int camX = ViewUtils.getCamX(player) *ViewConsts.tileSize;
+		int camY = ViewUtils.getCamY(player) *ViewConsts.tileSize;
 
 		g.translate(camX, camY);
 

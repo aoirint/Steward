@@ -1,13 +1,15 @@
 package com.kanomiya.steward.common.model.event;
 
+import com.kanomiya.steward.common.model.IEnumWithId;
+
 /**
  * @author Kanomiya
  *
  */
-public enum PlayerMode {
+public enum PlayerMode implements IEnumWithId {
 	NORMAL("normal", true, true, false, true),
 
-	SELECT("select", true, true, true, false),
+	SELECT("select", false, false, true, false),
 	WIZARD("wizard", true, false, true, true),
 
 
@@ -45,6 +47,7 @@ public enum PlayerMode {
 		return enableSave;
 	}
 
+	@Override
 	public String getId()
 	{
 		return id;
@@ -60,6 +63,24 @@ public enum PlayerMode {
 	public String toString()
 	{
 		return name();
+	}
+
+
+
+	/**
+	 * @param id
+	 * @return
+	 */
+	public static PlayerMode getFromId(String id)
+	{
+		PlayerMode[] values = values();
+
+		for (PlayerMode type: values)
+		{
+			if (id.equals(type.id)) return type;
+		}
+
+		throw new IllegalArgumentException("No such object in IconType: name=" + id);
 	}
 
 }

@@ -1,10 +1,12 @@
 package com.kanomiya.steward.common.model.texture;
 
+import com.kanomiya.steward.common.model.IEnumWithId;
+
 /**
  * @author Kanomiya
  *
  */
-public enum TextureType {
+public enum TextureType implements IEnumWithId {
 	FRONT("front", false, false), // 前方 1x1
 	DIRECTABLE("directable", true, false), // 向き 1x4
 	// aslant, // 斜め

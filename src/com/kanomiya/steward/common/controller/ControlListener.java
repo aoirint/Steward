@@ -11,12 +11,10 @@ import java.awt.event.MouseMotionListener;
 import com.kanomiya.steward.common.Game;
 import com.kanomiya.steward.common.model.area.Area;
 import com.kanomiya.steward.common.model.area.Tip;
-import com.kanomiya.steward.common.model.assets.AssetsUtils;
 import com.kanomiya.steward.common.model.event.PlayerMode;
 import com.kanomiya.steward.common.model.overlay.PrettyText;
-import com.kanomiya.steward.common.model.overlay.message.IngameLogger;
-import com.kanomiya.steward.common.model.overlay.message.MessageBook;
 import com.kanomiya.steward.common.view.ViewConsts;
+import com.kanomiya.steward.common.view.ViewUtils;
 import com.kanomiya.steward.editor.FrameTip;
 
 
@@ -50,6 +48,9 @@ public class ControlListener implements KeyListener, MouseListener, MouseMotionL
 
 		}
 
+		game.thePlayer.focusedX = game.thePlayer.selectedX = game.thePlayer.x;
+		game.thePlayer.focusedY = game.thePlayer.selectedY = game.thePlayer.y;
+
 		game.thePlayer.mode = mode;
 		game.thePlayer.logger.println(
 				PrettyText.create(game.assets.translate("playerMode.change")
@@ -65,26 +66,14 @@ public class ControlListener implements KeyListener, MouseListener, MouseMotionL
 	@Override
 	public void keyPressed(KeyEvent e)
 	{
-		int keyCode = e.getKeyCode();
 
 		// TODO: for Debug
 		// System.out.println("key: " + e.getKeyCode() + " char: " + e.getKeyChar());
 
-		if (keyCode == KeyEvent.VK_COLON && e.isShiftDown()) keyCode = KeyEvent.VK_MULTIPLY;
-		if (keyCode == KeyEvent.VK_SLASH) keyCode = KeyEvent.VK_DIVIDE;
-
-
-		if (e.isControlDown() && keyCode == KeyEvent.VK_S)
-		{
-			if (game.thePlayer.mode.enableSave())
-			{
-				AssetsUtils.saveAssets(game.assets, (game.thePlayer.mode == PlayerMode.WIZARD) ? game.assets.getAssetsDir() : game.assets.getSaveDir());
-			}
-		}
 
 		boolean consumed = false;
 
-		consumed = consumed || ControlConsts.cPlayer.input(keyCode, this, game.thePlayer, game.assets);
+		consumed = ControlConsts.cPlayer.input(e, this, game.thePlayer, game.assets);
 
 		if (consumed && game.thePlayer.mode.enableTurn()) game.turn();
 
@@ -107,29 +96,10 @@ public class ControlListener implements KeyListener, MouseListener, MouseMotionL
 	{
 		boolean consumed = false;
 
-		int button = e.getButton();
 		int x = e.getX() -frameInsets.left;
 		int y = e.getY() -frameInsets.top;
 
-		IngameLogger logger = game.thePlayer.logger;
-
-		if (! consumed && logger.isVisible() && logger.contains(x, y))
-		{
-			consumed = ControlConsts.cMessageBook.click(button, x -logger.x, y -logger.y, this, logger, game.assets);
-		}
-
-
-		if (! consumed && game.thePlayer.hasMessage())
-		{
-			MessageBook messageBook = game.thePlayer.getMessage();
-
-			if (messageBook.isVisible() && messageBook.contains(x, y))
-			{
-				consumed = ControlConsts.cMessageBook.click(button, x -messageBook.x, y -messageBook.y, this, messageBook, game.assets);
-			}
-
-		}
-
+		ControlConsts.cPlayer.click(e, x, y, this, game.thePlayer, game.assets);
 
 		if (! consumed)
 		{
@@ -146,8 +116,8 @@ public class ControlListener implements KeyListener, MouseListener, MouseMotionL
 		{
 			Area area = game.thePlayer.area;
 
-			int x = -ViewConsts.getCamX(game.thePlayer.x, area.getWidth()) + (e.getX() -frameInsets.left) /ViewConsts.tileSize;
-			int y = -ViewConsts.getCamY(game.thePlayer.y, area.getHeight()) + (e.getY() -frameInsets.top) /ViewConsts.tileSize;
+			int x = -ViewUtils.getCamX(game.thePlayer.x, area.getWidth()) + (e.getX() -frameInsets.left) /ViewConsts.tileSize;
+			int y = -ViewUtils.getCamY(game.thePlayer.y, area.getHeight()) + (e.getY() -frameInsets.top) /ViewConsts.tileSize;
 
 			// TODO: for Debug
 			// System.out.println("(" + x +"," + y + ")");
@@ -214,12 +184,14 @@ public class ControlListener implements KeyListener, MouseListener, MouseMotionL
 	@Override
 	public void mouseMoved(MouseEvent e)
 	{
+
+
 		if (game.thePlayer.mode.enableSelecter())
 		{
 			Area area = game.thePlayer.area;
 
-			int x = -ViewConsts.getCamX(game.thePlayer.x, area.getWidth()) + (e.getX() -frameInsets.left) /ViewConsts.tileSize;
-			int y = -ViewConsts.getCamY(game.thePlayer.y, area.getHeight()) + (e.getY() -frameInsets.top) /ViewConsts.tileSize;
+			int x = -ViewUtils.getCamX(game.thePlayer.x, area.getWidth()) + (e.getX() -frameInsets.left) /ViewConsts.tileSize;
+			int y = -ViewUtils.getCamY(game.thePlayer.y, area.getHeight()) + (e.getY() -frameInsets.top) /ViewConsts.tileSize;
 
 			if (area.inArea(x, y))
 			{

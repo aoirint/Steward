@@ -1,10 +1,12 @@
 package com.kanomiya.steward.common.model.texture;
 
+import com.kanomiya.steward.common.model.IEnumWithId;
+
 /**
  * @author Kanomiya
  *
  */
-public enum TextureMode {
+public enum TextureMode implements IEnumWithId {
 	STATIC("static", false),
 	ANIMATION("animation", true),
 

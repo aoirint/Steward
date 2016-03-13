@@ -72,6 +72,64 @@ public class MessageBook extends Overlay {
 
 
 
+
+	public boolean isFirstPage()
+	{
+		return (currentPageIndex == 0);
+	}
+
+	public boolean isLastPage()
+	{
+		return (currentPageIndex == pageCount() -1);
+	}
+
+	public boolean isFirstLine()
+	{
+		return (beginIndex == 0);
+	}
+
+	public boolean isLastLine()
+	{
+		return (beginIndex == currentPage().itemCount() -1);
+	}
+
+
+	public boolean prevPage()
+	{
+		if (isFirstPage()) return false;
+
+		currentPageIndex --;
+		beginIndex = 0;
+		return true;
+	}
+
+	public boolean nextPage()
+	{
+		if (isLastPage()) return false;
+
+		currentPageIndex ++;
+		beginIndex = 0;
+		return true;
+	}
+
+	public boolean prevLine()
+	{
+		if (isFirstLine()) return false;
+
+		beginIndex --;
+		return true;
+	}
+
+	public boolean nextLine()
+	{
+		if (isLastLine()) return false;
+
+		beginIndex ++;
+		return true;
+	}
+
+
+
 	public int getCurrentPageIndex()
 	{
 		return currentPageIndex;

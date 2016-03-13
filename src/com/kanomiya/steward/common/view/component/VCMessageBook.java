@@ -9,6 +9,7 @@ import com.kanomiya.steward.common.model.overlay.PrettyText;
 import com.kanomiya.steward.common.model.overlay.message.IngameLogger;
 import com.kanomiya.steward.common.model.overlay.message.MessageBook;
 import com.kanomiya.steward.common.view.ViewConsts;
+import com.kanomiya.steward.common.view.ViewUtils;
 
 /**
  * @author Kanomiya
@@ -76,7 +77,7 @@ public class VCMessageBook implements IViewComponent<MessageBook> {
 			g.setFont(PrettyText.textFont);
 			if (item.bold) g.setFont(PrettyText.textFontBold);
 
-			String text = ViewConsts.wordWrap(item.text, g, left, IngameLogger.innerWidth);
+			String text = ViewUtils.wordWrap(item.text, g, left, IngameLogger.innerWidth);
 
 			if (text.contains("\n"))
 			{

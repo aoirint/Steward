@@ -7,6 +7,8 @@ import java.util.Collection;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.kanomiya.steward.common.model.EnumWithIdConverter;
+import com.kanomiya.steward.common.model.IEnumWithId;
 import com.kanomiya.steward.common.model.area.Area;
 import com.kanomiya.steward.common.model.area.AreaConverter;
 import com.kanomiya.steward.common.model.event.Event;
@@ -15,10 +17,6 @@ import com.kanomiya.steward.common.model.event.PlayerMode;
 import com.kanomiya.steward.common.model.overlay.PrettyText;
 import com.kanomiya.steward.common.model.texture.Texture;
 import com.kanomiya.steward.common.model.texture.TextureConverter;
-import com.kanomiya.steward.common.model.texture.TextureMode;
-import com.kanomiya.steward.common.model.texture.TextureModeConverter;
-import com.kanomiya.steward.common.model.texture.TextureType;
-import com.kanomiya.steward.common.model.texture.TextureTypeConverter;
 
 /**
  * @author Kanomiya
@@ -34,8 +32,7 @@ public class AssetsUtils {
 		gb.registerTypeAdapter(Area.class, new AreaConverter(assets));
 		gb.registerTypeHierarchyAdapter(Event.class, new EventConverter(assets));
 		gb.registerTypeAdapter(Texture.class, new TextureConverter());
-		gb.registerTypeAdapter(TextureMode.class, new TextureModeConverter());
-		gb.registerTypeAdapter(TextureType.class, new TextureTypeConverter());
+		gb.registerTypeHierarchyAdapter(IEnumWithId.class, new EnumWithIdConverter());
 
 		Gson gson = gb.setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
 

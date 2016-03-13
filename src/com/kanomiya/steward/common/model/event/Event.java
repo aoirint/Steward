@@ -52,7 +52,7 @@ public class Event implements ITextureOwner {
 
 	public Event(String id, Area area, int x, int y, Texture texture, AccessType access, Assets assets)
 	{
-		this(id, area, x, y, texture, Direction.south, WalkState.upright, access, null, assets);
+		this(id, area, x, y, texture, Direction.SOUTH, WalkState.UPRIGHT, access, null, assets);
 	}
 
 	public Event(String id, Area area, int x, int y, Texture texture,
@@ -82,6 +82,26 @@ public class Event implements ITextureOwner {
 	}
 
 
+
+	public boolean move(Direction... direction)
+	{
+		int dx = 0;
+		int dy = 0;
+
+		for (Direction d: direction)
+		{
+			switch (d)
+			{
+			case SOUTH: dy += 1; break;
+			case NORTH: dy -= 1; break;
+			case EAST: dx += 1; break;
+			case WEST: dx -= 1; break;
+			}
+		}
+
+		return move(dx, dy);
+	}
+
 	public boolean move(int offsetX, int offsetY)
 	{
 		int fx = x +offsetX;
@@ -102,7 +122,7 @@ public class Event implements ITextureOwner {
 			for (int i=0; i<feventListLen; i++)
 			{
 				Event fevent = feventList.get(i);
-				if (fevent.x == fx && fevent.y == fy) fevent.launchScript(assets, ScriptEventType.onColided);
+				if (fevent.x == fx && fevent.y == fy) fevent.launchScript(assets, ScriptEventType.ONCOLIDED);
 			}
 
 		}
@@ -131,34 +151,12 @@ public class Event implements ITextureOwner {
 
 	public void goForward()
 	{
-		int dx = 0;
-		int dy = 0;
-
-		switch(direction)
-		{
-		case south: dy = 1; break;
-		case north: dy = -1; break;
-		case east: dx = 1; break;
-		case west: dx = -1; break;
-		}
-
-		move(dx, dy);
+		move(direction);
 	}
 
 	public void goBack()
 	{
-		int dx = 0;
-		int dy = 0;
-
-		switch(direction)
-		{
-		case south: dy = -1; break;
-		case north: dy = 1; break;
-		case east: dx = -1; break;
-		case west: dx = 1; break;
-		}
-
-		move(dx, dy);
+		move(direction.opposite());
 	}
 
 

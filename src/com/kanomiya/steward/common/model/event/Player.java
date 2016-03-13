@@ -63,10 +63,15 @@ public class Player extends Event {
 		messageBook.setVisible(true);
 
 		this.messageBook = messageBook;
+
 	}
 
 	public boolean hasMessage()
 	{
+		if (messageBook == null) return false;
+
+		if (! messageBook.isVisible()) messageBook = null;
+
 		return (messageBook != null);
 	}
 
