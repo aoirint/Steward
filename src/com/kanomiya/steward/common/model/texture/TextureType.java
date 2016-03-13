@@ -24,6 +24,7 @@ public enum TextureType implements IEnumWithId {
 		this.isWalkable = isWalkable;
 	}
 
+	@Override
 	public String getId()
 	{
 		return id;
@@ -59,7 +60,7 @@ public enum TextureType implements IEnumWithId {
 			if (id.equals(type.id)) return type;
 		}
 
-		throw new IllegalArgumentException("No such object in IconType: name=" + id);
+		throw new IllegalArgumentException("No such object in TextureType: name=" + id);
 	}
 
 }

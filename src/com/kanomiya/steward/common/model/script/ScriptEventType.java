@@ -41,7 +41,7 @@ public enum ScriptEventType implements IEnumWithId {
 			if (id.equals(type.id)) return type;
 		}
 
-		throw new IllegalArgumentException("No such object in IconType: name=" + id);
+		throw new IllegalArgumentException("No such object in ScriptEventType: name=" + id);
 	}
 
 

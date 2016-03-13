@@ -30,9 +30,10 @@ public enum TextureMode implements IEnumWithId {
 			if (id.equals(mode.id)) return mode;
 		}
 
-		throw new IllegalArgumentException("No such object in IconMode: name=" + id);
+		throw new IllegalArgumentException("No such object in TextureMode: name=" + id);
 	}
 
+	@Override
 	public String getId()
 	{
 		return id;

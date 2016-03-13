@@ -9,6 +9,7 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
+import com.kanomiya.steward.common.model.area.AccessType;
 import com.kanomiya.steward.common.model.event.Direction;
 import com.kanomiya.steward.common.model.event.PlayerMode;
 import com.kanomiya.steward.common.model.event.WalkState;
@@ -46,6 +47,7 @@ public class EnumWithIdConverter implements JsonSerializer<IEnumWithId>, JsonDes
 			if (clazz.isAssignableFrom(PlayerMode.class)) return PlayerMode.getFromId(id);
 			if (clazz.isAssignableFrom(Direction.class)) return Direction.getFromId(id);
 			if (clazz.isAssignableFrom(WalkState.class)) return WalkState.getFromId(id);
+			if (clazz.isAssignableFrom(AccessType.class)) return AccessType.getFromId(id);
 			if (clazz.isAssignableFrom(ScriptEventType.class)) return ScriptEventType.getFromId(id);
 		}
 

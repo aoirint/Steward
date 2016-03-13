@@ -49,7 +49,7 @@ public enum WalkState implements IEnumWithId {
 			if (id.equals(mode.id)) return mode;
 		}
 
-		throw new IllegalArgumentException("No such object in IconMode: name=" + id);
+		throw new IllegalArgumentException("No such object in WalkState: name=" + id);
 	}
 
 }

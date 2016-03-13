@@ -193,12 +193,12 @@ public class Area {
 	public boolean canEnter(Event event, int x, int y)
 	{
 		if (! tipExists(x, y)) return false;
-		if (getTip(x, y).getAccessType() == AccessType.deny) return false;
+		if (getTip(x, y).getAccessType() == AccessType.DENY) return false;
 
 		List<Event> ceventList = getChunk(x, y).eventList;
 		for (Event cevent: ceventList)
 		{
-			if (x == cevent.x && y == cevent.y && cevent.getAccessType() == AccessType.deny) return false;
+			if (x == cevent.x && y == cevent.y && cevent.getAccessType() == AccessType.DENY) return false;
 		}
 
 		return true;

@@ -14,7 +14,7 @@ public class Tip {
 
 	public Tip()
 	{
-		access = AccessType.allow;
+		access = AccessType.ALLOW;
 	}
 
 	public String getId()

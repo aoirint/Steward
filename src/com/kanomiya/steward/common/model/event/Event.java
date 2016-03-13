@@ -47,7 +47,7 @@ public class Event implements ITextureOwner {
 
 	public Event(String id, Area area, int x, int y, Texture texture, Assets assets)
 	{
-		this(id, area, x, y, texture, AccessType.allow, assets);
+		this(id, area, x, y, texture, AccessType.ALLOW, assets);
 	}
 
 	public Event(String id, Area area, int x, int y, Texture texture, AccessType access, Assets assets)
@@ -111,7 +111,7 @@ public class Event implements ITextureOwner {
 		if (texture.type.isWalkable()) walkState = walkState.next();
 
 		if (! area.tipExists(x, y)) return false;
-		if (area.getTip(fx, fy).getAccessType() == AccessType.deny) return false;
+		if (area.getTip(fx, fy).getAccessType() == AccessType.DENY) return false;
 
 		Area area = this.area;
 		int x = this.x;
@@ -126,7 +126,7 @@ public class Event implements ITextureOwner {
 		for (int i=0; i<elist.size(); i++)
 		{
 			elist.get(i).launchScript(assets, ScriptEventType.ONCOLIDED);
-			canEnter = canEnter && (elist.get(i).access != AccessType.deny);
+			canEnter = canEnter && (elist.get(i).access != AccessType.DENY);
 		}
 
 		if (! canEnter && area == this.area)

@@ -48,7 +48,7 @@ public class EventConverter implements JsonDeserializer<Event>, JsonSerializer<E
 
 		if (event.direction != Direction.SOUTH) jsObj.add("direction", context.serialize(event.direction));
 		if (event.walkState != WalkState.UPRIGHT) jsObj.add("walkState", context.serialize(event.walkState));
-		if (event.access != AccessType.allow) jsObj.add("access", context.serialize(event.access));
+		if (event.access != AccessType.ALLOW) jsObj.add("access", context.serialize(event.access));
 
 		jsObj.add("icon", context.serialize(event.getIcon()));
 
@@ -99,7 +99,7 @@ public class EventConverter implements JsonDeserializer<Event>, JsonSerializer<E
 		WalkState walkState = WalkState.UPRIGHT;
 		if (jsObj.has("walkState")) walkState = context.deserialize(jsObj.get("walkState"), WalkState.class);
 
-		AccessType access = AccessType.allow;
+		AccessType access = AccessType.ALLOW;
 		if (jsObj.has("access")) access = context.deserialize(jsObj.get("access"), AccessType.class);
 
 		Texture texture = context.deserialize(jsObj.get("icon"), Texture.class);
