@@ -108,22 +108,19 @@ public class Main {
 		game.thePlayer.logger.println(Text.create(game.assets.translate("vocabulary.welcome")).color(GameColor.orange));
 
 		game.thePlayer.showMessage(
-				MessageBook.create().append(
-						Message.create().println(Text.create("*ぽえー*").color(GameColor.green))
+				MessageBook.create(
 						).append(
-								Message.create().println(Text.create("Stewardを起動しました").color(GameColor.orange)
-										).println(Text.create("改行てすと")
-												).println(Text.create("改行てすと")
-														).println(Text.create("改行てすと")
-																).println(Text.create("改行てすと")
-																		).println(Text.create("改行てすと")
-																				).println(Text.create("改行てすと")
-																						).println(Text.create("改行てすと")
-																								).println(Text.create("改行てすと")
-										).lockClose()
-								).append(
-										Message.create().println(Text.create("@は仮テクスチャのイベントテストです").color(GameColor.orange))
-										)
+								Message.create().println(Text.create("このページはEscクローズが有効です"))
+						).append(
+							Message.create().println(Text.create("Stewardを起動しました").color(GameColor.orange)
+									).println(Text.create(" ")
+											).println(Text.create("このページのEscクローズはロックされています")
+													).lockClose()
+						).append(
+								Message.create().println(Text.create("このページは左右スクロール及びEscクローズが有効です"))
+						).append(
+								Message.create().println(Text.create("@は仮テクスチャのイベントテストです").color(GameColor.orange))
+						)
 				);
 
 	}
