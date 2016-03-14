@@ -17,7 +17,7 @@ var c_2 = choice('b', "Travel for " + translate("area.test2"), function(ch) {
 	});
 
 // showMessage(message().print("aiu"));
-showMessage(message().println("This book has one choice.\n ").println(c_1).println(c_2));
+showMessage(message().println("This book has two choices.\n ").println(c_1).println(c_2));
 
 
 
