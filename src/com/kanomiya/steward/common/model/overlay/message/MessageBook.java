@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 import com.kanomiya.steward.common.model.overlay.Overlay;
-import com.kanomiya.steward.common.model.overlay.PrettyText;
+import com.kanomiya.steward.common.model.overlay.Text;
 import com.kanomiya.steward.common.model.texture.Texture;
 
 /**
@@ -65,7 +65,7 @@ public class MessageBook extends Overlay {
 	/**
 	 * @return
 	 */
-	public LinkedList<PrettyText> items(int pageIndex) {
+	public LinkedList<Text> items(int pageIndex) {
 		return get(pageIndex).items();
 	}
 
@@ -160,25 +160,36 @@ public class MessageBook extends Overlay {
 
 
 
-	public MessageBook print(int indexX, PrettyText text) {
+	public MessageBook print(int indexX, Text text) {
 		get(indexX).print(text);
 		return this;
 	}
 
-	public MessageBook println(int indexX, PrettyText text)
+	public MessageBook println(int indexX, Text text)
 	{
 		return print(indexX, text.lineBreak());
 	}
 
 	public MessageBook print(int indexX, String text)
 	{
-		return print(indexX, PrettyText.create(text));
+		return print(indexX, Text.create(text));
 	}
 
 	public MessageBook println(int indexX, String text)
 	{
-		return print(indexX, PrettyText.create(text).lineBreak());
+		return print(indexX, Text.create(text).lineBreak());
 	}
+
+	public Message replace(int indexX, Message message)
+	{
+		return pages.set(indexX, message);
+	}
+
+	public Message replace(Message message)
+	{
+		return replace(currentPageIndex, message);
+	}
+
 
 
 	/**

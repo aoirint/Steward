@@ -20,7 +20,8 @@ import com.kanomiya.steward.common.model.area.AreaConverter;
 import com.kanomiya.steward.common.model.event.Event;
 import com.kanomiya.steward.common.model.event.EventConverter;
 import com.kanomiya.steward.common.model.event.PlayerMode;
-import com.kanomiya.steward.common.model.overlay.PrettyText;
+import com.kanomiya.steward.common.model.overlay.GameColor;
+import com.kanomiya.steward.common.model.overlay.Text;
 import com.kanomiya.steward.common.model.texture.Texture;
 import com.kanomiya.steward.common.model.texture.TextureConverter;
 
@@ -137,9 +138,9 @@ public class AssetsUtils {
 			e.printStackTrace();
 		}
 
-		assets.getPlayer().logger.println(PrettyText.create("*保存*")
+		assets.getPlayer().logger.println(Text.create("*保存*")
 				.color((assets.getPlayer().mode == PlayerMode.WIZARD)
-						? PrettyText.colorPurple : PrettyText.colorOrange));
+						? GameColor.purple : GameColor.orange));
 
 	}
 

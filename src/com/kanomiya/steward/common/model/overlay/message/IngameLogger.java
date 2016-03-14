@@ -2,7 +2,7 @@ package com.kanomiya.steward.common.model.overlay.message;
 
 import com.kanomiya.steward.common.model.assets.Assets;
 import com.kanomiya.steward.common.model.overlay.LocationType;
-import com.kanomiya.steward.common.model.overlay.PrettyText;
+import com.kanomiya.steward.common.model.overlay.Text;
 import com.kanomiya.steward.common.model.texture.Texture;
 
 /**
@@ -41,7 +41,7 @@ public class IngameLogger extends MessageBook {
 
 
 
-	public IngameLogger print(PrettyText text)
+	public IngameLogger print(Text text)
 	{
 		super.print(0, text);
 
@@ -52,19 +52,19 @@ public class IngameLogger extends MessageBook {
 		return this;
 	}
 
-	public IngameLogger println(PrettyText text)
+	public IngameLogger println(Text text)
 	{
 		return print(text.lineBreak());
 	}
 
 	public IngameLogger print(String text)
 	{
-		return print(PrettyText.create(text));
+		return print(Text.create(text));
 	}
 
 	public IngameLogger println(String text)
 	{
-		return print(PrettyText.create(text).lineBreak());
+		return print(Text.create(text).lineBreak());
 	}
 
 

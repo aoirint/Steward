@@ -85,7 +85,7 @@ public class FrameTip extends FrameWithView<Game> {
 				int tipNum = getTipIndex(x, y);
 
 				if (tips.length <= tipNum) return ;
-				// TODO: for Debug
+				// DEBUG
 				System.out.println("(" + x +"," + y + ")");
 
 				tipSelectedX = x;

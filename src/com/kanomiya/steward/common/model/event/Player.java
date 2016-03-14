@@ -8,6 +8,7 @@ import com.kanomiya.steward.common.model.area.Area;
 import com.kanomiya.steward.common.model.assets.Assets;
 import com.kanomiya.steward.common.model.overlay.LocationType;
 import com.kanomiya.steward.common.model.overlay.message.IngameLogger;
+import com.kanomiya.steward.common.model.overlay.message.Message;
 import com.kanomiya.steward.common.model.overlay.message.MessageBook;
 import com.kanomiya.steward.common.model.script.Script;
 import com.kanomiya.steward.common.model.script.ScriptEventType;
@@ -66,6 +67,12 @@ public class Player extends Event {
 
 	}
 
+
+	public void showMessage(Message message)
+	{
+		showMessage(message.asBook());
+	}
+
 	public boolean hasMessage()
 	{
 		if (messageBook == null) return false;
@@ -92,14 +99,14 @@ public class Player extends Event {
 
 		// if (area.tileExists(x, y)) System.out.println("tip(" + x + "," + y + "): " + area.getTile(x, y).toString());
 
-		// System.out.println("Turn " + ++turnCount); // TODO: デバッグ用コード
+		// System.out.println("Turn " + ++turnCount);  // DEBUG
 	}
 
 
 
 	public static boolean isPlayerId(String id)
 	{
-		System.out.println("hey, im " + id); // TODO: デバッグ用コード
+		System.out.println("hey, im " + id);  // DEBUG
 		return id.equals("player");
 	}
 

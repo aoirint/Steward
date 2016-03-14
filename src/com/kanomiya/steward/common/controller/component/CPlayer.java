@@ -15,7 +15,8 @@ import com.kanomiya.steward.common.model.assets.AssetsUtils;
 import com.kanomiya.steward.common.model.event.Direction;
 import com.kanomiya.steward.common.model.event.Player;
 import com.kanomiya.steward.common.model.event.PlayerMode;
-import com.kanomiya.steward.common.model.overlay.PrettyText;
+import com.kanomiya.steward.common.model.overlay.GameColor;
+import com.kanomiya.steward.common.model.overlay.Text;
 import com.kanomiya.steward.common.model.overlay.message.IngameLogger;
 import com.kanomiya.steward.common.model.overlay.message.MessageBook;
 import com.kanomiya.steward.common.view.ViewConsts;
@@ -34,6 +35,11 @@ public class CPlayer extends IControllerComponent<Player> {
 	@Override
 	public boolean input(KeyEvent keyEvent, ControlListener controlListener, Player player, Assets assets) {
 		boolean turnConsumed = false;
+
+		if (player.hasMessage())
+		{
+			turnConsumed = ControlConsts.cMessageBook.input(keyEvent, controlListener, player.getMessage(), assets);
+		}
 
 		switch (keyEvent.getKeyCode())
 		{
@@ -170,7 +176,7 @@ public class CPlayer extends IControllerComponent<Player> {
 				e.printStackTrace();
 			}
 
-			player.logger.println(PrettyText.create(assets.translate("se.photo")).color(PrettyText.colorGreen));
+			player.logger.println(Text.create(assets.translate("se.photo")).color(GameColor.green));
 
 			break;
 

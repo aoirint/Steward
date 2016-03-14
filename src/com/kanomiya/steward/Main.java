@@ -11,7 +11,8 @@ import com.kanomiya.steward.common.Game;
 import com.kanomiya.steward.common.controller.ControlListener;
 import com.kanomiya.steward.common.model.assets.Assets;
 import com.kanomiya.steward.common.model.assets.AssetsFactory;
-import com.kanomiya.steward.common.model.overlay.PrettyText;
+import com.kanomiya.steward.common.model.overlay.GameColor;
+import com.kanomiya.steward.common.model.overlay.Text;
 import com.kanomiya.steward.common.model.overlay.message.Message;
 import com.kanomiya.steward.common.model.overlay.message.MessageBook;
 import com.kanomiya.steward.common.view.ViewConsts;
@@ -35,7 +36,7 @@ public class Main {
 		AssetsFactory afact = AssetsFactory.newInstance();
 		Assets assets = afact.newAssets();
 
-		// TODO: for Debug
+		// DEBUG
 		// System.out.println(assets.toString());
 
 
@@ -104,24 +105,24 @@ public class Main {
 		repainter.start();
 
 
-		game.thePlayer.logger.println(PrettyText.create(game.assets.translate("vocabulary.welcome")).color(PrettyText.colorOrange));
+		game.thePlayer.logger.println(Text.create(game.assets.translate("vocabulary.welcome")).color(GameColor.orange));
 
 		game.thePlayer.showMessage(
 				MessageBook.create().append(
-						Message.create().println(PrettyText.create("*ぽえー*").color(PrettyText.colorGreen))
+						Message.create().println(Text.create("*ぽえー*").color(GameColor.green))
 						).append(
-								Message.create().println(PrettyText.create("Stewardを起動しました").color(PrettyText.colorOrange)
-										).println(PrettyText.create("改行てすと")
-												).println(PrettyText.create("改行てすと")
-														).println(PrettyText.create("改行てすと")
-																).println(PrettyText.create("改行てすと")
-																		).println(PrettyText.create("改行てすと")
-																				).println(PrettyText.create("改行てすと")
-																						).println(PrettyText.create("改行てすと")
-																								).println(PrettyText.create("改行てすと")
+								Message.create().println(Text.create("Stewardを起動しました").color(GameColor.orange)
+										).println(Text.create("改行てすと")
+												).println(Text.create("改行てすと")
+														).println(Text.create("改行てすと")
+																).println(Text.create("改行てすと")
+																		).println(Text.create("改行てすと")
+																				).println(Text.create("改行てすと")
+																						).println(Text.create("改行てすと")
+																								).println(Text.create("改行てすと")
 										)
 								).append(
-										Message.create().println(PrettyText.create("@は仮テクスチャのイベントテストです").color(PrettyText.colorOrange))
+										Message.create().println(Text.create("@は仮テクスチャのイベントテストです").color(GameColor.orange))
 										)
 				);
 

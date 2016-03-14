@@ -151,13 +151,13 @@ public class Event implements ITextureOwner {
 	}
 
 
-	public boolean travel(Area area, int x, int y)
+	public boolean travel(Area area, int x, int y) // TODO: player travelling, remove message or not
 	{
 		if (! canTravel(area, x, y)) return false;
 
 		area.launchEvent(this, x, y, ScriptEventType.ONCOLIDED, assets);
 
-		System.out.println(this.x + "/" + this.y); // TODO: デバッグ
+		System.out.println(this.x + "/" + this.y); // DEBUG
 		this.x = x;
 		this.y = y;
 

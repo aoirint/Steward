@@ -12,7 +12,8 @@ import com.kanomiya.steward.common.Game;
 import com.kanomiya.steward.common.model.area.Area;
 import com.kanomiya.steward.common.model.area.Tip;
 import com.kanomiya.steward.common.model.event.PlayerMode;
-import com.kanomiya.steward.common.model.overlay.PrettyText;
+import com.kanomiya.steward.common.model.overlay.GameColor;
+import com.kanomiya.steward.common.model.overlay.Text;
 import com.kanomiya.steward.common.view.ViewConsts;
 import com.kanomiya.steward.common.view.ViewUtils;
 import com.kanomiya.steward.editor.FrameTip;
@@ -53,9 +54,9 @@ public class ControlListener implements KeyListener, MouseListener, MouseMotionL
 
 		game.thePlayer.mode = mode;
 		game.thePlayer.logger.println(
-				PrettyText.create(game.assets.translate("playerMode.change")
+				Text.create(game.assets.translate("playerMode.change")
 						+ " " + game.assets.translate(mode.getUnlocalizedName()))
-						.color(PrettyText.colorOrange));
+						.color(GameColor.orange));
 
 	}
 
@@ -67,7 +68,7 @@ public class ControlListener implements KeyListener, MouseListener, MouseMotionL
 	public void keyPressed(KeyEvent e)
 	{
 
-		// TODO: for Debug
+		// DEBUG
 		// System.out.println("key: " + e.getKeyCode() + " char: " + e.getKeyChar());
 
 
@@ -119,7 +120,7 @@ public class ControlListener implements KeyListener, MouseListener, MouseMotionL
 			int x = -ViewUtils.getCamX(game.thePlayer.x, area.getWidth()) + (e.getX() -frameInsets.left) /ViewConsts.tileSize;
 			int y = -ViewUtils.getCamY(game.thePlayer.y, area.getHeight()) + (e.getY() -frameInsets.top) /ViewConsts.tileSize;
 
-			// TODO: for Debug
+			// DEBUG
 			// System.out.println("(" + x +"," + y + ")");
 
 			if (area.inArea(x, y))

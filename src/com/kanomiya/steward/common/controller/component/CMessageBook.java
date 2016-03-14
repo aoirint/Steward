@@ -1,11 +1,14 @@
 package com.kanomiya.steward.common.controller.component;
 
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 import com.kanomiya.steward.common.controller.ControlListener;
 import com.kanomiya.steward.common.controller.IControllerComponent;
 import com.kanomiya.steward.common.model.assets.Assets;
+import com.kanomiya.steward.common.model.overlay.message.ChoiceResult;
 import com.kanomiya.steward.common.model.overlay.message.IngameLogger;
+import com.kanomiya.steward.common.model.overlay.message.Message;
 import com.kanomiya.steward.common.model.overlay.message.MessageBook;
 
 /**
@@ -13,6 +16,30 @@ import com.kanomiya.steward.common.model.overlay.message.MessageBook;
  *
  */
 public class CMessageBook extends IControllerComponent<MessageBook> {
+
+	/**
+	* @inheritDoc
+	*/
+	@Override
+	public boolean input(KeyEvent keyEvent, ControlListener controlListener, MessageBook book, Assets assets) {
+
+		Message current = book.currentPage();
+		if (! current.hasChoice()) return false;
+
+		char ch = keyEvent.getKeyChar();
+
+		if (current.charToChoice().containsKey(ch))
+		{
+			ChoiceResult result = current.charToChoice().get(ch).apply();
+
+
+		}
+
+
+		return false;
+	}
+
+
 
 	/**
 	* @inheritDoc

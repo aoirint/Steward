@@ -5,7 +5,8 @@ import java.awt.Graphics2D;
 import java.util.Iterator;
 
 import com.kanomiya.steward.common.model.assets.Assets;
-import com.kanomiya.steward.common.model.overlay.PrettyText;
+import com.kanomiya.steward.common.model.overlay.GameFont;
+import com.kanomiya.steward.common.model.overlay.Text;
 import com.kanomiya.steward.common.model.overlay.message.IngameLogger;
 import com.kanomiya.steward.common.model.overlay.message.MessageBook;
 import com.kanomiya.steward.common.view.ViewConsts;
@@ -59,23 +60,23 @@ public class VCMessageBook implements IViewComponent<MessageBook> {
 
 
 
-		g.translate(PrettyText.lineHeight, PrettyText.lineHeight);
-		g.setFont(PrettyText.textFont);
+		g.translate(Text.lineHeight, Text.lineHeight);
+		g.setFont(GameFont.textFont);
 
 
-		Iterator<PrettyText> itr = book.currentPage().items().subList(book.getTopIndexToShow(), book.getLastIndexToShow(IngameLogger.oneHeight)).iterator();
+		Iterator<Text> itr = book.currentPage().items().subList(book.getTopIndexToShow(), book.getLastIndexToShow(IngameLogger.oneHeight)).iterator();
 
 		int line = 0;
 		int left = 0;
 
 		while (line < IngameLogger.oneHeight && itr.hasNext())
 		{
-			PrettyText item = itr.next();
-			int top = (line +1) *PrettyText.lineHeight;
+			Text item = itr.next();
+			int top = (line +1) *Text.lineHeight;
 
 			g.setColor(item.color);
-			g.setFont(PrettyText.textFont);
-			if (item.bold) g.setFont(PrettyText.textFontBold);
+			g.setFont(GameFont.textFont);
+			if (item.bold) g.setFont(GameFont.textFontBold);
 
 			String text = ViewUtils.wordWrap(item.text, g, left, IngameLogger.innerWidth);
 
@@ -86,7 +87,7 @@ public class VCMessageBook implements IViewComponent<MessageBook> {
 
 				for (int i=0; i<yLen; i++)
 				{
-					top += i *PrettyText.lineHeight;
+					top += i *Text.lineHeight;
 
 					g.drawString(lines[i], left, top);
 					if (item.underline) g.drawLine(left, top, g.getFontMetrics().stringWidth(lines[i]), top);
@@ -118,7 +119,7 @@ public class VCMessageBook implements IViewComponent<MessageBook> {
 
 
 
-		g.translate(-PrettyText.lineHeight, -PrettyText.lineHeight);
+		g.translate(-Text.lineHeight, -Text.lineHeight);
 
 		g.translate(-book.x, -book.y);
 	}
