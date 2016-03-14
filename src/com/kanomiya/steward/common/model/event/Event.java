@@ -117,9 +117,6 @@ public class Event implements ITextureOwner {
 		int x = this.x;
 		int y = this.y;
 
-		this.x = fx;
-		this.y = fy;
-
 		List<Event> elist = area.getEvents(fx, fy);
 		boolean canEnter = true;
 
@@ -129,10 +126,10 @@ public class Event implements ITextureOwner {
 			canEnter = canEnter && (elist.get(i).access != AccessType.DENY);
 		}
 
-		if (! canEnter && area == this.area)
+		if (canEnter && area == this.area && this.x == x && this.y == y)
 		{
-			this.x = x;
-			this.y = y;
+			this.x = fx;
+			this.y = fy;
 		}
 
 		this.area.setEvent(this);
