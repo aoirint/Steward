@@ -162,7 +162,7 @@ public class CPlayer extends IControllerComponent<Player> {
 			break;
 
 		case KeyEvent.VK_F3: // debug
-			player.debugVisible = ! player.debugVisible;
+			player.debug = ! player.debug;
 			break;
 
 		case KeyEvent.VK_F4: // screenshot
@@ -183,7 +183,7 @@ public class CPlayer extends IControllerComponent<Player> {
 		case KeyEvent.VK_COLON: // select
 			if (! keyEvent.isShiftDown()) break;
 		case KeyEvent.VK_MULTIPLY:
-			controlListener.changeMode((player.mode == PlayerMode.SELECT) ? PlayerMode.NORMAL : PlayerMode.SELECT);
+			player.changeMode((player.mode == PlayerMode.SELECT) ? PlayerMode.NORMAL : PlayerMode.SELECT);
 			break;
 
 		case KeyEvent.VK_SLASH: // log
@@ -192,7 +192,7 @@ public class CPlayer extends IControllerComponent<Player> {
 			break;
 
 		case KeyEvent.VK_F12: // debug
-			controlListener.changeMode((player.mode == PlayerMode.WIZARD) ? PlayerMode.NORMAL : PlayerMode.WIZARD);
+			player.changeMode((player.mode == PlayerMode.WIZARD) ? PlayerMode.NORMAL : PlayerMode.WIZARD);
 
 			break;
 		}

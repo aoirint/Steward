@@ -9,13 +9,11 @@ import java.io.File;
 import com.kanomiya.steward.common.FrameWithView;
 import com.kanomiya.steward.common.Game;
 import com.kanomiya.steward.common.controller.ControlListener;
+import com.kanomiya.steward.common.model.ModelConsts;
 import com.kanomiya.steward.common.model.assets.Assets;
 import com.kanomiya.steward.common.model.assets.AssetsFactory;
-import com.kanomiya.steward.common.model.overlay.GameColor;
-import com.kanomiya.steward.common.model.overlay.Text;
-import com.kanomiya.steward.common.model.overlay.message.Message;
-import com.kanomiya.steward.common.model.overlay.message.MessageBook;
 import com.kanomiya.steward.common.view.ViewConsts;
+import com.kanomiya.steward.editor.FrameTip;
 
 
 
@@ -41,10 +39,11 @@ public class Main {
 
 
 		Game game = new Game(assets, assets.getPlayer());
-
+		ModelConsts.game = game;
 
 		FrameWithView frame = new FrameWithView(ViewConsts.viewGame, game);
 		ViewConsts.viewGame.setSize(ViewConsts.viewWidth, ViewConsts.viewHeight);
+		ViewConsts.gameFrame = frame;
 
 		frame.setResizable(false);
 		frame.pack();
@@ -69,12 +68,16 @@ public class Main {
 			}
 		});
 
+		ViewConsts.frameTip = new FrameTip(ModelConsts.game);
+
+
+
 		ControlListener cl = new ControlListener();
 		cl.game = game;
 		cl.gameFrame = frame;
 		cl.frameInsets = frame.getInsets();
 
-		cl.changeMode(game.thePlayer.mode);
+		game.thePlayer.changeMode(game.thePlayer.mode);
 
 		frame.addKeyListener(cl);
 		frame.addMouseListener(cl);
@@ -105,6 +108,7 @@ public class Main {
 		repainter.start();
 
 
+		/*
 		game.thePlayer.logger.println(Text.create(game.assets.translate("vocabulary.welcome")).color(GameColor.orange));
 
 		game.thePlayer.showMessage(
@@ -122,6 +126,7 @@ public class Main {
 								Message.create().println(Text.create("@は仮テクスチャのイベントテストです").color(GameColor.orange))
 						)
 				);
+		 */
 
 	}
 

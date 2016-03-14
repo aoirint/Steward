@@ -44,6 +44,8 @@ public class VCArea implements IViewComponent<Area> {
 		List<Event> eventList = area.eventList();
 		for (Event tevent: eventList)
 		{
+			if (! tevent.isVisible()) continue;
+
 			g.translate(tevent.x *ViewConsts.tileSize, tevent.y * ViewConsts.tileSize);
 			ViewConsts.vcTexture.paint(g, tevent.getIcon(), assets, frame);
 			g.translate(-tevent.x *ViewConsts.tileSize, -tevent.y * ViewConsts.tileSize);

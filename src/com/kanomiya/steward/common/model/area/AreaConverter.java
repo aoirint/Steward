@@ -1,6 +1,9 @@
 package com.kanomiya.steward.common.model.area;
 
 import java.lang.reflect.Type;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
@@ -10,7 +13,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
+import com.google.gson.reflect.TypeToken;
 import com.kanomiya.steward.common.model.assets.Assets;
+import com.kanomiya.steward.common.model.script.Script;
+import com.kanomiya.steward.common.model.script.ScriptEventType;
 import com.kanomiya.steward.common.model.texture.Texture;
 
 /**
@@ -66,6 +72,24 @@ public class AreaConverter implements JsonSerializer<Area>, JsonDeserializer<Are
 
 		jsObj.add("tips", tips);
 
+
+
+		if (area.scripts != null)
+		{
+			Iterator<Entry<ScriptEventType, Script>> itr = area.scripts.entrySet().iterator();
+
+			JsonObject scriptObj = new JsonObject();
+
+			while (itr.hasNext())
+			{
+				Entry<ScriptEventType, Script> entry = itr.next();
+
+				scriptObj.add(entry.getKey().getId(), context.serialize(entry.getValue()));
+			}
+
+			jsObj.add("scripts", scriptObj);
+		}
+
 		return jsObj;
 	}
 
@@ -109,11 +133,19 @@ public class AreaConverter implements JsonSerializer<Area>, JsonDeserializer<Are
 			}
 		}
 
-		Area area = new Area(id, name, width, height, tips);
+
+		Map<ScriptEventType, Script> scripts = null;
+		Type sceventScriptMap = new TypeToken<Map<ScriptEventType, Script>>(){}.getType();
+		if (jsObj.has("scripts")) scripts = context.deserialize(jsObj.get("scripts"), sceventScriptMap);
 
 
+		Area area = new Area(id, name, width, height, tips, assets);
+
+		area.scripts = scripts;
 
 		if (jsObj.has("background")) area.setBackground(context.deserialize(jsObj.get("background"), Texture.class));
+
+
 
 		return area;
 	}

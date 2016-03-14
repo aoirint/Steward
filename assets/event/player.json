@@ -1,15 +1,15 @@
 {
-  "id": "player",
-  "area": "test",
-  "x": 5,
-  "y": 7,
-  "icon": {
-    "src": [
-      [
-        "event/player.png"
-      ]
-    ],
-    "type": "walkable"
-  },
-  "debugMode": false
+"id": "player",
+"area": "title",
+"x": 0,
+"y": 0,
+"icon": {
+	"src": [
+	  [
+		"event/player.png"
+	  ]
+	],
+	"type": "walkable"
+},
+"debugMode": false
 }

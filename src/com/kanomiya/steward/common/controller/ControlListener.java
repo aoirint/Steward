@@ -12,11 +12,8 @@ import com.kanomiya.steward.common.Game;
 import com.kanomiya.steward.common.model.area.Area;
 import com.kanomiya.steward.common.model.area.Tip;
 import com.kanomiya.steward.common.model.event.PlayerMode;
-import com.kanomiya.steward.common.model.overlay.GameColor;
-import com.kanomiya.steward.common.model.overlay.Text;
 import com.kanomiya.steward.common.view.ViewConsts;
 import com.kanomiya.steward.common.view.ViewUtils;
-import com.kanomiya.steward.editor.FrameTip;
 
 
 /**
@@ -28,37 +25,8 @@ public class ControlListener implements KeyListener, MouseListener, MouseMotionL
 	public Game game;
 	public Frame gameFrame;
 	public Insets frameInsets;
-	public FrameTip frameTip;
 
 
-	public void changeMode(PlayerMode mode)
-	{
-		if (frameTip != null)
-		{
-			frameTip.dispose();
-			frameTip = null;
-		}
-
-		if (mode == PlayerMode.WIZARD)
-		{
-			frameTip = new FrameTip(game);
-			frameTip.setLocation(gameFrame.getX() +gameFrame.getWidth(), gameFrame.getY());
-
-			frameTip.setAutoRequestFocus(false); // 自動アクティブ無効化
-			frameTip.setVisible(true);
-
-		}
-
-		game.thePlayer.focusedX = game.thePlayer.selectedX = game.thePlayer.x;
-		game.thePlayer.focusedY = game.thePlayer.selectedY = game.thePlayer.y;
-
-		game.thePlayer.mode = mode;
-		game.thePlayer.logger.println(
-				Text.create(game.assets.translate("playerMode.change")
-						+ " " + game.assets.translate(mode.getUnlocalizedName()))
-						.color(GameColor.orange));
-
-	}
 
 
 	/**
@@ -136,7 +104,7 @@ public class ControlListener implements KeyListener, MouseListener, MouseMotionL
 
 	public boolean wizardOnMouseEvent(MouseEvent e)
 	{
-		if (game.thePlayer.mode == PlayerMode.WIZARD && frameTip != null)
+		if (game.thePlayer.mode == PlayerMode.WIZARD && ViewConsts.frameTip != null)
 		{
 			Tip tip;
 			int button = e.getButton();
@@ -145,7 +113,7 @@ public class ControlListener implements KeyListener, MouseListener, MouseMotionL
 			switch (button)
 			{
 			case MouseEvent.BUTTON1: // 左クリック 設置
-				tip = frameTip.getSelectedTip();
+				tip = ViewConsts.frameTip.getSelectedTip();
 				int x = game.thePlayer.selectedX;
 				int y = game.thePlayer.selectedY;
 
@@ -156,7 +124,7 @@ public class ControlListener implements KeyListener, MouseListener, MouseMotionL
 
 				tip = game.thePlayer.area.getTip(game.thePlayer.selectedX, game.thePlayer.selectedY);
 
-				if (tip != null) frameTip.selectTip(tip);
+				if (tip != null) ViewConsts.frameTip.selectTip(tip);
 
 				break;
 			case MouseEvent.BUTTON2:

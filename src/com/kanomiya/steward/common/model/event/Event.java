@@ -5,7 +5,6 @@ import java.util.Map;
 
 import javax.script.ScriptException;
 
-import com.google.gson.annotations.Expose;
 import com.kanomiya.steward.common.model.area.AccessType;
 import com.kanomiya.steward.common.model.area.Area;
 import com.kanomiya.steward.common.model.area.Chunk;
@@ -22,59 +21,30 @@ import com.kanomiya.steward.common.model.texture.Texture;
  */
 public class Event implements ITextureOwner {
 
-	@Expose public String id;
+	public String id;
 	public Area area;
 	public Chunk chunk;
 
-	@Expose public int x, y;
+	public int x, y;
+	public boolean visible;
 	public EventStatus status;
 
-	@Expose public Direction direction;
-	@Expose public WalkState walkState;
+	public Direction direction;
+	public WalkState walkState;
 
-	@Expose public AccessType access;
-	@Expose public Map<ScriptEventType, Script> scripts;
+	public AccessType access;
+	public Map<ScriptEventType, Script> scripts;
 
-	@Expose public Texture texture;
+	public Texture texture;
 
 	public Assets assets;
 
 
 	public Event(Assets assets)
 	{
-		this(null, null, 0, 0, null, assets);
-	}
-
-	public Event(String id, Area area, int x, int y, Texture texture, Assets assets)
-	{
-		this(id, area, x, y, texture, AccessType.ALLOW, assets);
-	}
-
-	public Event(String id, Area area, int x, int y, Texture texture, AccessType access, Assets assets)
-	{
-		this(id, area, x, y, texture, Direction.SOUTH, WalkState.UPRIGHT, access, null, assets);
-	}
-
-	public Event(String id, Area area, int x, int y, Texture texture,
-			Direction direction, WalkState walkState,
-			AccessType access, Map<ScriptEventType, Script> scripts,
-			Assets assets)
-	{
-		this.id = id;
-		this.area = area;
-
-		this.x = x;
-		this.y = y;
-
-		this.texture = texture;
-		this.direction = direction;
-		this.walkState = walkState;
-
-		this.access = access;
-		this.scripts = scripts;
-
 		this.assets = assets;
 	}
+
 
 
 	public void turn() {
@@ -110,7 +80,7 @@ public class Event implements ITextureOwner {
 		if (texture.type.isDirectable()) direction = Direction.getDirection(x, y, fx, fy, direction);
 		if (texture.type.isWalkable()) walkState = walkState.next();
 
-		if (! area.tipExists(x, y)) return false;
+		if (! area.tipExists(fx, fy)) return false;
 		if (area.getTip(fx, fy).getAccessType() == AccessType.DENY) return false;
 
 		Area area = this.area;
@@ -155,17 +125,12 @@ public class Event implements ITextureOwner {
 	{
 		if (! canTravel(area, x, y)) return false;
 
-		area.launchEvent(this, x, y, ScriptEventType.ONCOLIDED, assets);
+		area.launchEvent(this, x, y, ScriptEventType.ONCOLIDED);
 
-		System.out.println(this.x + "/" + this.y); // DEBUG
 		this.x = x;
 		this.y = y;
 
-		System.out.println(this.x + "/" + this.y);
-
 		area.setEvent(this);
-
-		System.out.println(this.x + "/" + this.y);
 
 		return true;
 	}
@@ -238,6 +203,24 @@ public class Event implements ITextureOwner {
 	public AccessType getAccessType() {
 		return access;
 	}
+
+
+	/**
+	 * @return visible
+	 */
+	public boolean isVisible() {
+		return visible;
+	}
+
+	/**
+	 * @param visible セットする visible
+	 */
+	public void setVisible(boolean visible) {
+		this.visible = visible;
+	}
+
+
+
 
 
 	public void launchScript(Assets assets, ScriptEventType eventType)

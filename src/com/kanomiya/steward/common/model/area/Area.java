@@ -1,10 +1,14 @@
 package com.kanomiya.steward.common.model.area;
 
 import java.util.List;
+import java.util.Map;
+
+import javax.script.ScriptException;
 
 import com.google.common.collect.Lists;
 import com.kanomiya.steward.common.model.assets.Assets;
 import com.kanomiya.steward.common.model.event.Event;
+import com.kanomiya.steward.common.model.script.Script;
 import com.kanomiya.steward.common.model.script.ScriptEventType;
 import com.kanomiya.steward.common.model.texture.Texture;
 
@@ -26,14 +30,18 @@ public class Area {
 	protected List<Event> eventList;
 	protected Chunk[][] chunks;
 
+	protected Map<ScriptEventType, Script> scripts;
 
-	public Area(String id, String name, int width, int height, Tip[][] tips)
+	protected Assets assets;
+
+	public Area(String id, String name, int width, int height, Tip[][] tips, Assets assets)
 	{
 		this.id = id;
 		this.name = name;
 		this.width = width;
 		this.height = height;
 		this.tips = tips;
+		this.assets = assets;
 
 		eventList = Lists.newArrayList();
 
@@ -50,6 +58,7 @@ public class Area {
 		}
 
 	}
+
 
 	/**
 	 * @return id
@@ -211,9 +220,13 @@ public class Area {
 	 */
 	public void setEvent(Event event)
 	{
-		if (event.area != null) event.area.removeEvent(event);
-		if (event.chunk != null) event.chunk.eventList.remove(event);
+		Area area = event.area;
 
+		if (event.area != null)
+		{
+			event.area.removeEvent(event);
+		}
+		if (event.chunk != null) event.chunk.eventList.remove(event);
 
 		event.area = this;
 		if (! eventList.contains(event)) eventList.add(event);
@@ -221,6 +234,7 @@ public class Area {
 		event.chunk = getChunk(event.x, event.y);
 		if (! event.chunk.eventList.contains(event)) event.chunk.eventList.add(event);
 
+		if (assets.isInited() && area != this) launchEvent(event, event.x, event.y, ScriptEventType.ONENTERED); // FETAL not inited Engine => fix to use assets.inited (new) & call on assets.setInited -> event.inited or area.inited
 	}
 
 	/**
@@ -242,11 +256,24 @@ public class Area {
 	}
 
 
-	public boolean launchEvent(Event launcher, int x, int y, ScriptEventType type, Assets assets)
+	public boolean launchEvent(Event launcher, int x, int y, ScriptEventType type)
 	{
 		boolean success = false;
 
 		// System.out.println(launcher.id + ": " + launcher.x + "/" + launcher.y);
+
+		if (scripts != null && scripts.containsKey(type))
+		{
+			String code = assets.getScriptCode(scripts.get(type).src);
+
+			try {
+				assets.getScriptEngine().eval(code);
+
+			} catch (ScriptException e) {
+				// TODO 自動生成された catch ブロック
+				e.printStackTrace();
+			}
+		}
 
 		Chunk fchunk = getChunk(x, y);
 

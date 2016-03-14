@@ -12,16 +12,35 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 import java.util.PropertyResourceBundle;
+import java.util.concurrent.Callable;
+import java.util.concurrent.FutureTask;
 
 import javax.imageio.ImageIO;
+import javax.script.ScriptEngine;
+import javax.script.ScriptException;
 
+import jdk.nashorn.api.scripting.NashornScriptEngineFactory;
+
+import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.kanomiya.steward.common.model.area.Area;
 import com.kanomiya.steward.common.model.area.Tip;
 import com.kanomiya.steward.common.model.event.Event;
+import com.kanomiya.steward.common.model.event.Player;
+import com.kanomiya.steward.common.model.event.PlayerMode;
 import com.kanomiya.steward.common.model.lang.I18n;
+import com.kanomiya.steward.common.model.overlay.GameColor;
+import com.kanomiya.steward.common.model.overlay.Text;
+import com.kanomiya.steward.common.model.overlay.message.Choice;
+import com.kanomiya.steward.common.model.overlay.message.ChoiceResult;
+import com.kanomiya.steward.common.model.overlay.message.Message;
+import com.kanomiya.steward.common.model.overlay.message.MessageBook;
+import com.kanomiya.steward.common.model.script.ScriptEventType;
+import com.kanomiya.steward.common.model.script.ScriptFunctionBinder;
 
 
 /**
@@ -60,16 +79,18 @@ public class AssetsFactory {
 	public Assets newAssets()
 	{
 		Assets assets = new Assets(assetsDir, saveDir);
+		List<FutureTask> futureTaskList = Lists.newArrayList();
 
 		Gson gson = AssetsUtils.createGson(assets);
 
 		try {
-			initTextures(gson, assets);
-			initTips(gson, assets);
-			initAreas(gson, assets);
-			initEvents(gson, assets);
-			initScripts(gson, assets);
-			initI18n(assets);
+			initTextures(gson, assets, futureTaskList);
+			initTips(gson, assets, futureTaskList);
+			initScripts(gson, assets, futureTaskList);
+			initI18n(assets, futureTaskList);
+
+			initAreas(gson, assets, futureTaskList);
+			initEvents(gson, assets, futureTaskList);
 
 		} catch (IOException e) {
 			// TODO 自動生成された catch ブロック
@@ -78,10 +99,58 @@ public class AssetsFactory {
 
 		assets.setLocale(Locale.getDefault());
 
+		Player player = assets.getPlayer();
+
+		NashornScriptEngineFactory factory = new NashornScriptEngineFactory();
+		ScriptEngine scriptEngine = factory.getScriptEngine("-strict", "--no-java", "--no-syntax-extensions");
+
+		scriptEngine.put("assets", assets);
+		scriptEngine.put("player", player);
+
+		scriptEngine.put("logger", player.logger);
+		scriptEngine.put("Text", Text.class);
+		scriptEngine.put("Choice", Choice.class);
+		scriptEngine.put("ChoiceResult", ChoiceResult.class);
+		scriptEngine.put("Message", Message.class);
+		scriptEngine.put("Book", MessageBook.class);
+		scriptEngine.put("GameColor", GameColor.class);
+		scriptEngine.put("PlayerMode", PlayerMode.class);
+
+		scriptEngine.put("binder", new ScriptFunctionBinder(assets, player));
+
+		try {
+			scriptEngine.eval("var translate = Function.prototype.bind.call(assets.translate, assets);");
+			scriptEngine.eval("var text = Function.prototype.bind.call(Text.static.create, Text);");
+			scriptEngine.eval("var choice = Function.prototype.bind.call(Choice.static.createFromScript, Choice);");
+			scriptEngine.eval("var message = Function.prototype.bind.call(Message.static.create, Message);");
+			scriptEngine.eval("var book = Function.prototype.bind.call(Book.static.create, Book);");
+			scriptEngine.eval("var showMessage = Function.prototype.bind.call(player.showMessage, player);");
+			scriptEngine.eval("var exit = Function.prototype.bind.call(binder.exit, binder);");
+
+
+
+		} catch (ScriptException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		}
+
+		assets.setScriptEngine(scriptEngine);
+
+		assets.inited = true;
+
+		Iterator<FutureTask> itr = futureTaskList.iterator();
+		while (itr.hasNext())
+		{
+			FutureTask task = itr.next();
+			if (task.isCancelled()) continue;
+
+			task.run();
+		}
+
 		return assets;
 	}
 
-	protected void initTextures(Gson gson, Assets assets) throws IOException
+	protected void initTextures(Gson gson, Assets assets, List<FutureTask> futureTaskList) throws IOException
 	{
 		File root = new File(assetsDir, "texture");
 
@@ -102,7 +171,7 @@ public class AssetsFactory {
 
 	}
 
-	protected void initTips(Gson gson, Assets assets) throws IOException
+	protected void initTips(Gson gson, Assets assets, List<FutureTask> futureTaskList) throws IOException
 	{
 		File root = new File(assetsDir, "tip");
 
@@ -127,7 +196,7 @@ public class AssetsFactory {
 
 	}
 
-	protected void initAreas(Gson gson, Assets assets) throws IOException
+	protected void initAreas(Gson gson, Assets assets, List<FutureTask> futureTaskList) throws IOException
 	{
 		File root = new File(assetsDir, "area");
 
@@ -152,7 +221,7 @@ public class AssetsFactory {
 
 	}
 
-	protected void initEvents(Gson gson, Assets assets) throws IOException
+	protected void initEvents(Gson gson, Assets assets, List<FutureTask> futureTaskList) throws IOException
 	{
 		File root = new File(assetsDir, "event");
 
@@ -173,7 +242,16 @@ public class AssetsFactory {
 
 				eventObj.texture.owner = eventObj;
 
-				eventObj.area.setEvent(eventObj);
+				futureTaskList.add(new FutureTask(new Callable<Boolean>()
+				{
+					@Override
+					public Boolean call() {
+						eventObj.area.setEvent(eventObj);
+						eventObj.area.launchEvent(eventObj, eventObj.x, eventObj.y, ScriptEventType.ONENTERED);
+						return true;
+					}
+				}));
+
 				assets.addEvent(eventObj);
 
 				return FileVisitResult.CONTINUE;
@@ -182,7 +260,7 @@ public class AssetsFactory {
 
 	}
 
-	protected void initScripts(Gson gson, Assets assets) throws IOException
+	protected void initScripts(Gson gson, Assets assets, List<FutureTask> futureTaskList) throws IOException
 	{
 		File root = new File(assetsDir, "script");
 
@@ -219,7 +297,7 @@ public class AssetsFactory {
 	/**
 	 * @param assets
 	 */
-	protected void initI18n(Assets assets) throws IOException {
+	protected void initI18n(Assets assets, List<FutureTask> futureTaskList) throws IOException {
 		File root = new File(assetsDir, "lang");
 
 		Files.walkFileTree(root.toPath(), new SimpleFileVisitor<Path>() {

@@ -1,6 +1,7 @@
 
 area=エリア
 
+area.title=タイトル
 area.test=テストエリア
 area.test2=テストエリア2
 
@@ -16,7 +17,8 @@ vocabulary.welcome=ようこそ
 vocabulary.size=大きさ
 vocabulary.name=名前
 vocabulary.coordinate=座標
-
+vocabulary.gameStart=ゲーム開始
+vocabulary.exit=終了
 
 se.gravel=*ジャリ*
 se.pop=*ぽわん*

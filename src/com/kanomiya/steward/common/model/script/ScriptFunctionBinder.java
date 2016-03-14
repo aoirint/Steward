@@ -18,6 +18,11 @@ public class ScriptFunctionBinder {
 		this.player = player;
 	}
 
+	public void exit()
+	{
+		System.exit(0); // VELIF
+	}
+
 
 
 }

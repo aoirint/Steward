@@ -102,17 +102,18 @@ public class VCMessageBook implements IViewComponent<MessageBook> {
 
 		g.translate(-x2 -x4, -y1);
 
-		int x5 = 24;
+		int x5 = -24;
 		int y2 = book.height -30;
+
 		g.translate(0, y2);
-
-		if (0 < book.getTopIndexToShow())
-			ViewConsts.vcTexture.paint(g, ViewConsts.texArrowBtnUp, assets, frame); // 492, 196
-
-		g.translate(x5, 0);
 
 		if (book.getTopIndexToShow() < book.currentPage().itemCount() -1)
 			ViewConsts.vcTexture.paint(g, ViewConsts.texArrowBtnDown, assets, frame); // 516, 196
+
+		g.translate(x5, 0);
+
+		if (0 < book.getTopIndexToShow())
+			ViewConsts.vcTexture.paint(g, ViewConsts.texArrowBtnUp, assets, frame); // 492, 196
 
 		g.translate(-x3 -x5, -y2);
 

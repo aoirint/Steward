@@ -24,7 +24,7 @@ public class ViewGame extends ViewBuffered<Game> {
 	public void paintBuffer(Graphics2D g, Game game, int frame)
 	{
 		ViewConsts.viewPlayerEye.paint(g, game.thePlayer, game.assets, frame);
-		if (game.thePlayer.debugVisible) ViewConsts.vcStat.paint(g, game, game.assets, frame);
+		if (game.thePlayer.debug) ViewConsts.vcStat.paint(g, game, game.assets, frame);
 
 	}
 

@@ -36,13 +36,24 @@ public class Assets {
 	protected String assetsDir, saveDir;
 	protected ScriptEngine scriptEngine;
 
+	protected boolean inited;
 
 	public Assets(String assetsDir, String saveDir)
 	{
 		this.assetsDir = assetsDir;
 		this.saveDir = saveDir;
+
+		inited = false;
 	}
 
+
+
+	/**
+	 * @return
+	 */
+	public boolean isInited() {
+		return inited;
+	}
 
 
 	/**
@@ -238,6 +249,14 @@ public class Assets {
 
 		return localeToI18n.get(locale).translate(unlocalizedName, args);
 	}
+
+
+
+
+
+
+
+
 
 
 

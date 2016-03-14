@@ -45,6 +45,7 @@ public class EventConverter implements JsonDeserializer<Event>, JsonSerializer<E
 		jsObj.addProperty("area", event.getArea().getId());
 		jsObj.addProperty("x", event.x);
 		jsObj.addProperty("y", event.y);
+		if (! event.visible) jsObj.addProperty("visible", event.visible);
 
 		if (event.direction != Direction.SOUTH) jsObj.add("direction", context.serialize(event.direction));
 		if (event.walkState != WalkState.UPRIGHT) jsObj.add("walkState", context.serialize(event.walkState));
@@ -57,7 +58,7 @@ public class EventConverter implements JsonDeserializer<Event>, JsonSerializer<E
 			Player player = (Player) event;
 
 			// if (player.mode != PlayerMode.NORMAL) jsObj.add("mode", context.serialize(player.mode));
-			if (! player.debugVisible) jsObj.addProperty("debugMode", player.debugVisible);
+			if (! player.debug) jsObj.addProperty("debugMode", player.debug);
 
 		}
 
@@ -92,9 +93,11 @@ public class EventConverter implements JsonDeserializer<Event>, JsonSerializer<E
 		Area area = assets.getArea(jsObj.get("area").getAsString());
 		int x = jsObj.get("x").getAsInt();
 		int y = jsObj.get("y").getAsInt();
+		boolean visible = true;
+		if (jsObj.has("visible")) jsObj.get("visible").getAsBoolean();
 
 		Direction direction = Direction.SOUTH;
-		if (jsObj.has("direction")) context.deserialize(jsObj.get("direction"), Direction.class);
+		if (jsObj.has("direction")) direction = context.deserialize(jsObj.get("direction"), Direction.class);
 
 		WalkState walkState = WalkState.UPRIGHT;
 		if (jsObj.has("walkState")) walkState = context.deserialize(jsObj.get("walkState"), WalkState.class);
@@ -104,21 +107,45 @@ public class EventConverter implements JsonDeserializer<Event>, JsonSerializer<E
 
 		Texture texture = context.deserialize(jsObj.get("icon"), Texture.class);
 
-		if (Player.isPlayerId(id))
-		{
-			PlayerMode mode = PlayerMode.NORMAL;
-			// if(jsObj.has("mode")) mode = context.deserialize(jsObj.get("mode"), PlayerMode.class);
-			boolean debugMode = false;
-			if(jsObj.has("debugMode")) debugMode = jsObj.get("debugMode").getAsBoolean();
-
-			return new Player(id, area, x, y, texture, direction, walkState, access, null, mode, debugMode, assets);
-		}
-
 		Map<ScriptEventType, Script> scripts = null;
 		Type sceventScriptMap = new TypeToken<Map<ScriptEventType, Script>>(){}.getType();
 		if (jsObj.has("scripts")) scripts = context.deserialize(jsObj.get("scripts"), sceventScriptMap);
 
-		return new Event(id, area, x, y, texture, direction, walkState, access, scripts, assets);
+
+		boolean isPlayer = Player.isPlayerId(id);
+
+		Event event = (! isPlayer) ? new Event(assets) : new Player(assets);
+
+		event.id = id;
+		event.x = x;
+		event.y = y;
+		event.visible = visible;
+
+		event.direction = direction;
+		event.walkState = walkState;
+		event.access = access;
+
+		event.texture = texture;
+		event.scripts = scripts;
+
+		if (isPlayer)
+		{
+			Player player = (Player) event;
+
+			PlayerMode mode = PlayerMode.NORMAL;
+			// if(jsObj.has("mode")) mode = context.deserialize(jsObj.get("mode"), PlayerMode.class);
+			boolean debug = false;
+			if(jsObj.has("debug")) debug = jsObj.get("debug").getAsBoolean();
+
+			player.mode = mode;
+			player.debug = debug;
+		}
+
+		event.area = area;
+		area.eventList().add(event);
+		area.getChunk(event.x, event.y).eventList().add(event);
+
+		return event;
 	}
 
 }
