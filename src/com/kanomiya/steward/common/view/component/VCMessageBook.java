@@ -18,6 +18,37 @@ import com.kanomiya.steward.common.view.ViewUtils;
  */
 public class VCMessageBook implements IViewComponent<MessageBook> {
 
+	public static boolean containsBtnCheck(MessageBook book, int x, int y)
+	{
+		int dx = 0;
+		if (book.isFirstPage()) dx += -27;
+		return (book.width -30 +dx <= x && x < book.width -30 +dx +27 && 20 <= y && y < 20 +27);
+	}
+
+	public static boolean containsBtnRight(MessageBook book, int x, int y)
+	{
+		int dx = 0;
+		if (! book.isFirstPage() && book.isClosable()) dx += -27;
+		return (book.width -30 +dx <= x && x < book.width -30 +dx +27 && 20 <= y && y < 20 +27);
+	}
+
+	public static boolean containsBtnLeft(MessageBook book, int x, int y)
+	{
+		int dx = 0;
+		if (! book.isFirstPage()) dx += -27;
+		return (book.width -30 +dx <= x && x < book.width -30 +dx +27 && 20 <= y && y < 20 +27);
+	}
+
+	public static boolean containsBtnUp(MessageBook book, int x, int y)
+	{
+		return (book.width -30 -27 <= x && x < book.width -30 -27 +27 && book.height -30 <= y && y < book.height -30 +27);
+	}
+
+	public static boolean containsBtnDown(MessageBook book, int x, int y)
+	{
+		return (book.width -30 <= x && x < book.width -30 +27 && book.height -30 <= y && y < book.height -30 +27);
+	}
+
 	/**
 	* @inheritDoc
 	*/
@@ -32,27 +63,61 @@ public class VCMessageBook implements IViewComponent<MessageBook> {
 		g.setComposite(ViewConsts.alpha80);
 		if (book.hasBackground()) ViewConsts.vcTexture.paint(g, book.getBackground(), assets, frame);
 
-		g.translate(book.width -60, 20);
-		if (0 < book.getCurrentPageIndex())
-			ViewConsts.vcTexture.paint(g, ViewConsts.texArrowBtnLeft, assets, frame);
-		g.translate(27, 0);
-		if (book.getCurrentPageIndex() < book.pageCount() -1)
-			ViewConsts.vcTexture.paint(g, ViewConsts.texArrowBtnRight, assets, frame);
-		else if (book.getCurrentPageIndex() == book.pageCount() -1)
+		int x1 = book.width -30;
+		int y1 = 20;
+		g.translate(x1, y1);
+
+		int x2 = 0;
+		if (! book.isFirstPage() && book.isClosable())
+		{
+			x2 = -27;
 			ViewConsts.vcTexture.paint(g, ViewConsts.texCheck, assets, frame);
+		}
 
-		g.translate(-27, -20);
+		g.translate(x2, 0);
 
-		g.translate(2, book.height -30);
+		int x3 = 0;
+		if (! book.isLastPage())
+		{
+			x3 = -27;
+			ViewConsts.vcTexture.paint(g, ViewConsts.texArrowBtnRight, assets, frame);
+		}
+
+		g.translate(x3, 0);
+
+		int x4 = 0;
+
+		if (! book.isFirstPage())
+		{
+			x4 = -27;
+			ViewConsts.vcTexture.paint(g, ViewConsts.texArrowBtnLeft, assets, frame);
+		}
+
+		g.translate(x4, 0);
+
+		if (book.isFirstPage() && book.isClosable())
+		{
+			ViewConsts.vcTexture.paint(g, ViewConsts.texCheck, assets, frame);
+		}
+
+		g.translate(-x2 -x4, -y1);
+
+		int x5 = 24;
+		int y2 = book.height -30;
+		g.translate(0, y2);
+
 		if (0 < book.getTopIndexToShow())
 			ViewConsts.vcTexture.paint(g, ViewConsts.texArrowBtnUp, assets, frame); // 492, 196
-		g.translate(24, 0);
+
+		g.translate(x5, 0);
+
 		if (book.getTopIndexToShow() < book.currentPage().itemCount() -1)
 			ViewConsts.vcTexture.paint(g, ViewConsts.texArrowBtnDown, assets, frame); // 516, 196
-		g.translate(-26, 0);
 
-		g.translate(-(book.width -60), 0);
-		g.translate(0, -(book.height -30));
+		g.translate(-x3 -x5, -y2);
+
+		g.translate(-x1, 0);
+
 
 
 

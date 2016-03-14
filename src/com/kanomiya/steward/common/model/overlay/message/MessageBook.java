@@ -14,9 +14,10 @@ import com.kanomiya.steward.common.model.texture.Texture;
  */
 public class MessageBook extends Overlay {
 
-	public LinkedList<Message> pages;
+	protected LinkedList<Message> pages;
 
-	public int currentPageIndex, beginIndex;
+	protected int currentPageIndex, beginIndex;
+	protected boolean isClosable;
 
 	public static MessageBook create()
 	{
@@ -26,6 +27,8 @@ public class MessageBook extends Overlay {
 	protected MessageBook() {
 		pages = Lists.newLinkedList();
 		setBackground(new Texture("background/overlay/messageBox.png"));
+
+		isClosable = true;
 	}
 
 
@@ -207,8 +210,27 @@ public class MessageBook extends Overlay {
 	}
 
 
+	/**
+	 *
+	 * 任意のタイミングで閉じることができるかどうか
+	 *
+	 * @return 閉じられる場合true
+	 */
+	public boolean isClosable()
+	{
+		return isClosable && (! hasPage() || currentPage().isClosable());
+	}
 
+	public void setClosable(boolean bool)
+	{
+		isClosable = bool;
+	}
 
+	public MessageBook lockClose()
+	{
+		isClosable = false;
+		return this;
+	}
 
 
 

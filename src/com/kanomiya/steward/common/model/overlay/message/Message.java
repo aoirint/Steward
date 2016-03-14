@@ -15,6 +15,7 @@ public class Message {
 
 	protected LinkedList<Text> items;
 	protected Map<Character, Choice> charToChoice;
+	protected boolean isClosable;
 
 	public static Message create()
 	{
@@ -33,7 +34,7 @@ public class Message {
 
 	protected Message()
 	{
-
+		isClosable = true;
 	}
 
 	protected Message(Text firstItem)
@@ -129,6 +130,27 @@ public class Message {
 	}
 
 
+	/**
+	 *
+	 * 任意のタイミングで閉じることができるかどうか
+	 *
+	 * @return 閉じられる場合true
+	 */
+	public boolean isClosable()
+	{
+		return isClosable;
+	}
+
+	public void setClosable(boolean bool)
+	{
+		isClosable = bool;
+	}
+
+	public Message lockClose()
+	{
+		isClosable = false;
+		return this;
+	}
 
 
 }

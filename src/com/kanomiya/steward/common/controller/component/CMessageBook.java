@@ -10,6 +10,7 @@ import com.kanomiya.steward.common.model.overlay.message.ChoiceResult;
 import com.kanomiya.steward.common.model.overlay.message.IngameLogger;
 import com.kanomiya.steward.common.model.overlay.message.Message;
 import com.kanomiya.steward.common.model.overlay.message.MessageBook;
+import com.kanomiya.steward.common.view.component.VCMessageBook;
 
 /**
  * @author Kanomiya
@@ -21,9 +22,13 @@ public class CMessageBook extends IControllerComponent<MessageBook> {
 	* @inheritDoc
 	*/
 	@Override
-	public boolean input(KeyEvent keyEvent, ControlListener controlListener, MessageBook book, Assets assets) {
+	public boolean input(KeyEvent keyEvent, ControlListener controlListener, MessageBook book, Assets assets)
+	{
+
+		if (keyEvent.getKeyCode() == KeyEvent.VK_ESCAPE && book.isClosable()) book.setVisible(false);
 
 		Message current = book.currentPage();
+
 		if (! current.hasChoice()) return false;
 
 		char ch = keyEvent.getKeyChar();
@@ -49,47 +54,59 @@ public class CMessageBook extends IControllerComponent<MessageBook> {
 	{
 		if (book instanceof IngameLogger) ((IngameLogger) book).autoCloseLock = true;
 
-		if (20 <= y && y < 20 +18)
+		if (VCMessageBook.containsBtnLeft(book, x, y))
 		{
-			if (book.width -60 <= x && x < book.width -60 +18)
+			if (book instanceof IngameLogger) ((IngameLogger) book).autoScrollLock(IngameLogger.millsWait);
+
+			if (! book.isFirstPage())
 			{
 				book.prevPage();
-
-				if (book instanceof IngameLogger) ((IngameLogger) book).autoScrollLock(IngameLogger.millsWait);
 				return true;
 			}
-
-			if (book.width -60 +27 <= x && x < book.width -60 +27 +18)
-			{
-				if (! book.nextPage()) book.setVisible(false);
-
-				if (book instanceof IngameLogger) ((IngameLogger) book).autoScrollLock(IngameLogger.millsWait);
-				return true;
-			}
-
 		}
 
-		if (book.height -30 <= y && y < book.height -30 +18)
+		if (VCMessageBook.containsBtnRight(book, x, y))
 		{
+			if (book instanceof IngameLogger) ((IngameLogger) book).autoScrollLock(IngameLogger.millsWait);
 
-			if (book.width -60 +2 <= x && x < book.width -60 +2 +18)
+			if (! book.isLastPage())
+			{
+				book.nextPage();
+				return true;
+			}
+		}
+
+		if (VCMessageBook.containsBtnCheck(book, x, y))
+		{
+			if (book.isClosable())
+			{
+				book.setVisible(false);
+				return true;
+			}
+		}
+
+
+		if (VCMessageBook.containsBtnUp(book, x, y))
+		{
+			if (book instanceof IngameLogger) ((IngameLogger) book).autoScrollLock(IngameLogger.millsWait);
+
+			if (! book.isFirstLine())
 			{
 				book.prevLine();
-
-				if (book instanceof IngameLogger) ((IngameLogger) book).autoScrollLock(IngameLogger.millsWait);
 				return true;
 			}
-
-			if (book.width -60 +2 +24 <= x && x < book.width -60 +2 +24 +18)
-			{
-				book.nextLine();
-
-				if (book instanceof IngameLogger) ((IngameLogger) book).autoScrollLock(IngameLogger.millsWait);
-				return true;
-			}
-
 		}
 
+		if (VCMessageBook.containsBtnDown(book, x, y))
+		{
+			if (book instanceof IngameLogger) ((IngameLogger) book).autoScrollLock(IngameLogger.millsWait);
+
+			if (! book.isLastLine())
+			{
+				book.nextLine();
+				return true;
+			}
+		}
 
 
 		return false;

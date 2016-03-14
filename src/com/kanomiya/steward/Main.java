@@ -120,7 +120,7 @@ public class Main {
 																				).println(Text.create("改行てすと")
 																						).println(Text.create("改行てすと")
 																								).println(Text.create("改行てすと")
-										)
+										).lockClose()
 								).append(
 										Message.create().println(Text.create("@は仮テクスチャのイベントテストです").color(GameColor.orange))
 										)
