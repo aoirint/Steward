@@ -196,13 +196,18 @@ public class VCMessageBook implements IViewComponent<MessageBook> {
 
 				String text = ViewUtils.wordWrap(item.text, g, left, book.innerWidth());
 
+				// System.out.println(text);
+
 				String[] lines = text.split("\n");
 				int yLen = lines.length;
 
 				for (int i=0; i<yLen; i++)
 				{
-					top += i *lineHeight;
-					if (0 < i) left = 0;
+					if (0 < i)
+					{
+						top += lineHeight;
+						left = 0;
+					}
 
 					g.drawString(lines[i], left, top);
 					if (item.underline) g.drawLine(left, top, g.getFontMetrics().stringWidth(lines[i]), top);
