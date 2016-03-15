@@ -21,7 +21,7 @@ import com.kanomiya.steward.common.model.event.Event;
 import com.kanomiya.steward.common.model.event.EventConverter;
 import com.kanomiya.steward.common.model.event.PlayerMode;
 import com.kanomiya.steward.common.model.overlay.GameColor;
-import com.kanomiya.steward.common.model.overlay.Text;
+import com.kanomiya.steward.common.model.overlay.text.Text;
 import com.kanomiya.steward.common.model.texture.Texture;
 import com.kanomiya.steward.common.model.texture.TextureConverter;
 

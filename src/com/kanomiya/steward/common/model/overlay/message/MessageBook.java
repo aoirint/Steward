@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 import com.kanomiya.steward.common.model.overlay.Overlay;
-import com.kanomiya.steward.common.model.overlay.Text;
+import com.kanomiya.steward.common.model.overlay.text.Text;
 
 /**
  * @author Kanomiya

@@ -6,10 +6,10 @@ import java.awt.event.MouseEvent;
 import com.kanomiya.steward.common.controller.ControlListener;
 import com.kanomiya.steward.common.controller.IControllerComponent;
 import com.kanomiya.steward.common.model.assets.Assets;
-import com.kanomiya.steward.common.model.overlay.message.ChoiceResult;
 import com.kanomiya.steward.common.model.overlay.message.IngameLogger;
 import com.kanomiya.steward.common.model.overlay.message.Message;
 import com.kanomiya.steward.common.model.overlay.message.MessageBook;
+import com.kanomiya.steward.common.model.overlay.text.ChoiceResult;
 import com.kanomiya.steward.common.view.component.VCMessageBook;
 
 /**

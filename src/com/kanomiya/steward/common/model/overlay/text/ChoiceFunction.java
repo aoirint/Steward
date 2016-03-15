@@ -1,4 +1,4 @@
-package com.kanomiya.steward.common.model.overlay.message;
+package com.kanomiya.steward.common.model.overlay.text;
 
 import java.util.function.Function;
 

@@ -2,7 +2,7 @@ package com.kanomiya.steward.common.model.overlay.message;
 
 import com.kanomiya.steward.common.model.assets.Assets;
 import com.kanomiya.steward.common.model.overlay.LocationType;
-import com.kanomiya.steward.common.model.overlay.Text;
+import com.kanomiya.steward.common.model.overlay.text.Text;
 import com.kanomiya.steward.common.model.texture.Texture;
 
 /**

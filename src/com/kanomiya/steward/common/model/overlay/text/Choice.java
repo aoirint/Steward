@@ -1,8 +1,6 @@
-package com.kanomiya.steward.common.model.overlay.message;
+package com.kanomiya.steward.common.model.overlay.text;
 
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
-
-import com.kanomiya.steward.common.model.overlay.Text;
 
 
 /**
@@ -45,7 +43,7 @@ public class Choice extends Text {
 
 
 
-	protected Character ch;
+	public Character ch;
 	protected ChoiceFunction function;
 
 

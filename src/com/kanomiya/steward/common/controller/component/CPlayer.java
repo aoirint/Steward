@@ -16,9 +16,9 @@ import com.kanomiya.steward.common.model.event.Direction;
 import com.kanomiya.steward.common.model.event.Player;
 import com.kanomiya.steward.common.model.event.PlayerMode;
 import com.kanomiya.steward.common.model.overlay.GameColor;
-import com.kanomiya.steward.common.model.overlay.Text;
 import com.kanomiya.steward.common.model.overlay.message.IngameLogger;
 import com.kanomiya.steward.common.model.overlay.message.MessageBook;
+import com.kanomiya.steward.common.model.overlay.text.Text;
 import com.kanomiya.steward.common.view.ViewConsts;
 import com.kanomiya.steward.common.view.ViewUtils;
 

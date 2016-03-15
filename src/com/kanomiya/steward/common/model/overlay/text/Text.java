@@ -1,7 +1,8 @@
-package com.kanomiya.steward.common.model.overlay;
+package com.kanomiya.steward.common.model.overlay.text;
 
 import java.awt.Color;
 
+import com.kanomiya.steward.common.model.overlay.GameColor;
 import com.kanomiya.steward.common.model.texture.Texture;
 
 /**

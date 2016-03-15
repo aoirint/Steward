@@ -2,6 +2,8 @@ package com.kanomiya.steward.common.model.overlay;
 
 import java.awt.Font;
 
+import com.kanomiya.steward.common.model.overlay.text.Text;
+
 /**
  * @author Kanomiya
  *

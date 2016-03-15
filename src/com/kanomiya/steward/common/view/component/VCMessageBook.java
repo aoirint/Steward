@@ -8,10 +8,10 @@ import java.util.Iterator;
 import com.kanomiya.steward.common.model.assets.Assets;
 import com.kanomiya.steward.common.model.overlay.GameColor;
 import com.kanomiya.steward.common.model.overlay.GameFont;
-import com.kanomiya.steward.common.model.overlay.Text;
-import com.kanomiya.steward.common.model.overlay.message.Choice;
 import com.kanomiya.steward.common.model.overlay.message.Message;
 import com.kanomiya.steward.common.model.overlay.message.MessageBook;
+import com.kanomiya.steward.common.model.overlay.text.Choice;
+import com.kanomiya.steward.common.model.overlay.text.Text;
 import com.kanomiya.steward.common.view.ViewConsts;
 import com.kanomiya.steward.common.view.ViewUtils;
 

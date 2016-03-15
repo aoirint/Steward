@@ -6,7 +6,8 @@ import java.util.Map;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.kanomiya.steward.common.model.overlay.Text;
+import com.kanomiya.steward.common.model.overlay.text.Choice;
+import com.kanomiya.steward.common.model.overlay.text.Text;
 
 /**
  * @author Kanomiya
@@ -74,7 +75,7 @@ public class Message {
 		{
 			Choice choice = (Choice) text;
 			choices().add(choice);
-			charToChoice().put(choice.ch, choice);
+			if (choice.ch != null) charToChoice().put(choice.ch, choice);
 		}
 
 		return this;
