@@ -6,7 +6,6 @@ import java.util.List;
 import com.google.common.collect.Lists;
 import com.kanomiya.steward.common.model.overlay.Overlay;
 import com.kanomiya.steward.common.model.overlay.Text;
-import com.kanomiya.steward.common.model.texture.Texture;
 
 /**
  * @author Kanomiya
@@ -16,7 +15,7 @@ public class MessageBook extends Overlay {
 
 	protected LinkedList<Message> pages;
 
-	protected int currentPageIndex, beginIndex;
+	protected int currentPageIndex;
 	protected boolean isClosable;
 
 	public static MessageBook create()
@@ -26,7 +25,9 @@ public class MessageBook extends Overlay {
 
 	protected MessageBook() {
 		pages = Lists.newLinkedList();
-		setBackground(new Texture("background/overlay/messageBox.png"));
+		// setBackground(new Texture("background/overlay/messageBox.png"));
+		width = 756;
+		height = 252;
 
 		isClosable = true;
 	}
@@ -36,6 +37,7 @@ public class MessageBook extends Overlay {
 	public MessageBook append(Message message)
 	{
 		pages.add(message);
+		goLast();
 		return this;
 	}
 
@@ -75,26 +77,26 @@ public class MessageBook extends Overlay {
 
 
 
+	public int getFirstPageIndex()
+	{
+		return 0;
+	}
+
+	public int getLastPageIndex()
+	{
+		return Math.max(0, pageCount() -1);
+	}
 
 	public boolean isFirstPage()
 	{
-		return (currentPageIndex == 0);
+		return (currentPageIndex == getFirstPageIndex());
 	}
 
 	public boolean isLastPage()
 	{
-		return (currentPageIndex == pageCount() -1);
+		return (currentPageIndex == getLastPageIndex());
 	}
 
-	public boolean isFirstLine()
-	{
-		return (beginIndex == 0);
-	}
-
-	public boolean isLastLine()
-	{
-		return (beginIndex == currentPage().itemCount() -1);
-	}
 
 
 	public boolean prevPage()
@@ -102,7 +104,7 @@ public class MessageBook extends Overlay {
 		if (isFirstPage()) return false;
 
 		currentPageIndex --;
-		beginIndex = 0;
+		currentPage().selectedChoiceIndex = Math.min(currentPage().selectedChoiceIndex, currentPage().itemCount() -1);
 		return true;
 	}
 
@@ -111,24 +113,21 @@ public class MessageBook extends Overlay {
 		if (isLastPage()) return false;
 
 		currentPageIndex ++;
-		beginIndex = 0;
+		currentPage().selectedChoiceIndex = Math.min(currentPage().selectedChoiceIndex, currentPage().itemCount() -1);
 		return true;
 	}
 
-	public boolean prevLine()
-	{
-		if (isFirstLine()) return false;
 
-		beginIndex --;
-		return true;
+	public MessageBook goFirst()
+	{
+		currentPageIndex = getFirstPageIndex();
+		return this;
 	}
 
-	public boolean nextLine()
+	public MessageBook goLast()
 	{
-		if (isLastLine()) return false;
-
-		beginIndex ++;
-		return true;
+		currentPageIndex = getLastPageIndex();
+		return this;
 	}
 
 
@@ -146,16 +145,6 @@ public class MessageBook extends Overlay {
 	}
 
 
-	public int getTopIndexToShow()
-	{
-		return beginIndex;
-	}
-
-	public int getLastIndexToShow(int length)
-	{
-		return Math.min(beginIndex +length, itemCount(currentPageIndex));
-	}
-
 	public List<Message> list() {
 		return pages;
 	}
@@ -163,25 +152,65 @@ public class MessageBook extends Overlay {
 
 
 
-	public MessageBook print(int indexX, Text text) {
-		get(indexX).print(text);
+
+	public MessageBook print(int indexX, Text text, boolean pageBreak)
+	{
+		int pageCount = pageCount();
+		Message page = (indexX < pageCount) ? get(indexX) : null;
+
+		if (page == null)
+		{
+			append(Message.create(text));
+			return this;
+		}
+
+		if (pageBreak)
+		{
+			page.print(text);
+			append(Message.create());
+			return this;
+		}
+
+		page.print(text);
 		return this;
 	}
 
-	public MessageBook println(int indexX, Text text)
+	public MessageBook print(int indexX, Text text)
 	{
-		return print(indexX, text.lineBreak());
+		return print(indexX, text, false);
+	}
+
+	public MessageBook print(int indexX, String text, boolean pageBreak)
+	{
+		return print(indexX, Text.create(text), pageBreak);
 	}
 
 	public MessageBook print(int indexX, String text)
 	{
-		return print(indexX, Text.create(text));
+		return print(indexX, text, false);
+	}
+
+	public MessageBook println(int indexX, Text text, boolean pageBreak)
+	{
+		return print(indexX, text.lineBreak(), pageBreak);
+	}
+
+	public MessageBook println(int indexX, Text text)
+	{
+		return println(indexX, text, false);
+	}
+
+	public MessageBook println(int indexX, String text, boolean pageBreak)
+	{
+		return println(indexX, Text.create(text), pageBreak);
 	}
 
 	public MessageBook println(int indexX, String text)
 	{
-		return print(indexX, Text.create(text).lineBreak());
+		return println(indexX, text, false);
 	}
+
+
 
 	public Message replace(int indexX, Message message)
 	{
@@ -209,6 +238,10 @@ public class MessageBook extends Overlay {
 		return get(pageIndex).hasItem();
 	}
 
+	public int getMaxLine()
+	{
+		return height /Text.defaultHeight;
+	}
 
 	/**
 	 *
@@ -236,11 +269,54 @@ public class MessageBook extends Overlay {
 
 
 
+	public MessageBook print(Text text, boolean pageBreak) {
+		return print(currentPageIndex, text, pageBreak);
+	}
+
+	public MessageBook println(Text text, boolean pageBreak)
+	{
+		return println(currentPageIndex, text, pageBreak);
+	}
+
+	public MessageBook print(String text, boolean pageBreak)
+	{
+		return print(currentPageIndex, text, pageBreak);
+	}
+
+	public MessageBook println(String text, boolean pageBreak)
+	{
+		return println(currentPageIndex, text, pageBreak);
+	}
+
+	public MessageBook print(Text text) {
+		return print(text, false);
+	}
+
+	public MessageBook println(Text text)
+	{
+		return println(text, false);
+	}
+
+	public MessageBook print(String text)
+	{
+		return print(text, false);
+	}
+
+	public MessageBook println(String text)
+	{
+		return println(text, false);
+	}
 
 
+	public int innerWidth()
+	{
+		return width -27*3;
+	}
 
-
-
+	public int innerHeight()
+	{
+		return height;
+	}
 
 
 

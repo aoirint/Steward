@@ -94,6 +94,7 @@ public class Assets {
 		return getCachedImageDim(getCachedImage(path));
 	}
 
+
 	public Tip getTip(String id)
 	{
 		return idToTip.get(id);
@@ -126,6 +127,8 @@ public class Assets {
 	{
 		srcToImage.put(path, image);
 		imageToSize.put(image, new Dimension(image.getWidth(null), image.getHeight(null)));
+
+		// System.out.println(path + " @ " + imageToSize.get(image));
 	}
 
 	public void addTip(Tip tip)
@@ -249,6 +252,10 @@ public class Assets {
 
 		return localeToI18n.get(locale).translate(unlocalizedName, args);
 	}
+
+
+
+
 
 
 

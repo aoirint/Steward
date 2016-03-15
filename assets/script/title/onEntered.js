@@ -4,7 +4,13 @@ player.disallowMode(PlayerMode.static.SELECT);
 
 var msg = message().lockClose();
 
-var c_1 = choice('a', translate("vocabulary.gameStart"), function(ch)
+var c_z = choice('z', "戻る", function()
+		{
+			showMessage(msg);
+		});
+
+
+var c_1 = choice('a', translate("vocabulary.gameStart"), function()
 		{
 			player.setVisible(true);
 			player.allowMode(PlayerMode.static.SELECT);
@@ -12,10 +18,87 @@ var c_1 = choice('a', translate("vocabulary.gameStart"), function(ch)
 			player.travel("test", 5,5);
 		});
 
-var c_2 = choice('b', translate("vocabulary.exit"), function(ch)
+var c_2 = choice('b', translate("vocabulary.exit"), function()
 		{
 			exit();
 		});
 
 
-showMessage(msg.println(c_1).println(c_2));
+var c_3 = choice('c', translate("vocabulary.test"), function()
+		{
+			var c_a = choice('a', "長文テスト", function()
+			{
+				showMessage(messageBook().lockClose().println(c_z)
+						.println(" ")
+						.println("長文テスト")
+						.println("長文テスト")
+						.println("長文テスト")
+						.println("長文テスト")
+						.println("長文テスト")
+						.println("長文テスト", true)
+						.println("長文テスト")
+						.println("長文テスト")
+						.println("長文テスト")
+						.println("長文テスト")
+						.println("長文テスト")
+						.println("長文テスト")
+						.println("長文テスト")
+						.println("長文テスト")
+						.println("長文テスト", true)
+						.println("長文テスト")
+						.println("長文テスト")
+						.println("長文テスト")
+						.println("長文テスト")
+						.println("長文テスト")
+						.println("長文テスト")
+						.println("長文テスト")
+						.println("長文テスト", true)
+						.print("☆☆☆☆☆★★★★★□□□□□■■■■■")
+						.print("☆☆☆☆☆★★★★★□□□□□■■■■■")
+						.print("☆☆☆☆☆★★★★★□□□□□■■■■■")
+						.print("☆☆☆☆☆★★★★★□□□□□■■■■■")
+						.print("☆☆☆☆☆★★★★★□□□□□■■■■■")
+						.print("☆☆☆☆☆★★★★★□□□□□■■■■■")
+						.print("☆☆☆☆☆★★★★★□□□□□■■■■■")
+						.print("☆☆☆☆☆★★★★★□□□□□■■■■■")
+						.print("☆☆☆☆☆★★★★★□□□□□■■■■■")
+						.print("☆☆☆☆☆★★★★★□□□□□■■■■■")
+						.print("☆☆☆☆☆★★★★★□□□□□■■■■■")
+						.print("☆☆☆☆☆★★★★★□□□□□■■■■■")
+						.print("☆☆☆☆☆★★★★★□□□□□■■■■■")
+						.print("☆☆☆☆☆★★★★★□□□□□■■■■■")
+						.print("☆☆☆☆☆★★★★★□□□□□■■■■■")
+						.print("☆☆☆☆☆★★★★★□□□□□■■■■■")
+						.print("☆☆☆☆☆★★★★★□□□□□■■■■■")
+						.print("☆☆☆☆☆★★★★★□□□□□■■■■■")
+						.print("☆☆☆☆☆★★★★★□□□□□■■■■■")
+						.print("☆☆☆☆☆★★★★★□□□□□■■■■■")
+						.print("☆☆☆☆☆★★★★★□□□□□■■■■■")
+						.print("☆☆☆☆☆★★★★★□□□□□■■■■■")
+						.print("☆☆☆☆☆★★★★★□□□□□■■■■■")
+						.print("☆☆☆☆☆★★★★★□□□□□■■■■■")
+						.print("☆☆☆☆☆★★★★★□□□□□■■■■■")
+						.print("☆☆☆☆☆★★★★★□□□□□■■■■■")
+						.print("☆☆☆☆☆★★★★★□□□□□■■■■■")
+						.print("☆☆☆☆☆★★★★★□□□□□■■■■■")
+						.print("☆☆☆☆☆★★★★★□□□□□■■■■■")
+						.print("☆☆☆☆☆★★★★★□□□□□■■■■■")
+						.print("☆☆☆☆☆★★★★★□□□□□■■■■■")
+						.print("☆☆☆☆☆★★★★★□□□□□■■■■■")
+						.print("☆☆☆☆☆★★★★★□□□□□■■■■■")
+						.print("☆☆☆☆☆★★★★★□□□□□■■■■■")
+						.print("☆☆☆☆☆★★★★★□□□□□■■■■■")
+						.print("☆☆☆☆☆★★★★★□□□□□■■■■■")
+						.print("☆☆☆☆☆★★★★★□□□□□■■■■■")
+						.print("☆☆☆☆☆★★★★★□□□□□■■■■■")
+						.print("☆☆☆☆☆★★★★★□□□□□■■■■■")
+						.print("☆☆☆☆")
+						.goFirst()
+						);
+			});
+
+			showMessage(message().lockClose().println(c_a).println(c_z));
+		});
+
+
+showMessage(msg.println(c_1).println(c_2).println(c_3));

@@ -19,6 +19,7 @@ vocabulary.name=名前
 vocabulary.coordinate=座標
 vocabulary.gameStart=ゲーム開始
 vocabulary.exit=終了
+vocabulary.test=テスト
 
 se.gravel=*ジャリ*
 se.pop=*ぽわん*

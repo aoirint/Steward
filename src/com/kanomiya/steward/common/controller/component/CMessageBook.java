@@ -29,6 +29,16 @@ public class CMessageBook extends IControllerComponent<MessageBook> {
 
 		Message current = book.currentPage();
 
+		if (keyEvent.getKeyCode() == KeyEvent.VK_ENTER)
+		{
+			if (current.hasChoice()) current.getSelectedChoice().apply();
+			else if (keyEvent.isShiftDown()) book.prevPage();
+			else if (! book.isLastPage()) book.nextPage();
+			else if (book.isClosable()) book.setVisible(false);
+		}
+
+
+
 		if (! current.hasChoice()) return false;
 
 		char ch = keyEvent.getKeyChar();
@@ -56,7 +66,7 @@ public class CMessageBook extends IControllerComponent<MessageBook> {
 
 		if (VCMessageBook.containsBtnLeft(book, x, y))
 		{
-			if (book instanceof IngameLogger) ((IngameLogger) book).autoScrollLock(IngameLogger.millsWait);
+			if (book instanceof IngameLogger) ((IngameLogger) book).autoLastLock(IngameLogger.millsWait);
 
 			if (! book.isFirstPage())
 			{
@@ -67,7 +77,7 @@ public class CMessageBook extends IControllerComponent<MessageBook> {
 
 		if (VCMessageBook.containsBtnRight(book, x, y))
 		{
-			if (book instanceof IngameLogger) ((IngameLogger) book).autoScrollLock(IngameLogger.millsWait);
+			if (book instanceof IngameLogger) ((IngameLogger) book).autoLastLock(IngameLogger.millsWait);
 
 			if (! book.isLastPage())
 			{
@@ -85,28 +95,29 @@ public class CMessageBook extends IControllerComponent<MessageBook> {
 			}
 		}
 
+		/*
+		Message page = book.currentPage();
 
 		if (VCMessageBook.containsBtnUp(book, x, y))
 		{
-			if (book instanceof IngameLogger) ((IngameLogger) book).autoScrollLock(IngameLogger.millsWait);
 
-			if (! book.isFirstLine())
+			if (! page.isFirstChoice())
 			{
-				book.prevLine();
+				page.prevChoice();
 				return true;
 			}
 		}
 
 		if (VCMessageBook.containsBtnDown(book, x, y))
 		{
-			if (book instanceof IngameLogger) ((IngameLogger) book).autoScrollLock(IngameLogger.millsWait);
 
-			if (! book.isLastLine())
+			if (! page.isLastChoice())
 			{
-				book.nextLine();
+				page.nextChoice();
 				return true;
 			}
 		}
+		*/
 
 
 		return false;

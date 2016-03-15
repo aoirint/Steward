@@ -54,9 +54,9 @@ public class Player extends Event {
 
 	public void showMessage(MessageBook messageBook)
 	{
-		if (logger != null && logger.isVisible()) logger.setVisible(false);
+		if (logger.isVisible()) logger.setVisible(false);
 
-		messageBook.autoSize(assets);
+		// messageBook.autoSize(assets);
 		messageBook.autoLocation(LocationType.CENTER);
 		messageBook.setVisible(true);
 
@@ -73,7 +73,6 @@ public class Player extends Event {
 	public boolean hasMessage()
 	{
 		if (messageBook == null) return false;
-
 		if (! messageBook.isVisible()) messageBook = null;
 
 		return (messageBook != null);

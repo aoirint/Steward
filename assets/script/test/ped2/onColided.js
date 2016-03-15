@@ -5,7 +5,7 @@ logger.println(text(translate("se.pop2")).color(GameColor.static.green));
 var c_1 = choice('a', "Demo", function(ch) {
 
 	logger.println(text("You choiced " + ch));
-	player.getMessage().replace(message().println("You choiced [" + ch + "]\n ").println("Choice page was replaced with new message(this)").lockClose());
+	player.getMessage().replace(message().println("You choiced [" + ch + "]\n ").println("Choice page was replaced with new message(this)"));
 
 	});
 

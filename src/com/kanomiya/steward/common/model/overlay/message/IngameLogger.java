@@ -13,16 +13,13 @@ public class IngameLogger extends MessageBook {
 
 	public static int millsWait = 5000;
 
-	public static int innerWidth = 520;
-	public static int innerHeight = 212;
-	public static int oneHeight = 14;
 	public static String bgTextureSrc = "background/overlay/ingameLogger.png";
 	public static Texture bgTexture = new Texture(bgTextureSrc);
 
 	protected int millsCountShow, millsCountLock;
 
 	public boolean autoCloseLock;
-	public boolean autoScroolLock;
+	public boolean autoLastLock;
 
 	public IngameLogger(Assets assets)
 	{
@@ -31,7 +28,10 @@ public class IngameLogger extends MessageBook {
 		setBackground(bgTexture);
 
 		autoCloseLock = false;
-		autoScroolLock = false;
+		autoLastLock = false;
+
+		width = 560;
+		height = 232;
 
 		autoSize(assets);
 		autoLocation(LocationType.BOTTOM_RIGHT);
@@ -41,27 +41,37 @@ public class IngameLogger extends MessageBook {
 
 
 
+	@Override
 	public IngameLogger print(Text text)
 	{
-		super.print(0, text);
+		Message last = get(getLastPageIndex());
 
-		if (! autoScroolLock) beginIndex = Math.max(0, itemCount(0) -IngameLogger.oneHeight +2);
+		if (14 < last.itemCount() +1)
+		{
+			append(Message.create());
+		}
+
+		super.print(getLastPageIndex(), text);
+		if (! autoLastLock) currentPageIndex = pageCount() -1;
 
 		show(millsWait);
 
 		return this;
 	}
 
+	@Override
 	public IngameLogger println(Text text)
 	{
 		return print(text.lineBreak());
 	}
 
+	@Override
 	public IngameLogger print(String text)
 	{
 		return print(Text.create(text));
 	}
 
+	@Override
 	public IngameLogger println(String text)
 	{
 		return print(Text.create(text).lineBreak());
@@ -103,18 +113,18 @@ public class IngameLogger extends MessageBook {
 		thread.start();
 	}
 
-	public void autoScrollLock(int mills)
+	public void autoLastLock(int mills)
 	{
 		millsCountLock = 0;
 
-		if (autoScroolLock) return;
+		if (autoLastLock) return;
 
-		Thread thread = new Thread("IGL_AutoScrollLock")
+		Thread thread = new Thread("IGL_AutoLastLock")
 		{
 			@Override
 			public void run()
 			{
-				autoScroolLock = true;
+				autoLastLock = true;
 				millsCountLock = 0;
 
 				try {
@@ -128,7 +138,7 @@ public class IngameLogger extends MessageBook {
 					e.printStackTrace();
 				}
 
-				autoScroolLock = false;
+				autoLastLock = false;
 			}
 		};
 
@@ -141,9 +151,20 @@ public class IngameLogger extends MessageBook {
 		super.setVisible(bool);
 
 		autoCloseLock = false;
-		autoScroolLock = false;
+		autoLastLock = false;
 	}
 
 
+	@Override
+	public int innerWidth()
+	{
+		return 520;
+	}
+
+	@Override
+	public int innerHeight()
+	{
+		return 212;
+	}
 
 }

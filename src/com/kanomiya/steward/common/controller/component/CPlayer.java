@@ -45,12 +45,7 @@ public class CPlayer extends IControllerComponent<Player> {
 		{
 		case KeyEvent.VK_ENTER:
 
-			if (player.hasMessage())
-			{
-				if (keyEvent.isShiftDown()) player.getMessage().prevPage();
-				else if (! player.getMessage().isLastPage()) player.getMessage().nextPage();
-				else player.getMessage().setVisible(false);
-			} else if (player.mode.enableSelecter())
+			if (player.mode.enableSelecter())
 			{
 				player.selectedX = player.focusedX;
 				player.selectedY = player.focusedY;
@@ -59,14 +54,14 @@ public class CPlayer extends IControllerComponent<Player> {
 			break;
 		case KeyEvent.VK_NUMPAD8:
 		case KeyEvent.VK_UP:
-			if (player.hasMessage()) player.getMessage().prevLine();
+			if (player.hasMessage()) player.getMessage().currentPage().prevChoice();
 			else if (player.mode.enableSelecter() && ViewUtils.topInWindowEdge(player.focusedY, player, 1)) player.focusedY -= 1;
 			else if (player.mode.enableMove() && ! player.hasMessage()) turnConsumed = player.move(Direction.NORTH);
 			break;
 
 		case KeyEvent.VK_NUMPAD2:
 		case KeyEvent.VK_DOWN:
-			if (player.hasMessage()) player.getMessage().nextLine();
+			if (player.hasMessage()) player.getMessage().currentPage().nextChoice();
 			else if (player.mode.enableSelecter() && ViewUtils.bottomInWindowEdge(player.focusedY, player, 1)) player.focusedY += 1;
 			else if (player.mode.enableMove() && ! player.hasMessage()) turnConsumed = player.move(Direction.SOUTH);
 			break;
@@ -188,6 +183,7 @@ public class CPlayer extends IControllerComponent<Player> {
 
 		case KeyEvent.VK_SLASH: // log
 		case KeyEvent.VK_DIVIDE:
+
 			if (! player.hasMessage()) player.logger.setVisible(! player.logger.isVisible());
 			break;
 

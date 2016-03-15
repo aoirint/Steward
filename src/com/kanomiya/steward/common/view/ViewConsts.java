@@ -61,6 +61,7 @@ public class ViewConsts {
 
 
 	public static AlphaComposite alpha80 = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.8f);
+	public static AlphaComposite halfBlend = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f);
 
 	public static FrameTip frameTip;
 

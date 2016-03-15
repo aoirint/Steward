@@ -1,6 +1,7 @@
 package com.kanomiya.steward.common.model.overlay.message;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import com.google.common.collect.Lists;
@@ -14,8 +15,10 @@ import com.kanomiya.steward.common.model.overlay.Text;
 public class Message {
 
 	protected LinkedList<Text> items;
+	protected List<Choice> choices;
 	protected Map<Character, Choice> charToChoice;
 	protected boolean isClosable;
+	public int selectedChoiceIndex;
 
 	public static Message create()
 	{
@@ -70,6 +73,7 @@ public class Message {
 		if (text instanceof Choice)
 		{
 			Choice choice = (Choice) text;
+			choices().add(choice);
 			charToChoice().put(choice.ch, choice);
 		}
 
@@ -108,6 +112,24 @@ public class Message {
 		if (charToChoice == null) charToChoice = Maps.newHashMap();
 		return charToChoice;
 	}
+
+	/**
+	 *
+	 * @return
+	 */
+	public List<Choice> choices()
+	{
+		if (choices == null) choices = Lists.newArrayList();
+		return choices;
+	}
+
+	/**
+	 *
+	 */
+	public Choice getSelectedChoice() {
+		return choices.get(selectedChoiceIndex);
+	}
+
 
 	/**
 	 * @return
@@ -151,6 +173,55 @@ public class Message {
 		isClosable = false;
 		return this;
 	}
+
+
+
+
+	public boolean isFirstChoice()
+	{
+		return (selectedChoiceIndex == 0);
+	}
+
+	public boolean isLastChoice()
+	{
+		return (selectedChoiceIndex == choiceCount() -1);
+	}
+
+
+	public boolean prevChoice()
+	{
+		if (isFirstChoice()) return false;
+
+		selectedChoiceIndex --;
+		return true;
+	}
+
+	public boolean nextChoice()
+	{
+		if (isLastChoice()) return false;
+
+		selectedChoiceIndex ++;
+		return true;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }

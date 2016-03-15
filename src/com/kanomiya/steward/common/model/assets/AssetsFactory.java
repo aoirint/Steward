@@ -112,6 +112,7 @@ public class AssetsFactory {
 		scriptEngine.put("Choice", Choice.class);
 		scriptEngine.put("ChoiceResult", ChoiceResult.class);
 		scriptEngine.put("Message", Message.class);
+		scriptEngine.put("MessageBook", MessageBook.class);
 		scriptEngine.put("Book", MessageBook.class);
 		scriptEngine.put("GameColor", GameColor.class);
 		scriptEngine.put("PlayerMode", PlayerMode.class);
@@ -123,6 +124,7 @@ public class AssetsFactory {
 			scriptEngine.eval("var text = Function.prototype.bind.call(Text.static.create, Text);");
 			scriptEngine.eval("var choice = Function.prototype.bind.call(Choice.static.createFromScript, Choice);");
 			scriptEngine.eval("var message = Function.prototype.bind.call(Message.static.create, Message);");
+			scriptEngine.eval("var messageBook = Function.prototype.bind.call(MessageBook.static.create, MessageBook);");
 			scriptEngine.eval("var book = Function.prototype.bind.call(Book.static.create, Book);");
 			scriptEngine.eval("var showMessage = Function.prototype.bind.call(player.showMessage, player);");
 			scriptEngine.eval("var exit = Function.prototype.bind.call(binder.exit, binder);");

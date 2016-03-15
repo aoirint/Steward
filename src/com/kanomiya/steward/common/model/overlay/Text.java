@@ -2,18 +2,21 @@ package com.kanomiya.steward.common.model.overlay;
 
 import java.awt.Color;
 
+import com.kanomiya.steward.common.model.texture.Texture;
+
 /**
  * @author Kanomiya
  *
  */
 public class Text {
-	public static int lineHeight = 14;
+	public static int defaultHeight = 14;
 
 	public String text;
 	public Color color;
 	public boolean underline;
 	public boolean bold;
 	public boolean lineBreak;
+	public Texture icon, background;
 
 	public static Text create(String text)
 	{
@@ -71,6 +74,37 @@ public class Text {
 		return this;
 	}
 
+	public Text background(Texture background)
+	{
+		this.background = background;
+		return this;
+	}
 
+	public boolean hasBackground()
+	{
+		return (background != null);
+	}
+
+	public Text icon(Texture icon)
+	{
+		this.icon = icon;
+		return this;
+	}
+
+	public boolean hasIcon()
+	{
+		return (icon != null);
+	}
+
+
+	public int getLineHeight()
+	{
+		int height = Text.defaultHeight;
+
+		if (hasBackground()) height = Math.max(height, background.height);
+		if (hasIcon()) height = Math.max(height, icon.height);
+
+		return height;
+	}
 
 }
