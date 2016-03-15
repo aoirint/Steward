@@ -17,6 +17,7 @@ public class MessageBook extends Overlay {
 
 	protected int currentPageIndex;
 	protected boolean isClosable;
+	public boolean autoLastLock;
 
 	public static MessageBook create()
 	{
@@ -37,7 +38,7 @@ public class MessageBook extends Overlay {
 	public MessageBook append(Message message)
 	{
 		pages.add(message);
-		goLast();
+		if (! autoLastLock) goLast();
 		return this;
 	}
 

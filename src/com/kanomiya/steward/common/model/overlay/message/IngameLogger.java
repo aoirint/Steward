@@ -19,7 +19,6 @@ public class IngameLogger extends MessageBook {
 	protected int millsCountShow, millsCountLock;
 
 	public boolean autoCloseLock;
-	public boolean autoLastLock;
 
 	public IngameLogger(Assets assets)
 	{
@@ -52,7 +51,7 @@ public class IngameLogger extends MessageBook {
 		}
 
 		super.print(getLastPageIndex(), text);
-		if (! autoLastLock) currentPageIndex = pageCount() -1;
+		// if (! autoLastLock) currentPageIndex = pageCount() -1; // スーパークラスappendで代用
 
 		show(millsWait);
 
