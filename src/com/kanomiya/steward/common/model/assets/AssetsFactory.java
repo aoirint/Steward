@@ -32,6 +32,8 @@ import com.kanomiya.steward.common.model.area.Tip;
 import com.kanomiya.steward.common.model.event.Event;
 import com.kanomiya.steward.common.model.event.Player;
 import com.kanomiya.steward.common.model.event.PlayerMode;
+import com.kanomiya.steward.common.model.item.Item;
+import com.kanomiya.steward.common.model.item.ItemStack;
 import com.kanomiya.steward.common.model.lang.I18n;
 import com.kanomiya.steward.common.model.overlay.GameColor;
 import com.kanomiya.steward.common.model.overlay.message.Message;
@@ -89,6 +91,7 @@ public class AssetsFactory {
 			initScripts(gson, assets, futureTaskList);
 			initI18n(assets, futureTaskList);
 
+			initItems(gson, assets, futureTaskList);
 			initAreas(gson, assets, futureTaskList);
 			initEvents(gson, assets, futureTaskList);
 
@@ -116,6 +119,7 @@ public class AssetsFactory {
 		scriptEngine.put("Book", MessageBook.class);
 		scriptEngine.put("GameColor", GameColor.class);
 		scriptEngine.put("PlayerMode", PlayerMode.class);
+		scriptEngine.put("ItemStack", ItemStack.class);
 
 		scriptEngine.put("binder", new ScriptFunctionBinder(assets, player));
 
@@ -126,8 +130,10 @@ public class AssetsFactory {
 			scriptEngine.eval("var message = Function.prototype.bind.call(Message.static.create, Message);");
 			scriptEngine.eval("var messageBook = Function.prototype.bind.call(MessageBook.static.create, MessageBook);");
 			scriptEngine.eval("var book = Function.prototype.bind.call(Book.static.create, Book);");
-			scriptEngine.eval("var showMessage = Function.prototype.bind.call(player.showMessage, player);");
+			scriptEngine.eval("var showWindow = Function.prototype.bind.call(player.showWindow, player);");
+			scriptEngine.eval("var execute = Function.prototype.bind.call(binder.execute, binder);");
 			scriptEngine.eval("var exit = Function.prototype.bind.call(binder.exit, binder);");
+			scriptEngine.eval("var itemStack = Function.prototype.bind.call(ItemStack.static.create, ItemStack);");
 
 
 
@@ -191,6 +197,33 @@ public class AssetsFactory {
 				Tip tipObj = gson.fromJson(fr, Tip.class);
 
 				assets.addTip(tipObj);
+
+				return FileVisitResult.CONTINUE;
+			}
+		});
+
+	}
+
+
+	protected void initItems(Gson gson, Assets assets, List<FutureTask> futureTaskList) throws IOException
+	{
+		File root = new File(assetsDir, "item");
+
+		Files.walkFileTree(root.toPath(), new SimpleFileVisitor<Path>() {
+			@Override
+			public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException
+			{
+				if (! file.toString().endsWith(".json")) return FileVisitResult.CONTINUE;
+
+				File f = file.toFile();
+				String relative = f.getCanonicalPath().substring(root.getCanonicalPath().length() +1);
+				relative = relative.replace('\\', '/');
+
+				FileReader fr = new FileReader(f);
+
+				Item item = gson.fromJson(fr, Item.class);
+
+				assets.addItem(item);
 
 				return FileVisitResult.CONTINUE;
 			}

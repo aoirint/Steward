@@ -1,10 +1,10 @@
 {
 	"id": "pear",
-	"name": "ナシ",
+	"unlocalizedName": "item.pear",
 	
 	"icon": 
 	{
-		"src": ["item/pear.png"]
+		"src": [ [ "item/pear.png" ] ]
 	},
 	
 	"weight": 1.0

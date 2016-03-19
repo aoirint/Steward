@@ -6,7 +6,7 @@ var msg = message().lockClose();
 
 var c_z = choice('z', "戻る", function()
 		{
-			showMessage(msg);
+			showWindow(msg);
 		});
 
 
@@ -28,7 +28,7 @@ var c_3 = choice('c', translate("vocabulary.test"), function()
 		{
 			var c_a = choice('a', "長文テスト", function()
 			{
-				showMessage(messageBook().lockClose().println(c_z)
+				showWindow(messageBook().lockClose().println(c_z)
 						.println(" ")
 						.println("長文テスト")
 						.println("長文テスト")
@@ -98,8 +98,8 @@ var c_3 = choice('c', translate("vocabulary.test"), function()
 						);
 			});
 
-			showMessage(message().lockClose().println(c_a).println(c_z));
+			showWindow(message().lockClose().println(c_a).println(c_z));
 		});
 
 
-showMessage(msg.println(c_1).println(c_2).println(c_3));
+showWindow(msg.println(c_1).println(c_2).println(c_3));

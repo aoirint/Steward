@@ -14,6 +14,7 @@ import com.kanomiya.steward.common.model.area.Area;
 import com.kanomiya.steward.common.model.area.Tip;
 import com.kanomiya.steward.common.model.event.Event;
 import com.kanomiya.steward.common.model.event.Player;
+import com.kanomiya.steward.common.model.item.Item;
 import com.kanomiya.steward.common.model.lang.I18n;
 
 
@@ -30,6 +31,7 @@ public class Assets {
 	protected Map<String, Area> idToArea = Maps.newHashMap();
 	protected Map<String, String> srcToScriptCode = Maps.newHashMap();
 	protected Map<String, Event> idToEvent = Maps.newHashMap();
+	protected Map<String, Item> idToItem = Maps.newHashMap();
 	protected Map<Locale, I18n> localeToI18n = Maps.newHashMap();
 	public Locale locale;
 
@@ -110,6 +112,11 @@ public class Assets {
 		return idToEvent.get(id);
 	}
 
+	public Item getItem(String id)
+	{
+		return idToItem.get(id);
+	}
+
 
 	public ScriptEngine getScriptEngine()
 	{
@@ -149,6 +156,11 @@ public class Assets {
 	public void addEvent(Event event)
 	{
 		idToEvent.put(event.getId(), event);
+	}
+
+	public void addItem(Item item)
+	{
+		idToItem.put(item.getId(), item);
 	}
 
 	public void addI18n(I18n i18n)

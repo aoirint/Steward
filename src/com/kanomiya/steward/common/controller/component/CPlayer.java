@@ -16,8 +16,13 @@ import com.kanomiya.steward.common.model.event.Direction;
 import com.kanomiya.steward.common.model.event.Player;
 import com.kanomiya.steward.common.model.event.PlayerMode;
 import com.kanomiya.steward.common.model.overlay.GameColor;
+import com.kanomiya.steward.common.model.overlay.InventoryWindow;
 import com.kanomiya.steward.common.model.overlay.message.IngameLogger;
+import com.kanomiya.steward.common.model.overlay.message.Message;
 import com.kanomiya.steward.common.model.overlay.message.MessageBook;
+import com.kanomiya.steward.common.model.overlay.text.Choice;
+import com.kanomiya.steward.common.model.overlay.text.ChoiceFunction;
+import com.kanomiya.steward.common.model.overlay.text.ChoiceResult;
 import com.kanomiya.steward.common.model.overlay.text.Text;
 import com.kanomiya.steward.common.view.ViewConsts;
 import com.kanomiya.steward.common.view.ViewUtils;
@@ -36,9 +41,9 @@ public class CPlayer extends IControllerComponent<Player> {
 	public boolean input(KeyEvent keyEvent, ControlListener controlListener, Player player, Assets assets) {
 		boolean turnConsumed = false;
 
-		if (player.hasMessage())
+		if (player.hasWindow() && player.getWindow() instanceof MessageBook)
 		{
-			turnConsumed = ControlConsts.cMessageBook.input(keyEvent, controlListener, player.getMessage(), assets);
+			turnConsumed = ControlConsts.cMessageBook.input(keyEvent, controlListener, (MessageBook) player.getWindow(), assets);
 		}
 
 		switch (keyEvent.getKeyCode())
@@ -52,32 +57,81 @@ public class CPlayer extends IControllerComponent<Player> {
 			}
 
 			break;
+
+
+		case KeyEvent.VK_ESCAPE:
+			if (player.hasWindow() && player.getWindow().isClosable()) player.removeWindow();
+			else
+			{
+
+				player.showWindow(Message.create()
+						.println(assets.translate("question.saveAndExit"))
+						.println("")
+						.println(Choice.create('a', assets.translate("vocabulary.yes"), new ChoiceFunction()
+						{
+							@Override
+							public ChoiceResult apply(Character t) {
+								player.removeWindow();
+
+								AssetsUtils.saveAssets(assets, assets.getSaveDir());
+
+								new Thread("Game Closer")
+								{
+									@Override
+									public void run()
+									{
+										try {
+											sleep(1000);
+										} catch (InterruptedException e) {
+											// TODO 自動生成された catch ブロック
+											e.printStackTrace();
+										}
+
+										System.exit(0); // TODO 共通の終了処理
+									}
+								}.start();
+
+								return null; // TODO ChoiceResult
+							}
+						})
+						)
+
+						.println(Choice.create('b', assets.translate("vocabulary.no"), new ChoiceFunction()
+						{
+							@Override
+							public ChoiceResult apply(Character t) {
+								player.removeWindow();
+								return null; // TODO ChoiceResult
+							}
+						})
+						)
+				);
+
+			}
+
+			break;
 		case KeyEvent.VK_NUMPAD8:
 		case KeyEvent.VK_UP:
-			if (player.hasMessage()) player.getMessage().currentPage().prevChoice();
-			else if (player.mode.enableSelecter() && ViewUtils.topInWindowEdge(player.focusedY, player, 1)) player.focusedY -= 1;
-			else if (player.mode.enableMove() && ! player.hasMessage()) turnConsumed = player.move(Direction.NORTH);
+			if (player.mode.enableSelecter() && ViewUtils.topInWindowEdge(player.focusedY, player, 1)) player.focusedY -= 1;
+			else if (player.mode.enableMove() && ! player.hasWindow()) turnConsumed = player.move(Direction.NORTH);
 			break;
 
 		case KeyEvent.VK_NUMPAD2:
 		case KeyEvent.VK_DOWN:
-			if (player.hasMessage()) player.getMessage().currentPage().nextChoice();
-			else if (player.mode.enableSelecter() && ViewUtils.bottomInWindowEdge(player.focusedY, player, 1)) player.focusedY += 1;
-			else if (player.mode.enableMove() && ! player.hasMessage()) turnConsumed = player.move(Direction.SOUTH);
+			if (player.mode.enableSelecter() && ViewUtils.bottomInWindowEdge(player.focusedY, player, 1)) player.focusedY += 1;
+			else if (player.mode.enableMove() && ! player.hasWindow()) turnConsumed = player.move(Direction.SOUTH);
 			break;
 
 		case KeyEvent.VK_NUMPAD4:
 		case KeyEvent.VK_LEFT:
-			if (player.hasMessage()) player.getMessage().prevPage();
-			else if (player.mode.enableSelecter() && ViewUtils.leftInWindowEdge(player.focusedX, player, 1)) player.focusedX -= 1;
-			else if (player.mode.enableMove() && ! player.hasMessage()) turnConsumed = player.move(Direction.WEST);
+			if (player.mode.enableSelecter() && ViewUtils.leftInWindowEdge(player.focusedX, player, 1)) player.focusedX -= 1;
+			else if (player.mode.enableMove() && ! player.hasWindow()) turnConsumed = player.move(Direction.WEST);
 			break;
 
 		case KeyEvent.VK_NUMPAD6:
 		case KeyEvent.VK_RIGHT:
-			if (player.hasMessage()) player.getMessage().nextPage();
-			else if (player.mode.enableSelecter() && ViewUtils.rightInWindowEdge(player.focusedX, player, 1)) player.focusedX += 1;
-			else if (player.mode.enableMove() && ! player.hasMessage()) turnConsumed = player.move(Direction.EAST);
+			if (player.mode.enableSelecter() && ViewUtils.rightInWindowEdge(player.focusedX, player, 1)) player.focusedX += 1;
+			else if (player.mode.enableMove() && ! player.hasWindow()) turnConsumed = player.move(Direction.EAST);
 			break;
 
 		case KeyEvent.VK_NUMPAD7:
@@ -89,7 +143,7 @@ public class CPlayer extends IControllerComponent<Player> {
 				if (ViewUtils.topInWindowEdge(player.focusedY, player, 1))
 					player.focusedY -= 1;
 			}
-			else if (player.mode.enableMove() && ! player.hasMessage()) turnConsumed = player.move(Direction.NORTH, Direction.WEST);
+			else if (player.mode.enableMove() && ! player.hasWindow()) turnConsumed = player.move(Direction.NORTH, Direction.WEST);
 			break;
 
 		case KeyEvent.VK_NUMPAD9:
@@ -101,7 +155,7 @@ public class CPlayer extends IControllerComponent<Player> {
 				if (ViewUtils.topInWindowEdge(player.focusedY, player, 1))
 					player.focusedY -= 1;
 			}
-			else if (player.mode.enableMove() && ! player.hasMessage()) turnConsumed = player.move(Direction.NORTH, Direction.EAST);
+			else if (player.mode.enableMove() && ! player.hasWindow()) turnConsumed = player.move(Direction.NORTH, Direction.EAST);
 			break;
 
 		case KeyEvent.VK_NUMPAD1:
@@ -113,7 +167,7 @@ public class CPlayer extends IControllerComponent<Player> {
 				if (ViewUtils.bottomInWindowEdge(player.focusedY, player, 1))
 					player.focusedY += 1;
 			}
-			else if (player.mode.enableMove() && ! player.hasMessage()) turnConsumed = player.move(Direction.SOUTH, Direction.WEST);
+			else if (player.mode.enableMove() && ! player.hasWindow()) turnConsumed = player.move(Direction.SOUTH, Direction.WEST);
 			break;
 
 		case KeyEvent.VK_NUMPAD3:
@@ -125,7 +179,7 @@ public class CPlayer extends IControllerComponent<Player> {
 				if (ViewUtils.bottomInWindowEdge(player.focusedY, player, 1))
 					player.focusedY += 1;
 			}
-			else if (player.mode.enableMove() && ! player.hasMessage()) turnConsumed = player.move(Direction.SOUTH, Direction.EAST);
+			else if (player.mode.enableMove() && ! player.hasWindow()) turnConsumed = player.move(Direction.SOUTH, Direction.EAST);
 			break;
 
 		case KeyEvent.VK_NUMPAD5:
@@ -151,6 +205,12 @@ public class CPlayer extends IControllerComponent<Player> {
 					AssetsUtils.saveAssets(assets, (player.mode == PlayerMode.WIZARD) ? assets.getAssetsDir() : assets.getSaveDir());
 				}
 			}
+
+			break;
+
+		case KeyEvent.VK_X: // inventory
+
+			if (! player.hasWindow()) player.showWindow(new InventoryWindow(player.getInventory()));
 
 			break;
 		case KeyEvent.VK_F1: // help
@@ -184,7 +244,7 @@ public class CPlayer extends IControllerComponent<Player> {
 		case KeyEvent.VK_SLASH: // log
 		case KeyEvent.VK_DIVIDE:
 
-			if (! player.hasMessage()) player.logger.setVisible(! player.logger.isVisible());
+			if (! player.hasWindow()) player.logger.setVisible(! player.logger.isVisible());
 			break;
 
 		case KeyEvent.VK_F12: // debug
@@ -210,9 +270,9 @@ public class CPlayer extends IControllerComponent<Player> {
 		}
 
 
-		if (! consumed && player.hasMessage())
+		if (! consumed && player.hasWindow() && player.getWindow() instanceof MessageBook)
 		{
-			MessageBook messageBook = player.getMessage();
+			MessageBook messageBook = (MessageBook) player.getWindow();
 
 			if (messageBook.isVisible() && messageBook.contains(x, y))
 			{

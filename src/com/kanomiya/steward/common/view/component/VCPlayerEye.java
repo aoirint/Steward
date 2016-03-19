@@ -41,8 +41,13 @@ public class VCPlayerEye implements IViewComponent<Player> {
 
 		g.translate(-camX, -camY);
 
-		if (player.logger.isVisible()) ViewConsts.vcMessageBox.paint(g, player.logger, assets, frame);
-		if (player.hasMessage() && player.getMessage().isVisible()) ViewConsts.vcMessageBox.paint(g, player.getMessage(), assets, frame);
+		if (player.logger.isVisible()) ViewConsts.vcWindow.paint(g, player.logger, assets, frame);
+		// if (player.hasMessage() && player.getMessage().isVisible()) ViewConsts.vcMessageBox.paint(g, player.getMessage(), assets, frame);
+
+		if (player.hasWindow() && player.getWindow().isVisible())
+		{
+			ViewConsts.vcWindow.paint(g, player.getWindow(), assets, frame);
+		}
 
 
 

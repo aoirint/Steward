@@ -16,6 +16,7 @@ import com.google.gson.reflect.TypeToken;
 import com.kanomiya.steward.common.model.area.AccessType;
 import com.kanomiya.steward.common.model.area.Area;
 import com.kanomiya.steward.common.model.assets.Assets;
+import com.kanomiya.steward.common.model.item.Inventory;
 import com.kanomiya.steward.common.model.script.Script;
 import com.kanomiya.steward.common.model.script.ScriptEventType;
 import com.kanomiya.steward.common.model.texture.Texture;
@@ -52,6 +53,8 @@ public class EventConverter implements JsonDeserializer<Event>, JsonSerializer<E
 		if (event.access != AccessType.ALLOW) jsObj.add("access", context.serialize(event.access));
 
 		jsObj.add("icon", context.serialize(event.getIcon()));
+
+		if (event.hasInventory()) jsObj.add("inventory", context.serialize(event.getInventory()));
 
 		if (Player.isPlayerId(event.getId()))
 		{
@@ -107,6 +110,9 @@ public class EventConverter implements JsonDeserializer<Event>, JsonSerializer<E
 
 		Texture texture = context.deserialize(jsObj.get("icon"), Texture.class);
 
+		Inventory inventory = null;
+		if (jsObj.has("inventory")) inventory = context.deserialize(jsObj.get("inventory"), Inventory.class);
+
 		Map<ScriptEventType, Script> scripts = null;
 		Type sceventScriptMap = new TypeToken<Map<ScriptEventType, Script>>(){}.getType();
 		if (jsObj.has("scripts")) scripts = context.deserialize(jsObj.get("scripts"), sceventScriptMap);
@@ -126,6 +132,7 @@ public class EventConverter implements JsonDeserializer<Event>, JsonSerializer<E
 		event.access = access;
 
 		event.texture = texture;
+		event.inventory = inventory;
 		event.scripts = scripts;
 
 		if (isPlayer)

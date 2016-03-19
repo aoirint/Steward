@@ -287,7 +287,7 @@ public class Area {
 
 				if ((type != ScriptEventType.ONCOLIDED || fevent != launcher) && fevent.x == x && fevent.y == y)
 				{
-					fevent.launchScript(assets, type);
+					fevent.launchScript(assets, launcher, type);
 					success = true;
 				}
 			}

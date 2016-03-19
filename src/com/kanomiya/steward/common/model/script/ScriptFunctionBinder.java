@@ -1,5 +1,7 @@
 package com.kanomiya.steward.common.model.script;
 
+import javax.script.ScriptException;
+
 import com.kanomiya.steward.common.model.assets.Assets;
 import com.kanomiya.steward.common.model.event.Player;
 
@@ -16,6 +18,16 @@ public class ScriptFunctionBinder {
 	{
 		this.assets = assets;
 		this.player = player;
+	}
+
+	public void execute(String src)
+	{
+		try {
+			assets.getScriptEngine().eval(assets.getScriptCode(src));
+		} catch (ScriptException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		}
 	}
 
 	public void exit()

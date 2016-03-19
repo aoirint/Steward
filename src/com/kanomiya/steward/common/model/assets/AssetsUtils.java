@@ -20,6 +20,10 @@ import com.kanomiya.steward.common.model.area.AreaConverter;
 import com.kanomiya.steward.common.model.event.Event;
 import com.kanomiya.steward.common.model.event.EventConverter;
 import com.kanomiya.steward.common.model.event.PlayerMode;
+import com.kanomiya.steward.common.model.item.Item;
+import com.kanomiya.steward.common.model.item.ItemConverter;
+import com.kanomiya.steward.common.model.item.ItemStack;
+import com.kanomiya.steward.common.model.item.ItemStackConverter;
 import com.kanomiya.steward.common.model.overlay.GameColor;
 import com.kanomiya.steward.common.model.overlay.text.Text;
 import com.kanomiya.steward.common.model.texture.Texture;
@@ -36,10 +40,12 @@ public class AssetsUtils {
 	{
 		GsonBuilder gb = new GsonBuilder();
 
+		gb.registerTypeHierarchyAdapter(IEnumWithId.class, new EnumWithIdConverter());
+		gb.registerTypeAdapter(Texture.class, new TextureConverter());
 		gb.registerTypeAdapter(Area.class, new AreaConverter(assets));
 		gb.registerTypeHierarchyAdapter(Event.class, new EventConverter(assets));
-		gb.registerTypeAdapter(Texture.class, new TextureConverter());
-		gb.registerTypeHierarchyAdapter(IEnumWithId.class, new EnumWithIdConverter());
+		gb.registerTypeHierarchyAdapter(Item.class, new ItemConverter());
+		gb.registerTypeHierarchyAdapter(ItemStack.class, new ItemStackConverter(assets));
 
 		Gson gson = gb.setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
 

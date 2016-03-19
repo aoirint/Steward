@@ -1,8 +1,11 @@
 package com.kanomiya.steward.common.model.event;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
+import javax.script.ScriptEngine;
 import javax.script.ScriptException;
 
 import com.kanomiya.steward.common.model.area.AccessType;
@@ -10,6 +13,7 @@ import com.kanomiya.steward.common.model.area.Area;
 import com.kanomiya.steward.common.model.area.Chunk;
 import com.kanomiya.steward.common.model.area.Tip;
 import com.kanomiya.steward.common.model.assets.Assets;
+import com.kanomiya.steward.common.model.item.Inventory;
 import com.kanomiya.steward.common.model.script.Script;
 import com.kanomiya.steward.common.model.script.ScriptEventType;
 import com.kanomiya.steward.common.model.texture.ITextureOwner;
@@ -34,8 +38,10 @@ public class Event implements ITextureOwner {
 
 	public AccessType access;
 	public Map<ScriptEventType, Script> scripts;
+	public boolean isDead;
 
 	public Texture texture;
+	public Inventory inventory;
 
 	public Assets assets;
 
@@ -92,7 +98,7 @@ public class Event implements ITextureOwner {
 
 		for (int i=0; i<elist.size(); i++)
 		{
-			elist.get(i).launchScript(assets, ScriptEventType.ONCOLIDED);
+			elist.get(i).launchScript(assets, this, ScriptEventType.ONCOLIDED);
 			canEnter = canEnter && (elist.get(i).access != AccessType.DENY);
 		}
 
@@ -205,6 +211,19 @@ public class Event implements ITextureOwner {
 	}
 
 
+	public boolean hasInventory()
+	{
+		return (inventory != null);
+	}
+
+	public Inventory getInventory()
+	{
+		if (inventory == null) inventory = new Inventory();
+		return inventory;
+	}
+
+
+
 	/**
 	 * @return visible
 	 */
@@ -220,18 +239,47 @@ public class Event implements ITextureOwner {
 	}
 
 
+	public void setDead()
+	{
+		area.removeEvent(this);
+		isDead = true;
+	}
+
+	public boolean isDead()
+	{
+		return isDead;
+	}
 
 
 
-	public void launchScript(Assets assets, ScriptEventType eventType)
+	public void launchScript(Assets assets, Event launcher, ScriptEventType eventType)
 	{
 		if (scripts == null) return ;
 		if (! scripts.containsKey(eventType)) return ;
 
-		String scriptCode = assets.getScriptCode(scripts.get(eventType).src); // TODO: No such script code
+		Script script = scripts.get(eventType);
+		String scriptCode = assets.getScriptCode(script.src); // TODO: No such script code
+
+		ScriptEngine scriptEngine = assets.getScriptEngine();
+
+		scriptEngine.put("launcher", launcher);
+		scriptEngine.put("owner", this);
+
+		if (script.hasArgument())
+		{
+			// Bindings bindings = scriptEngine.createBindings();
+			Iterator<Entry<String, Object>> itr = script.args.entrySet().iterator();
+
+			while (itr.hasNext())
+			{
+				Entry<String, Object> entry = itr.next();
+				scriptEngine.put(entry.getKey(), entry.getValue());
+			}
+
+		}
 
 		try {
-			assets.getScriptEngine().eval(scriptCode);
+			scriptEngine.eval(scriptCode);
 		} catch (ScriptException e) {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();

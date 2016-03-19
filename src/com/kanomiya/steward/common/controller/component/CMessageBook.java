@@ -10,7 +10,7 @@ import com.kanomiya.steward.common.model.overlay.message.IngameLogger;
 import com.kanomiya.steward.common.model.overlay.message.Message;
 import com.kanomiya.steward.common.model.overlay.message.MessageBook;
 import com.kanomiya.steward.common.model.overlay.text.ChoiceResult;
-import com.kanomiya.steward.common.view.component.VCMessageBook;
+import com.kanomiya.steward.common.view.component.window.VCMessageBook;
 
 /**
  * @author Kanomiya
@@ -24,19 +24,72 @@ public class CMessageBook extends IControllerComponent<MessageBook> {
 	@Override
 	public boolean input(KeyEvent keyEvent, ControlListener controlListener, MessageBook book, Assets assets)
 	{
-
-		if (keyEvent.getKeyCode() == KeyEvent.VK_ESCAPE && book.isClosable()) book.setVisible(false);
-
 		Message current = book.currentPage();
 
 		if (keyEvent.getKeyCode() == KeyEvent.VK_ENTER)
 		{
-			if (current.hasChoice()) current.getSelectedChoice().apply();
-			else if (keyEvent.isShiftDown()) book.prevPage();
-			else if (! book.isLastPage()) book.nextPage();
-			else if (book.isClosable()) book.setVisible(false);
+			if (current.hasChoice())
+			{
+				current.getSelectedChoice().apply();
+
+				return true;
+			}
+			else if (keyEvent.isShiftDown())
+			{
+				book.prevPage();
+				return true;
+			}
+			else if (! book.isLastPage())
+			{
+				book.nextPage();
+				return true;
+			}
+			else if (book.isClosable())
+			{
+				controlListener.game.thePlayer.removeWindow();
+				return true;
+			}
 		}
 
+		switch (keyEvent.getKeyCode())
+		{
+		case KeyEvent.VK_UP:
+		case KeyEvent.VK_NUMPAD8:
+			if (current.hasChoice() && ! current.isFirstChoice())
+			{
+				current.prevChoice();
+				return true;
+			}
+
+			break;
+		case KeyEvent.VK_DOWN:
+		case KeyEvent.VK_NUMPAD2:
+			if (current.hasChoice() && ! current.isLastChoice())
+			{
+				current.nextChoice();
+				return true;
+			}
+
+			break;
+		case KeyEvent.VK_LEFT:
+		case KeyEvent.VK_NUMPAD4:
+			if (! book.isFirstPage())
+			{
+				book.prevPage();
+				return true;
+			}
+
+			break;
+		case KeyEvent.VK_RIGHT:
+		case KeyEvent.VK_NUMPAD6:
+			if (! book.isLastPage())
+			{
+				book.nextPage();
+				return true;
+			}
+
+			break;
+		}
 
 
 		if (! current.hasChoice()) return false;

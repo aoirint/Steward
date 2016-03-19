@@ -5,6 +5,9 @@ area.title=タイトル
 area.test=テストエリア
 area.test2=テストエリア2
 
+item.pear=洋ナシ
+item.iron_ingot=鉄インゴット
+
 player=プレイヤー
 
 playerMode=モード
@@ -20,6 +23,11 @@ vocabulary.coordinate=座標
 vocabulary.gameStart=ゲーム開始
 vocabulary.exit=終了
 vocabulary.test=テスト
+vocabulary.yes=はい
+vocabulary.no=いいえ
+
+question.saveAndExit=セーブして終了しますか？
+
 
 se.gravel=*ジャリ*
 se.pop=*ぽわん*

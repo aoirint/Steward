@@ -1,5 +1,7 @@
 package com.kanomiya.steward.common.model.item;
 
+import com.kanomiya.steward.common.model.texture.Texture;
+
 
 /**
  * @author Kanomiya
@@ -8,17 +10,76 @@ package com.kanomiya.steward.common.model.item;
 public class Item {
 
 	protected String id;
-	protected String name;
+	protected String unlocalizedName;
+	protected Texture icon;
+
+
+	protected double weight;
+
 
 	public Item()
 	{
 
 	}
 
-	public void setName(String name)
-	{
-		this.name = name;
+
+
+	/**
+	 * @return id
+	 */
+	public String getId() {
+		return id;
 	}
+
+	/**
+	 * @return unlocalizedName
+	 */
+	public String getUnlocalizedName() {
+		return unlocalizedName;
+	}
+
+	/**
+	 * @param id セットする id
+	 */
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	/**
+	 * @param unlocalizedName セットする unlocalizedName
+	 */
+	public void setUnlocalizedName(String unlocalizedName) {
+		this.unlocalizedName = unlocalizedName;
+	}
+
+	/**
+	 * @return icon
+	 */
+	public Texture getIcon() {
+		return icon;
+	}
+
+	/**
+	 * @return weight
+	 */
+	public double getWeight() {
+		return weight;
+	}
+
+	/**
+	 * @param icon セットする icon
+	 */
+	public void setIcon(Texture icon) {
+		this.icon = icon;
+	}
+
+	/**
+	 * @param weight セットする weight
+	 */
+	public void setWeight(double weight) {
+		this.weight = weight;
+	}
+
 
 
 }

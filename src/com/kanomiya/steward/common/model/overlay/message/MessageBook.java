@@ -4,19 +4,19 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.google.common.collect.Lists;
-import com.kanomiya.steward.common.model.overlay.Overlay;
+import com.kanomiya.steward.common.model.overlay.LocationType;
 import com.kanomiya.steward.common.model.overlay.text.Text;
+import com.kanomiya.steward.common.model.overlay.window.Window;
 
 /**
  * @author Kanomiya
  *
  */
-public class MessageBook extends Overlay {
+public class MessageBook extends Window {
 
 	protected LinkedList<Message> pages;
 
 	protected int currentPageIndex;
-	protected boolean isClosable;
 	public boolean autoLastLock;
 
 	public static MessageBook create()
@@ -30,6 +30,7 @@ public class MessageBook extends Overlay {
 		width = 756;
 		height = 252;
 
+		autoLocation(LocationType.CENTER);
 		isClosable = true;
 	}
 
@@ -244,25 +245,17 @@ public class MessageBook extends Overlay {
 		return height /Text.defaultHeight;
 	}
 
-	/**
-	 *
-	 * 任意のタイミングで閉じることができるかどうか
-	 *
-	 * @return 閉じられる場合true
-	 */
+
+	@Override
 	public boolean isClosable()
 	{
-		return isClosable && (! hasPage() || currentPage().isClosable());
+		return super.isClosable() && (! hasPage() || currentPage().isClosable());
 	}
 
-	public void setClosable(boolean bool)
-	{
-		isClosable = bool;
-	}
 
 	public MessageBook lockClose()
 	{
-		isClosable = false;
+		setClosable(false);
 		return this;
 	}
 

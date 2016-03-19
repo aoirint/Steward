@@ -9,10 +9,10 @@ import com.kanomiya.steward.common.view.component.VCArea;
 import com.kanomiya.steward.common.view.component.VCBorder;
 import com.kanomiya.steward.common.view.component.VCDebug;
 import com.kanomiya.steward.common.view.component.VCMarker;
-import com.kanomiya.steward.common.view.component.VCMessageBook;
 import com.kanomiya.steward.common.view.component.VCPlayerEye;
 import com.kanomiya.steward.common.view.component.VCSelect;
 import com.kanomiya.steward.common.view.component.VCTexture;
+import com.kanomiya.steward.common.view.component.window.VCWindow;
 import com.kanomiya.steward.editor.FrameTip;
 import com.kanomiya.steward.editor.view.ViewTips;
 
@@ -40,7 +40,7 @@ public class ViewConsts {
 	public static VCTexture vcTexture = new VCTexture();
 	public static VCBorder vcBorder = new VCBorder();
 
-	public static VCMessageBook vcMessageBox = new VCMessageBook();
+	public static VCWindow vcWindow = new VCWindow();
 	public static VCDebug vcStat = new VCDebug();
 
 	public static VCSelect vcSelect = new VCSelect();

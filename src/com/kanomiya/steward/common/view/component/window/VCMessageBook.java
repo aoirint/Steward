@@ -1,4 +1,4 @@
-package com.kanomiya.steward.common.view.component;
+package com.kanomiya.steward.common.view.component.window;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;
@@ -14,6 +14,7 @@ import com.kanomiya.steward.common.model.overlay.text.Choice;
 import com.kanomiya.steward.common.model.overlay.text.Text;
 import com.kanomiya.steward.common.view.ViewConsts;
 import com.kanomiya.steward.common.view.ViewUtils;
+import com.kanomiya.steward.common.view.component.IViewComponent;
 
 /**
  * @author Kanomiya
@@ -70,8 +71,6 @@ public class VCMessageBook implements IViewComponent<MessageBook> {
 
 		Choice selcetedChoice = (page.hasChoice()) ? page.getSelectedChoice() : null;
 
-
-		g.translate(book.x, book.y);
 
 		g.setComposite(ViewConsts.alpha80);
 		if (book.hasBackground()) ViewConsts.vcTexture.paint(g, book.getBackground(), assets, frame);
@@ -245,7 +244,6 @@ public class VCMessageBook implements IViewComponent<MessageBook> {
 
 		g.translate(-Text.defaultHeight, -Text.defaultHeight);
 
-		g.translate(-book.x, -book.y);
 	}
 
 

@@ -1,0 +1,23 @@
+{
+  "id": "test/item2",
+  "area": "test",
+  "x": 1,
+  "y": 10,
+  "access": "deny",
+  "icon": {
+    "src": [
+      [
+        "item/iron_ingot.png"
+      ]
+    ]
+  },
+  "scripts": {
+    "onColided": {
+      "src": "eventGetItem.js",
+	  "args":
+	  {
+		"id": "iron_ingot"
+	  }
+    }
+  }
+}
