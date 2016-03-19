@@ -1,4 +1,4 @@
-package com.kanomiya.steward.common.model.overlay.message;
+package com.kanomiya.steward.common.model.overlay.window.message;
 
 import com.kanomiya.steward.common.model.assets.Assets;
 import com.kanomiya.steward.common.model.overlay.LocationType;

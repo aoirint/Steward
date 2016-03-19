@@ -7,8 +7,8 @@ import java.awt.Graphics2D;
 import com.kanomiya.steward.common.model.assets.Assets;
 import com.kanomiya.steward.common.model.overlay.GameColor;
 import com.kanomiya.steward.common.model.overlay.InventoryWindow;
-import com.kanomiya.steward.common.model.overlay.message.MessageBook;
 import com.kanomiya.steward.common.model.overlay.window.Window;
+import com.kanomiya.steward.common.model.overlay.window.message.MessageBook;
 import com.kanomiya.steward.common.view.ViewConsts;
 import com.kanomiya.steward.common.view.component.IViewComponent;
 

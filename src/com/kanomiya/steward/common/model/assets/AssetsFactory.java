@@ -36,11 +36,11 @@ import com.kanomiya.steward.common.model.item.Item;
 import com.kanomiya.steward.common.model.item.ItemStack;
 import com.kanomiya.steward.common.model.lang.I18n;
 import com.kanomiya.steward.common.model.overlay.GameColor;
-import com.kanomiya.steward.common.model.overlay.message.Message;
-import com.kanomiya.steward.common.model.overlay.message.MessageBook;
 import com.kanomiya.steward.common.model.overlay.text.Choice;
 import com.kanomiya.steward.common.model.overlay.text.ChoiceResult;
 import com.kanomiya.steward.common.model.overlay.text.Text;
+import com.kanomiya.steward.common.model.overlay.window.message.Message;
+import com.kanomiya.steward.common.model.overlay.window.message.MessageBook;
 import com.kanomiya.steward.common.model.script.ScriptEventType;
 import com.kanomiya.steward.common.model.script.ScriptFunctionBinder;
 

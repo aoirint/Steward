@@ -6,9 +6,9 @@ import com.google.common.collect.Maps;
 import com.google.gson.annotations.Expose;
 import com.kanomiya.steward.common.model.area.Area;
 import com.kanomiya.steward.common.model.assets.Assets;
-import com.kanomiya.steward.common.model.overlay.message.IngameLogger;
-import com.kanomiya.steward.common.model.overlay.message.Message;
 import com.kanomiya.steward.common.model.overlay.window.Window;
+import com.kanomiya.steward.common.model.overlay.window.message.IngameLogger;
+import com.kanomiya.steward.common.model.overlay.window.message.Message;
 import com.kanomiya.steward.common.view.ViewConsts;
 
 /**

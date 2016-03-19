@@ -17,13 +17,13 @@ import com.kanomiya.steward.common.model.event.Player;
 import com.kanomiya.steward.common.model.event.PlayerMode;
 import com.kanomiya.steward.common.model.overlay.GameColor;
 import com.kanomiya.steward.common.model.overlay.InventoryWindow;
-import com.kanomiya.steward.common.model.overlay.message.IngameLogger;
-import com.kanomiya.steward.common.model.overlay.message.Message;
-import com.kanomiya.steward.common.model.overlay.message.MessageBook;
 import com.kanomiya.steward.common.model.overlay.text.Choice;
 import com.kanomiya.steward.common.model.overlay.text.ChoiceFunction;
 import com.kanomiya.steward.common.model.overlay.text.ChoiceResult;
 import com.kanomiya.steward.common.model.overlay.text.Text;
+import com.kanomiya.steward.common.model.overlay.window.message.IngameLogger;
+import com.kanomiya.steward.common.model.overlay.window.message.Message;
+import com.kanomiya.steward.common.model.overlay.window.message.MessageBook;
 import com.kanomiya.steward.common.view.ViewConsts;
 import com.kanomiya.steward.common.view.ViewUtils;
 

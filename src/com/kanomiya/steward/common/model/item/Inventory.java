@@ -5,13 +5,15 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import com.google.gson.annotations.Expose;
+
 /**
  * @author Kanomiya
  *
  */
 public class Inventory {
 
-	public List<ItemStack> stacks;
+	@Expose public List<ItemStack> stacks;
 
 	public Inventory()
 	{

@@ -1,4 +1,4 @@
-package com.kanomiya.steward.common.model.overlay.message;
+package com.kanomiya.steward.common.model.overlay.window.message;
 
 import java.util.LinkedList;
 import java.util.List;
