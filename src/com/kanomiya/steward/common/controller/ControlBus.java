@@ -20,7 +20,7 @@ import com.kanomiya.steward.common.view.ViewUtils;
  * @author Kanomiya
  *
  */
-public class ControlListener implements KeyListener, MouseListener, MouseMotionListener {
+public class ControlBus implements KeyListener, MouseListener, MouseMotionListener {
 
 	public Game game;
 	public Frame gameFrame;

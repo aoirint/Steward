@@ -18,10 +18,10 @@ public abstract class IControllerComponent<T> {
 	 * @param assets
 	 * @return
 	 */
-	public boolean input(KeyEvent keyEvent, ControlListener controlListener, T model, Assets assets) { return false; }
+	public boolean input(KeyEvent keyEvent, ControlBus controlBus, T model, Assets assets) { return false; }
 
-	public boolean click(MouseEvent mouseEvent, int x, int y, ControlListener controlListener, T model, Assets assets) { return false; }
+	public boolean click(MouseEvent mouseEvent, int x, int y, ControlBus controlBus, T model, Assets assets) { return false; }
 
-	public boolean mouseMove(int x, int y, ControlListener controlListener, T model, Assets assets) { return false; }
+	public boolean mouseMove(int x, int y, ControlBus controlBus, T model, Assets assets) { return false; }
 
 }

@@ -3,7 +3,7 @@ package com.kanomiya.steward.common.controller.component;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
-import com.kanomiya.steward.common.controller.ControlListener;
+import com.kanomiya.steward.common.controller.ControlBus;
 import com.kanomiya.steward.common.controller.IControllerComponent;
 import com.kanomiya.steward.common.model.assets.Assets;
 import com.kanomiya.steward.common.model.overlay.text.ChoiceResult;
@@ -22,7 +22,7 @@ public class CMessageBook extends IControllerComponent<MessageBook> {
 	* @inheritDoc
 	*/
 	@Override
-	public boolean input(KeyEvent keyEvent, ControlListener controlListener, MessageBook book, Assets assets)
+	public boolean input(KeyEvent keyEvent, ControlBus controlBus, MessageBook book, Assets assets)
 	{
 		Message current = book.currentPage();
 
@@ -46,7 +46,7 @@ public class CMessageBook extends IControllerComponent<MessageBook> {
 			}
 			else if (book.isClosable())
 			{
-				controlListener.game.thePlayer.removeWindow();
+				controlBus.game.thePlayer.removeWindow();
 				return true;
 			}
 		}
@@ -113,7 +113,7 @@ public class CMessageBook extends IControllerComponent<MessageBook> {
 	* @inheritDoc
 	*/
 	@Override
-	public boolean click(MouseEvent mouseEvent, int x, int y, ControlListener controlListener, MessageBook book, Assets assets)
+	public boolean click(MouseEvent mouseEvent, int x, int y, ControlBus controlBus, MessageBook book, Assets assets)
 	{
 		if (book instanceof IngameLogger) ((IngameLogger) book).autoCloseLock = true;
 

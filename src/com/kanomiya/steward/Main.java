@@ -8,7 +8,7 @@ import java.io.File;
 
 import com.kanomiya.steward.common.FrameWithView;
 import com.kanomiya.steward.common.Game;
-import com.kanomiya.steward.common.controller.ControlListener;
+import com.kanomiya.steward.common.controller.ControlBus;
 import com.kanomiya.steward.common.model.ModelConsts;
 import com.kanomiya.steward.common.model.assets.Assets;
 import com.kanomiya.steward.common.model.assets.AssetsFactory;
@@ -72,7 +72,7 @@ public class Main {
 
 
 
-		ControlListener cl = new ControlListener();
+		ControlBus cl = new ControlBus();
 		cl.game = game;
 		cl.gameFrame = frame;
 		cl.frameInsets = frame.getInsets();

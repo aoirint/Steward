@@ -8,7 +8,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import com.kanomiya.steward.common.controller.ControlConsts;
-import com.kanomiya.steward.common.controller.ControlListener;
+import com.kanomiya.steward.common.controller.ControlBus;
 import com.kanomiya.steward.common.controller.IControllerComponent;
 import com.kanomiya.steward.common.model.assets.Assets;
 import com.kanomiya.steward.common.model.assets.AssetsUtils;
@@ -38,12 +38,12 @@ public class CPlayer extends IControllerComponent<Player> {
 	* @inheritDoc
 	*/
 	@Override
-	public boolean input(KeyEvent keyEvent, ControlListener controlListener, Player player, Assets assets) {
+	public boolean input(KeyEvent keyEvent, ControlBus controlBus, Player player, Assets assets) {
 		boolean turnConsumed = false;
 
 		if (player.hasWindow() && player.getWindow() instanceof MessageBook)
 		{
-			turnConsumed = ControlConsts.cMessageBook.input(keyEvent, controlListener, (MessageBook) player.getWindow(), assets);
+			turnConsumed = ControlConsts.cMessageBook.input(keyEvent, controlBus, (MessageBook) player.getWindow(), assets);
 		}
 
 		switch (keyEvent.getKeyCode())
@@ -258,7 +258,7 @@ public class CPlayer extends IControllerComponent<Player> {
 	}
 
 	@Override
-	public boolean click(MouseEvent mouseEvent, int x, int y, ControlListener controlListener, Player player, Assets assets)
+	public boolean click(MouseEvent mouseEvent, int x, int y, ControlBus controlBus, Player player, Assets assets)
 	{
 		boolean consumed = false;
 
@@ -266,7 +266,7 @@ public class CPlayer extends IControllerComponent<Player> {
 
 		if (logger.isVisible() && logger.contains(x, y))
 		{
-			ControlConsts.cMessageBook.click(mouseEvent, x -logger.x, y -logger.y, controlListener, logger, assets);
+			ControlConsts.cMessageBook.click(mouseEvent, x -logger.x, y -logger.y, controlBus, logger, assets);
 		}
 
 
@@ -276,7 +276,7 @@ public class CPlayer extends IControllerComponent<Player> {
 
 			if (messageBook.isVisible() && messageBook.contains(x, y))
 			{
-				ControlConsts.cMessageBook.click(mouseEvent, x -messageBook.x, y -messageBook.y, controlListener, messageBook, assets);
+				ControlConsts.cMessageBook.click(mouseEvent, x -messageBook.x, y -messageBook.y, controlBus, messageBook, assets);
 			}
 
 		}
