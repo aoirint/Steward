@@ -280,8 +280,16 @@ public class Event implements ITextureOwner {
 
 		try {
 			scriptEngine.eval(scriptCode);
+
 		} catch (ScriptException e) {
 			// TODO 自動生成された catch ブロック
+			System.err.println("Excepion source: " + script.src);
+			e.printStackTrace();
+
+		} catch (Exception e)
+		{
+			// TODO
+			System.err.println("Excepion source: " + script.src);
 			e.printStackTrace();
 		}
 

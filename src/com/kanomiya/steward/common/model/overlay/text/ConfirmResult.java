@@ -4,7 +4,7 @@ package com.kanomiya.steward.common.model.overlay.text;
  * @author Kanomiya
  *
  */
-public class ChoiceResult {
+public class ConfirmResult {
 
 
 

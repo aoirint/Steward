@@ -7,6 +7,7 @@ import java.util.Map;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.kanomiya.steward.common.model.overlay.text.Choice;
+import com.kanomiya.steward.common.model.overlay.text.ISelectableText;
 import com.kanomiya.steward.common.model.overlay.text.Text;
 
 /**
@@ -16,10 +17,10 @@ import com.kanomiya.steward.common.model.overlay.text.Text;
 public class Message {
 
 	protected LinkedList<Text> items;
-	protected List<Choice> choices;
+	protected List<ISelectableText> selectableTexts;
 	protected Map<Character, Choice> charToChoice;
 	protected boolean isClosable;
-	public int selectedChoiceIndex;
+	public int selectedIndexOfSelectable;
 
 	public static Message create()
 	{
@@ -66,16 +67,27 @@ public class Message {
 		return charToChoice().size();
 	}
 
+	public int selectableCount()
+	{
+		if (selectableTexts == null) return 0;
+		return selectableTexts().size();
+	}
+
 
 	public Message print(Text text)
 	{
 		items().addLast(text);
 
-		if (text instanceof Choice)
+		if (text instanceof ISelectableText)
 		{
-			Choice choice = (Choice) text;
-			choices().add(choice);
-			if (choice.ch != null) charToChoice().put(choice.ch, choice);
+			ISelectableText selectable = (ISelectableText) text;
+			selectableTexts().add(selectable);
+
+			if (text instanceof Choice)
+			{
+				Choice choice = (Choice) selectable;
+				if (choice.ch != null) charToChoice().put(choice.ch, choice);
+			}
 		}
 
 		return this;
@@ -118,17 +130,14 @@ public class Message {
 	 *
 	 * @return
 	 */
-	public List<Choice> choices()
+	public List<ISelectableText> selectableTexts()
 	{
-		if (choices == null) choices = Lists.newArrayList();
-		return choices;
+		if (selectableTexts == null) selectableTexts = Lists.newArrayList();
+		return selectableTexts;
 	}
 
-	/**
-	 *
-	 */
-	public Choice getSelectedChoice() {
-		return choices.get(selectedChoiceIndex);
+	public ISelectableText getSelectedText() {
+		return selectableTexts.get(selectedIndexOfSelectable);
 	}
 
 
@@ -137,6 +146,13 @@ public class Message {
 	 */
 	public boolean hasItem() {
 		return (itemCount() != 0);
+	}
+
+	/**
+	 * @return
+	 */
+	public boolean hasSelectable() {
+		return (selectableCount() != 0);
 	}
 
 	/**
@@ -178,30 +194,30 @@ public class Message {
 
 
 
-	public boolean isFirstChoice()
+	public boolean isFirstSelectable()
 	{
-		return (selectedChoiceIndex == 0);
+		return (selectedIndexOfSelectable == 0);
 	}
 
-	public boolean isLastChoice()
+	public boolean isLastSelectable()
 	{
-		return (selectedChoiceIndex == choiceCount() -1);
+		return (selectedIndexOfSelectable == selectableCount() -1);
 	}
 
 
-	public boolean prevChoice()
+	public boolean prevSelectable()
 	{
-		if (isFirstChoice()) return false;
+		if (isFirstSelectable()) return false;
 
-		selectedChoiceIndex --;
+		selectedIndexOfSelectable --;
 		return true;
 	}
 
-	public boolean nextChoice()
+	public boolean nextSelectable()
 	{
-		if (isLastChoice()) return false;
+		if (isLastSelectable()) return false;
 
-		selectedChoiceIndex ++;
+		selectedIndexOfSelectable ++;
 		return true;
 	}
 

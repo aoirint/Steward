@@ -8,7 +8,8 @@ import java.util.Iterator;
 import com.kanomiya.steward.common.model.assets.Assets;
 import com.kanomiya.steward.common.model.overlay.GameColor;
 import com.kanomiya.steward.common.model.overlay.GameFont;
-import com.kanomiya.steward.common.model.overlay.text.Choice;
+import com.kanomiya.steward.common.model.overlay.text.IEditableText;
+import com.kanomiya.steward.common.model.overlay.text.ISelectableText;
 import com.kanomiya.steward.common.model.overlay.text.Text;
 import com.kanomiya.steward.common.model.overlay.window.message.Message;
 import com.kanomiya.steward.common.model.overlay.window.message.MessageBook;
@@ -69,7 +70,7 @@ public class VCMessageBook implements IViewComponent<MessageBook> {
 		Message page = book.currentPage();
 
 
-		Choice selcetedChoice = (page.hasChoice()) ? page.getSelectedChoice() : null;
+		ISelectableText selected = (page.hasSelectable()) ? page.getSelectedText() : null;
 
 
 		g.setComposite(ViewConsts.alpha80);
@@ -212,15 +213,25 @@ public class VCMessageBook implements IViewComponent<MessageBook> {
 					if (item.underline) g.drawLine(left, top, g.getFontMetrics().stringWidth(lines[i]), top);
 				}
 
-				if (selcetedChoice == item)
+				if (selected == item) // selected instanceof Choice
 				{
 					g.setComposite(ViewConsts.halfBlend);
 					g.setColor(Color.white);
 
-					g.fillRect(left, line *lineHeight +3, book.width -lineHeight*2 -left, lineHeight *yLen);
+					int itTop = line *lineHeight +3;
+					g.fillRect(left, itTop, book.width -lineHeight*2 -left, lineHeight *yLen);
 
 					g.setComposite(AlphaComposite.SrcOver);
 					g.setColor(item.color);
+
+					if (item instanceof IEditableText) //  && 0 <= frame && frame <= 10)
+					{
+						int cridx = ((IEditableText) item).getCaretIndex();
+
+						int crleft = left +g.getFontMetrics().stringWidth(item.text.substring(0, cridx));
+						g.drawLine(crleft, itTop, crleft, itTop +lineHeight);
+					}
+
 				}
 
 				line += yLen -1;

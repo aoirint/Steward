@@ -1,71 +1,79 @@
 package com.kanomiya.steward.common.model.overlay.text;
 
-import jdk.nashorn.api.scripting.ScriptObjectMirror;
 
 
 /**
  * @author Kanomiya
  *
  */
-public class Choice extends Text {
+public class Choice extends Text implements ISelectableText, IConfirmable<Character> {
 
 
-	public static Choice createFromScript(String text, ScriptObjectMirror function)
+	public static Choice create(Character ch, Text text)
 	{
-		return create(null, text, ChoiceFunction.create(function));
+		return new Choice(ch, text);
 	}
 
-	public static Choice createFromScript(Text text, ScriptObjectMirror function)
+	public static Choice create(Character ch, String text)
 	{
-		return create(null, text, ChoiceFunction.create(function));
+		return new Choice(ch, text);
 	}
 
-	public static Choice createFromScript(Character ch, String text, ScriptObjectMirror function)
-	{
-		return create(ch, text, ChoiceFunction.create(function));
-	}
-
-	public static Choice createFromScript(Character ch, Text text, ScriptObjectMirror function)
-	{
-		return create(ch, text, ChoiceFunction.create(function));
-	}
-
-	public static Choice create(Character ch, String text, ChoiceFunction function)
-	{
-		return new Choice(ch, text, function);
-	}
-
-	public static Choice create(Character ch, Text text, ChoiceFunction function)
-	{
-		return new Choice(ch, text, function);
-	}
 
 
 
 
 	public Character ch;
-	protected ChoiceFunction function;
+	protected ConfirmHandler confirmHandler;
 
 
-	public Choice(Character ch, String text, ChoiceFunction function) {
-		super(((ch != null) ? "[" + ch + "] " : "") + text);
-
-		this.ch = ch;
-		this.function = function;
-	}
-
-	public Choice(Character ch, Text text, ChoiceFunction function) {
+	public Choice(Character ch, Text text) {
 		super(text);
 
 		this.ch = ch;
-		this.function = function;
+	}
+
+	public Choice(Character ch, String text) {
+		super(((ch != null) ? "[" + ch + "] " : "") + text);
+
+		this.ch = ch;
 	}
 
 
-	public ChoiceResult apply()
-	{
-		return function.apply(ch);
+
+
+
+	/**
+	* @inheritDoc
+	*/
+	@Override
+	public Choice confirmHandler(ConfirmHandler confirmHandler) {
+		this.confirmHandler = confirmHandler;
+		return this;
 	}
+
+	/**
+	* @inheritDoc
+	*/
+	@Override
+	public boolean hasConfirmHandler() {
+		return (confirmHandler != null);
+	}
+
+	/**
+	* @inheritDoc
+	*/
+	@Override
+	public ConfirmHandler getConfirmHandler() {
+		return confirmHandler;
+	}
+
+	public ConfirmResult confirm() {
+		return confirm(ch);
+	}
+
+
+
 
 
 }

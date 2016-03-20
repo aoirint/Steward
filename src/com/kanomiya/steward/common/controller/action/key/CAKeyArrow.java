@@ -37,10 +37,10 @@ public class CAKeyArrow implements IControlAction<KeyboardUpdateEvent> {
 
 				Message current = book.currentPage();
 
-				if (current.hasChoice())
+				if (current.hasSelectable())
 				{
-					if (event.isPressed(VirtualKeypad.UP) && ! current.isFirstChoice()) current.prevChoice();
-					if (event.isPressed(VirtualKeypad.DOWN) && ! current.isLastChoice()) current.nextChoice();
+					if (event.isPressed(VirtualKeypad.UP) && ! current.isFirstSelectable()) current.prevSelectable();
+					if (event.isPressed(VirtualKeypad.DOWN) && ! current.isLastSelectable()) current.nextSelectable();
 				}
 			}
 		} else

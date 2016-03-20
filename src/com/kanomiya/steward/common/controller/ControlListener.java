@@ -16,7 +16,12 @@ import com.kanomiya.steward.common.controller.unit.identifier.Key;
 import com.kanomiya.steward.common.controller.unit.identifier.MouseButton;
 import com.kanomiya.steward.common.model.area.Area;
 import com.kanomiya.steward.common.model.area.Tip;
+import com.kanomiya.steward.common.model.event.Player;
 import com.kanomiya.steward.common.model.event.PlayerMode;
+import com.kanomiya.steward.common.model.overlay.text.IEditableText;
+import com.kanomiya.steward.common.model.overlay.window.Window;
+import com.kanomiya.steward.common.model.overlay.window.message.Message;
+import com.kanomiya.steward.common.model.overlay.window.message.MessageBook;
 import com.kanomiya.steward.common.view.ViewConsts;
 import com.kanomiya.steward.common.view.ViewUtils;
 
@@ -40,7 +45,7 @@ public class ControlListener implements KeyListener, MouseListener, MouseMotionL
 		mouse = new Mouse();
 	}
 
-
+	boolean pressedIsconsumed;
 
 	/**
 	* @inheritDoc
@@ -48,14 +53,18 @@ public class ControlListener implements KeyListener, MouseListener, MouseMotionL
 	@Override
 	public void keyPressed(KeyEvent e)
 	{
-
 		// DEBUG
-		//System.out.println("key: " + e.getKeyCode() + " char: " + e.getKeyChar());
+		System.out.println("key: " + e.getKeyCode() + " char: " + e.getKeyChar());
 
 		Key key = keyEventToKey(e);
 		keyboard.getKeyState(key).press();
 
-		game.eventBus().post(new KeyboardUpdateEvent(keyboard, mouse, key));
+		KeyboardUpdateEvent keyUpdateEvent = new KeyboardUpdateEvent(keyboard, mouse, key);
+		game.eventBus().post(keyUpdateEvent);
+
+		game.turnWithCheck();
+
+		pressedIsconsumed = keyUpdateEvent.isConsumed();
 
 	}
 
@@ -69,6 +78,8 @@ public class ControlListener implements KeyListener, MouseListener, MouseMotionL
 		keyboard.getKeyState(key).release();
 
 		game.eventBus().post(new KeyboardUpdateEvent(keyboard, mouse, key));
+
+		game.turnWithCheck();
 	}
 
 	/**
@@ -97,6 +108,7 @@ public class ControlListener implements KeyListener, MouseListener, MouseMotionL
 			wizardOnMouseEvent(e);
 		}
 
+		game.turnWithCheck();
 	}
 
 
@@ -178,6 +190,8 @@ public class ControlListener implements KeyListener, MouseListener, MouseMotionL
 		mouse.getPointer().point(x, y);
 
 		game.eventBus().post(new MouseUpdateEvent(keyboard, mouse, button));
+
+		game.turnWithCheck();
 	}
 
 
@@ -212,6 +226,7 @@ public class ControlListener implements KeyListener, MouseListener, MouseMotionL
 
 		}
 
+		game.turnWithCheck();
 	}
 
 
@@ -232,7 +247,65 @@ public class ControlListener implements KeyListener, MouseListener, MouseMotionL
 	* @inheritDoc
 	*/
 	@Override
-	public void keyTyped(KeyEvent e) {  }
+	public void keyTyped(KeyEvent e) {
+		// DEBUG
+		// System.out.println("key: " + e.getKeyCode() + " char: " + e.getKeyChar());
+
+		if (pressedIsconsumed)
+		{
+			return ;
+		}
+
+		Player player = game.thePlayer; // VELIF
+
+		if (player.hasWindow())
+		{
+			Window window = player.getWindow();
+			if (window instanceof MessageBook)
+			{
+				Message current = ((MessageBook) window).currentPage();
+
+				if (current.hasSelectable() && current.getSelectedText() instanceof IEditableText)
+				{
+					IEditableText editable = (IEditableText) current.getSelectedText();
+					String str = editable.getTextString();
+					char ch = e.getKeyChar();
+					int cridx = editable.getCaretIndex();
+
+					StringBuilder builder = new StringBuilder(str);
+
+					if (ch == '\u0008') // backspace
+					{
+						if (0 < cridx)
+						{
+							builder.deleteCharAt(cridx -1);
+							editable.setCaretIndex(cridx -1);
+						}
+
+					} else if (ch == '\u007f') // delete
+					{
+						if (cridx < str.length())
+						{
+							builder.deleteCharAt(cridx);
+						}
+
+					} else if (editable.getConfirmationChar() == ch) editable.confirm(editable.getTextString()); // VELIF arg
+					else if (ch != '\n' || editable.multiLineIsAvailable())
+					{
+						builder.insert(cridx, ch);
+						editable.setCaretIndex(cridx +1);
+					}
+
+					String result = builder.toString();
+					editable.setTextString(result);
+
+
+				}
+
+			}
+		}
+
+	}
 
 	/**
 	* @inheritDoc
@@ -347,10 +420,14 @@ public class ControlListener implements KeyListener, MouseListener, MouseMotionL
 
 		// 記号
 		case KeyEvent.VK_COLON: if (! shift) return Key.COLON; // SHIFTならAsterisk
+		case KeyEvent.VK_MULTIPLY:
 		case KeyEvent.VK_ASTERISK: return Key.ASTERISK;
 		case KeyEvent.VK_SEMICOLON: if (! shift) return Key.SEMICOLON; // SHIFTならPlus
+		case KeyEvent.VK_ADD:
 		case KeyEvent.VK_PLUS: return Key.PLUS;
+		case KeyEvent.VK_SUBTRACT:
 		case KeyEvent.VK_MINUS: return Key.MINUS;
+		case KeyEvent.VK_DIVIDE:
 		case KeyEvent.VK_SLASH: return Key.SLASH;
 
 		case KeyEvent.VK_PERIOD: return Key.PERIOD;

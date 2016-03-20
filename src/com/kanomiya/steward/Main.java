@@ -1,7 +1,5 @@
 package com.kanomiya.steward;
 
-import java.io.File;
-
 import com.kanomiya.steward.common.Game;
 import com.kanomiya.steward.common.model.assets.Assets;
 import com.kanomiya.steward.common.model.assets.AssetsFactory;
@@ -16,12 +14,6 @@ public class Main {
 	 */
 	public static void main(String[] args)
 	{
-		File savesDir = new File("saves");
-		if (! savesDir.exists()) savesDir.mkdir();
-
-
-
-
 
 		AssetsFactory afact = AssetsFactory.newInstance();
 		Assets assets = afact.newAssets();

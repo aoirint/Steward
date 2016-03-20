@@ -35,6 +35,7 @@ import com.kanomiya.steward.common.model.texture.TextureConverter;
  */
 public class AssetsUtils {
 
+	public static String savesDir = "saves";
 
 	public static Gson createGson(Assets assets)
 	{
@@ -53,8 +54,7 @@ public class AssetsUtils {
 	}
 
 
-
-	public static void saveAssets(Assets assets, String saveDirPath)
+	protected static void saveAssets(Assets assets, File saveDir)
 	{
 		Gson gson = createGson(assets);
 
@@ -63,15 +63,14 @@ public class AssetsUtils {
 
 		try
 		{
-			File saveDir = new File(saveDirPath);
 			File tempDir = new File("temp");
-			if (! tempDir.exists()) tempDir.mkdir();
+			if (! tempDir.exists()) tempDir.mkdirs();
 
-			File bkSaveDir = new File(tempDir, saveDirPath);
+			File bkSaveDir = new File(tempDir, savesDir + "/" + assets.saveName);
 			if (bkSaveDir.exists()) bkSaveDir.delete();
 
-			bkSaveDir.mkdir();
-			saveDir.mkdir();
+			bkSaveDir.mkdirs();
+			saveDir.mkdirs();
 
 			Files.walkFileTree(saveDir.toPath(), new SimpleFileVisitor<Path>() {
 				@Override
@@ -148,6 +147,17 @@ public class AssetsUtils {
 				.color((assets.getPlayer().mode == PlayerMode.WIZARD)
 						? GameColor.purple : GameColor.orange));
 
+
+	}
+
+	public static void saveOriginalAssets(Assets assets)
+	{
+		saveAssets(assets, new File(assets.assetsDir));
+	}
+
+	public static void saveAssets(Assets assets, String savesDir)
+	{
+		saveAssets(assets, new File(savesDir, assets.saveName));
 	}
 
 	public static void saveAsJson(Object obj, Gson gson, File file) throws IOException

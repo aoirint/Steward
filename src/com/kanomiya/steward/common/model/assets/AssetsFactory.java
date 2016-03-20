@@ -37,8 +37,9 @@ import com.kanomiya.steward.common.model.item.ItemStack;
 import com.kanomiya.steward.common.model.lang.I18n;
 import com.kanomiya.steward.common.model.overlay.GameColor;
 import com.kanomiya.steward.common.model.overlay.text.Choice;
-import com.kanomiya.steward.common.model.overlay.text.ChoiceResult;
+import com.kanomiya.steward.common.model.overlay.text.ConfirmResult;
 import com.kanomiya.steward.common.model.overlay.text.Text;
+import com.kanomiya.steward.common.model.overlay.text.TextField;
 import com.kanomiya.steward.common.model.overlay.window.message.Message;
 import com.kanomiya.steward.common.model.overlay.window.message.MessageBook;
 import com.kanomiya.steward.common.model.script.ScriptEventType;
@@ -55,14 +56,13 @@ public class AssetsFactory {
 	protected AssetsFactory() {  }
 
 
-	protected String assetsDir, saveDir;
+	protected String assetsDir;
 
 	public static AssetsFactory newInstance()
 	{
 		AssetsFactory afact = new AssetsFactory();
 
 		afact.setAssetsDir("assets");
-		afact.setSaveDir("saves");
 
 		return afact;
 	}
@@ -72,15 +72,10 @@ public class AssetsFactory {
 		this.assetsDir = assetsDir;
 	}
 
-	public void setSaveDir(String saveDir)
-	{
-		this.saveDir = saveDir;
-	}
-
 
 	public Assets newAssets()
 	{
-		Assets assets = new Assets(assetsDir, saveDir);
+		Assets assets = new Assets(assetsDir);
 		List<FutureTask> futureTaskList = Lists.newArrayList();
 
 		Gson gson = AssetsUtils.createGson(assets);
@@ -113,7 +108,8 @@ public class AssetsFactory {
 		scriptEngine.put("logger", player.logger);
 		scriptEngine.put("Text", Text.class);
 		scriptEngine.put("Choice", Choice.class);
-		scriptEngine.put("ChoiceResult", ChoiceResult.class);
+		scriptEngine.put("ChoiceResult", ConfirmResult.class);
+		scriptEngine.put("TextField", TextField.class);
 		scriptEngine.put("Message", Message.class);
 		scriptEngine.put("MessageBook", MessageBook.class);
 		scriptEngine.put("Book", MessageBook.class);
@@ -126,7 +122,8 @@ public class AssetsFactory {
 		try {
 			scriptEngine.eval("var translate = Function.prototype.bind.call(assets.translate, assets);");
 			scriptEngine.eval("var text = Function.prototype.bind.call(Text.static.create, Text);");
-			scriptEngine.eval("var choice = Function.prototype.bind.call(Choice.static.createFromScript, Choice);");
+			scriptEngine.eval("var choice = Function.prototype.bind.call(Choice.static.create, Choice);");
+			scriptEngine.eval("var textField = Function.prototype.bind.call(TextField.static.create, TextField);");
 			scriptEngine.eval("var message = Function.prototype.bind.call(Message.static.create, Message);");
 			scriptEngine.eval("var messageBook = Function.prototype.bind.call(MessageBook.static.create, MessageBook);");
 			scriptEngine.eval("var book = Function.prototype.bind.call(Book.static.create, Book);");
@@ -139,6 +136,11 @@ public class AssetsFactory {
 
 		} catch (ScriptException e) {
 			// TODO 自動生成された catch ブロック
+			System.err.println("Excepion source: AssetsFactory");
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO
+			System.err.println("Excepion source: AssetsFactory");
 			e.printStackTrace();
 		}
 

@@ -5,6 +5,8 @@ import com.kanomiya.steward.common.controller.action.IControlAction;
 import com.kanomiya.steward.common.controller.unit.VirtualKeypad;
 import com.kanomiya.steward.common.controller.unit.event.KeyboardUpdateEvent;
 import com.kanomiya.steward.common.model.event.Player;
+import com.kanomiya.steward.common.model.overlay.text.Choice;
+import com.kanomiya.steward.common.model.overlay.text.ISelectableText;
 import com.kanomiya.steward.common.model.overlay.window.message.Message;
 import com.kanomiya.steward.common.model.overlay.window.message.MessageBook;
 
@@ -34,9 +36,14 @@ public class CAKeyEnter implements IControlAction<KeyboardUpdateEvent> {
 
 				Message current = book.currentPage();
 
-				if (current.hasChoice())
+				if (current.hasSelectable())
 				{
-					current.getSelectedChoice().apply();
+					ISelectableText selected = current.getSelectedText();
+					if (selected instanceof Choice)
+					{
+						((Choice) selected).confirm();
+						event.consume();
+					}
 
 				} else if (event.isShifted())
 				{

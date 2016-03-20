@@ -73,6 +73,11 @@ public class Game {
 	}
 
 
+	public void turnWithCheck()
+	{
+		if (currentTurn != null && currentTurn.isConsumed()) turn();
+	}
+
 	public void turn()
 	{
 		// TODO: others

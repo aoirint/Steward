@@ -5,7 +5,8 @@ import com.kanomiya.steward.common.controller.action.IControlAction;
 import com.kanomiya.steward.common.controller.unit.event.KeyboardUpdateEvent;
 import com.kanomiya.steward.common.controller.unit.identifier.Key;
 import com.kanomiya.steward.common.model.event.Player;
-import com.kanomiya.steward.common.model.overlay.text.ChoiceResult;
+import com.kanomiya.steward.common.model.overlay.text.ConfirmResult;
+import com.kanomiya.steward.common.model.overlay.text.IEditableText;
 import com.kanomiya.steward.common.model.overlay.window.Window;
 import com.kanomiya.steward.common.model.overlay.window.message.Message;
 import com.kanomiya.steward.common.model.overlay.window.message.MessageBook;
@@ -46,20 +47,36 @@ public class CAKeyWindow implements IControlAction<KeyboardUpdateEvent> {
 	{
 		Message current = book.currentPage();
 
-		if (! current.hasChoice()) return ;
+		if (! current.hasSelectable()) return ;
 
-		Key key = event.getUpdateKey();
-
-		if (! key.hasChar()) return ;
-
-		char ch = key.toChar();
-
-		if (current.charToChoice().containsKey(ch))
+		if (current.getSelectedText() instanceof IEditableText) // c.f ControlListener#keyTyped
 		{
-			ChoiceResult result = current.charToChoice().get(ch).apply();
+			IEditableText editable = (IEditableText) current.getSelectedText();
 
+			int cridx = editable.getCaretIndex();
+
+			if (event.isPressed(Key.LEFT) && 0 < cridx)
+				editable.setCaretIndex(--cridx);
+			if (event.isPressed(Key.RIGHT) && cridx < editable.getTextString().length())
+				editable.setCaretIndex(++cridx);
+
+		} else if (current.hasChoice())
+		{
+			Key key = event.getUpdateKey();
+
+			if (! key.hasChar()) return ;
+
+			char ch = key.toChar();
+
+			if (current.charToChoice().containsKey(ch))
+			{
+				ConfirmResult result = current.charToChoice().get(ch).confirm();
+
+
+			}
 
 		}
+
 
 	}
 

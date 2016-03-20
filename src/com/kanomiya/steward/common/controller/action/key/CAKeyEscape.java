@@ -8,8 +8,8 @@ import com.kanomiya.steward.common.model.assets.Assets;
 import com.kanomiya.steward.common.model.assets.AssetsUtils;
 import com.kanomiya.steward.common.model.event.Player;
 import com.kanomiya.steward.common.model.overlay.text.Choice;
-import com.kanomiya.steward.common.model.overlay.text.ChoiceFunction;
-import com.kanomiya.steward.common.model.overlay.text.ChoiceResult;
+import com.kanomiya.steward.common.model.overlay.text.ConfirmHandler;
+import com.kanomiya.steward.common.model.overlay.text.ConfirmResult;
 import com.kanomiya.steward.common.model.overlay.window.message.Message;
 
 /**
@@ -19,8 +19,8 @@ import com.kanomiya.steward.common.model.overlay.window.message.Message;
 public class CAKeyEscape implements IControlAction<KeyboardUpdateEvent> {
 
 	/**
-	* @inheritDoc
-	*/
+	 * @inheritDoc
+	 */
 	@Override
 	public void action(KeyboardUpdateEvent event, Game game)
 	{
@@ -41,45 +41,47 @@ public class CAKeyEscape implements IControlAction<KeyboardUpdateEvent> {
 			player.showWindow(Message.create()
 					.println(assets.translate("question.saveAndExit"))
 					.println("")
-					.println(Choice.create('a', assets.translate("vocabulary.yes"), new ChoiceFunction()
-					{
-						@Override
-						public ChoiceResult apply(Character t) {
-							player.removeWindow();
+					.println(Choice.create('a', assets.translate("vocabulary.yes"))
+							.confirmHandler(new ConfirmHandler<Character, ConfirmResult>()
+									{
+										@Override
+										public ConfirmResult apply(Character t) {
+											player.removeWindow();
 
-							AssetsUtils.saveAssets(assets, assets.getSaveDir());
+											AssetsUtils.saveAssets(assets, AssetsUtils.savesDir);
 
-							new Thread("Game Closer")
-							{
-								@Override
-								public void run()
-								{
-									try {
-										sleep(1000);
-									} catch (InterruptedException e) {
-										// TODO 自動生成された catch ブロック
-										e.printStackTrace();
-									}
+											new Thread("Game Closer")
+											{
+												@Override
+												public void run()
+												{
+													try {
+														sleep(1000);
+													} catch (InterruptedException e) {
+														// TODO 自動生成された catch ブロック
+														e.printStackTrace();
+													}
 
-									System.exit(0); // TODO 共通の終了処理
-								}
-							}.start();
+													System.exit(0); // TODO 共通の終了処理
+												}
+											}.start();
 
-							return null; // TODO ChoiceResult
-						}
-					})
-					)
+											return null; // TODO ConfirmResult
+										}
+									})
+							)
 
-					.println(Choice.create('b', assets.translate("vocabulary.no"), new ChoiceFunction()
-					{
-						@Override
-						public ChoiceResult apply(Character t) {
-							player.removeWindow();
-							return null; // TODO ChoiceResult
-						}
-					})
-					)
-			);
+							.println(Choice.create('b', assets.translate("vocabulary.no"))
+									.confirmHandler(new ConfirmHandler<Character, ConfirmResult>()
+											{
+										@Override
+										public ConfirmResult apply(Character t) {
+											player.removeWindow();
+											return null; // TODO ConfirmResult
+										}
+											})
+									)
+					);
 
 		}
 

@@ -9,7 +9,7 @@ import com.kanomiya.steward.common.model.texture.Texture;
  * @author Kanomiya
  *
  */
-public class Text {
+public class Text implements IText { // TODO PrettyText??
 	public static int defaultHeight = 14;
 
 	public String text;
@@ -25,6 +25,10 @@ public class Text {
 	}
 
 
+	public Text()
+	{
+		this("");
+	}
 
 	public Text(String text)
 	{
@@ -107,5 +111,25 @@ public class Text {
 
 		return height;
 	}
+
+
+
+	/**
+	* @inheritDoc
+	*/
+	@Override
+	public String getTextString() {
+		return text;
+	}
+
+	/**
+	* @inheritDoc
+	*/
+	@Override
+	public void setTextString(String text) {
+		text(text);
+	}
+
+
 
 }

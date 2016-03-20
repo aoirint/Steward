@@ -264,17 +264,21 @@ public class Area {
 
 		if (scripts != null && scripts.containsKey(type))
 		{
-			String code = assets.getScriptCode(scripts.get(type).src);
+			Script script = scripts.get(type);
+			String code = assets.getScriptCode(script.src);
 
 			try {
 				assets.getScriptEngine().eval(code);
 
 			} catch (ScriptException e) {
 				// TODO 自動生成された catch ブロック
+				System.err.println("Excepion source: " + script.src);
 				e.printStackTrace();
+
 			} catch (Exception e)
 			{
 				// TODO
+				System.err.println("Excepion source: " + script.src);
 				e.printStackTrace();
 			}
 		}

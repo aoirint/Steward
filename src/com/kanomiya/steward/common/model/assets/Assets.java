@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import javax.script.ScriptEngine;
 
@@ -35,15 +36,16 @@ public class Assets {
 	protected Map<Locale, I18n> localeToI18n = Maps.newHashMap();
 	public Locale locale;
 
-	protected String assetsDir, saveDir;
+	protected String assetsDir, saveName;
 	protected ScriptEngine scriptEngine;
 
 	protected boolean inited;
 
-	public Assets(String assetsDir, String saveDir)
+	public Assets(String assetsDir)
 	{
 		this.assetsDir = assetsDir;
-		this.saveDir = saveDir;
+
+		saveName = "unknown";
 
 		inited = false;
 	}
@@ -68,8 +70,24 @@ public class Assets {
 	/**
 	 * @return
 	 */
-	public String getSaveDir() {
-		return saveDir;
+	public String getSaveName() {
+		return saveName;
+	}
+
+
+	protected Pattern fnValid = Pattern.compile("[\0\\./'\"`\t\n\r\f?*\\\\<:|>]+");
+
+	public boolean saveNameIsValid(String saveName)
+	{
+		return ! fnValid.matcher(saveName).find();
+	}
+
+	public boolean setSaveName(String saveName)
+	{
+		if (! saveNameIsValid(saveName)) return false;
+		this.saveName = saveName;
+
+		return true;
 	}
 
 

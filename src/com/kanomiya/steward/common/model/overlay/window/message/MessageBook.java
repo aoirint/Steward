@@ -106,7 +106,7 @@ public class MessageBook extends Window {
 		if (isFirstPage()) return false;
 
 		currentPageIndex --;
-		currentPage().selectedChoiceIndex = Math.min(currentPage().selectedChoiceIndex, currentPage().itemCount() -1);
+		currentPage().selectedIndexOfSelectable = Math.min(currentPage().selectedIndexOfSelectable, currentPage().itemCount() -1);
 		return true;
 	}
 
@@ -115,7 +115,7 @@ public class MessageBook extends Window {
 		if (isLastPage()) return false;
 
 		currentPageIndex ++;
-		currentPage().selectedChoiceIndex = Math.min(currentPage().selectedChoiceIndex, currentPage().itemCount() -1);
+		currentPage().selectedIndexOfSelectable = Math.min(currentPage().selectedIndexOfSelectable, currentPage().itemCount() -1);
 		return true;
 	}
 

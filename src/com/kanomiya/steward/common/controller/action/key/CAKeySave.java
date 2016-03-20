@@ -31,7 +31,8 @@ public class CAKeySave implements IControlAction<KeyboardUpdateEvent> {
 		{
 			if (player.mode.enableSave())
 			{
-				AssetsUtils.saveAssets(assets, (player.mode == PlayerMode.WIZARD) ? assets.getAssetsDir() : assets.getSaveDir());
+				if (player.mode == PlayerMode.WIZARD) AssetsUtils.saveOriginalAssets(assets);
+				else AssetsUtils.saveAssets(assets, AssetsUtils.savesDir);
 			}
 		}
 
