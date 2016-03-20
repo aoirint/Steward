@@ -1,6 +1,6 @@
 
 player.setVisible(false);
-player.disallowMode(PlayerMode.static.SELECT);
+player.disallowMode(PlayerMode.static.TARGET);
 
 var msg = message().lockClose();
 
@@ -13,7 +13,7 @@ var c_z = choice('z', "戻る", function()
 var c_1 = choice('a', translate("vocabulary.gameStart"), function()
 		{
 			player.setVisible(true);
-			player.allowMode(PlayerMode.static.SELECT);
+			player.allowMode(PlayerMode.static.TARGET);
 			msg.setClosable(true);
 			player.travel("test", 5,5);
 		});

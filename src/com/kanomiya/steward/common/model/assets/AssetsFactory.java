@@ -283,6 +283,7 @@ public class AssetsFactory {
 					public Boolean call() {
 						eventObj.area.setEvent(eventObj);
 						eventObj.area.launchEvent(eventObj, eventObj.x, eventObj.y, ScriptEventType.ONENTERED);
+
 						return true;
 					}
 				}));

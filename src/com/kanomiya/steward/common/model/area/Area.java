@@ -234,7 +234,7 @@ public class Area {
 		event.chunk = getChunk(event.x, event.y);
 		if (! event.chunk.eventList.contains(event)) event.chunk.eventList.add(event);
 
-		if (assets.isInited() && area != this) launchEvent(event, event.x, event.y, ScriptEventType.ONENTERED); // FETAL not inited Engine => fix to use assets.inited (new) & call on assets.setInited -> event.inited or area.inited
+		if (assets.isInited() && area != this) launchEvent(event, event.x, event.y, ScriptEventType.ONENTERED); // VELIF futureTask
 	}
 
 	/**
@@ -271,6 +271,10 @@ public class Area {
 
 			} catch (ScriptException e) {
 				// TODO 自動生成された catch ブロック
+				e.printStackTrace();
+			} catch (Exception e)
+			{
+				// TODO
 				e.printStackTrace();
 			}
 		}

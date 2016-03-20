@@ -1,5 +1,6 @@
 package com.kanomiya.steward.common.model.event;
 
+import com.kanomiya.steward.common.Game;
 import com.kanomiya.steward.common.model.IEnumWithId;
 
 /**
@@ -9,7 +10,7 @@ import com.kanomiya.steward.common.model.IEnumWithId;
 public enum PlayerMode implements IEnumWithId {
 	NORMAL("normal", true, true, false, true),
 
-	SELECT("select", false, false, true, false),
+	TARGET("select", false, false, true, false),
 	WIZARD("wizard", true, false, true, true),
 
 
@@ -65,6 +66,35 @@ public enum PlayerMode implements IEnumWithId {
 		return name();
 	}
 
+
+
+	public static void changeMode(Game game, Player player, PlayerMode mode) // VELIF
+	{
+		if (player.mode == PlayerMode.WIZARD && game.frameTip.isVisible())
+		{
+			game.frameTip.setVisible(false);
+		}
+
+		if (mode == PlayerMode.WIZARD)
+		{
+			game.frameTip.setLocation(game.getFrame().getX() +game.getFrame().getWidth(), game.getFrame().getY());
+			game.frameTip.setAutoRequestFocus(false); // 自動アクティブ無効化
+			game.frameTip.setVisible(true);
+		}
+
+		player.focusedX = player.selectedX = player.x;
+		player.focusedY = player.selectedY = player.y;
+
+		player.mode = mode;
+
+
+		/*
+		logger.println(
+				Text.create(assets.translate("playerMode.change")
+						+ " " + assets.translate(mode.getUnlocalizedName()))
+						.color(GameColor.orange));
+		*/
+	}
 
 
 	/**

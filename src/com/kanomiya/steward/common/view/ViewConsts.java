@@ -3,7 +3,6 @@ package com.kanomiya.steward.common.view;
 import java.awt.AlphaComposite;
 import java.awt.Color;
 
-import com.kanomiya.steward.common.FrameWithView;
 import com.kanomiya.steward.common.model.texture.Texture;
 import com.kanomiya.steward.common.view.component.VCArea;
 import com.kanomiya.steward.common.view.component.VCBorder;
@@ -13,7 +12,6 @@ import com.kanomiya.steward.common.view.component.VCPlayerEye;
 import com.kanomiya.steward.common.view.component.VCSelect;
 import com.kanomiya.steward.common.view.component.VCTexture;
 import com.kanomiya.steward.common.view.component.window.VCWindow;
-import com.kanomiya.steward.editor.FrameTip;
 import com.kanomiya.steward.editor.view.ViewTips;
 
 /**
@@ -63,9 +61,6 @@ public class ViewConsts {
 	public static AlphaComposite alpha80 = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.8f);
 	public static AlphaComposite halfBlend = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f);
 
-	public static FrameTip frameTip;
-
-	public static FrameWithView gameFrame;
 
 
 

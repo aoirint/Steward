@@ -4,12 +4,12 @@ import java.util.Map;
 
 import com.google.common.collect.Maps;
 import com.google.gson.annotations.Expose;
+import com.kanomiya.steward.common.Game;
 import com.kanomiya.steward.common.model.area.Area;
 import com.kanomiya.steward.common.model.assets.Assets;
 import com.kanomiya.steward.common.model.overlay.window.Window;
 import com.kanomiya.steward.common.model.overlay.window.message.IngameLogger;
 import com.kanomiya.steward.common.model.overlay.window.message.Message;
-import com.kanomiya.steward.common.view.ViewConsts;
 
 /**
  * @author Kanomiya
@@ -84,32 +84,7 @@ public class Player extends Event {
 
 	public void changeMode(PlayerMode mode)
 	{
-
-		if (this.mode == PlayerMode.WIZARD && ViewConsts.frameTip.isVisible())
-		{
-			ViewConsts.frameTip.setVisible(false);
-		}
-
-		if (mode == PlayerMode.WIZARD)
-		{
-			ViewConsts.frameTip.setLocation(ViewConsts.gameFrame.getX() +ViewConsts.gameFrame.getWidth(), ViewConsts.gameFrame.getY());
-			ViewConsts.frameTip.setAutoRequestFocus(false); // 自動アクティブ無効化
-			ViewConsts.frameTip.setVisible(true);
-		}
-
-
-		focusedX = selectedX = x;
-		focusedY = selectedY = y;
-
-		this.mode = mode;
-
-		/*
-		logger.println(
-				Text.create(assets.translate("playerMode.change")
-						+ " " + assets.translate(mode.getUnlocalizedName()))
-						.color(GameColor.orange));
-		*/
-
+		PlayerMode.changeMode(Game.getInstance(assets), this, mode);
 	}
 
 	public void allowMode(PlayerMode mode)
