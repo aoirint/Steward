@@ -19,7 +19,7 @@ public class VCSelect implements IViewComponent<Player> {
 	@Override
 	public void paint(Graphics2D g, Player player, Assets assets, int frame)
 	{
-		if (player.mode.enableSelecter())
+		if (player.getMode().enableSelecter())
 		{
 			g.translate(player.focusedX *ViewConsts.tileSize, player.focusedY *ViewConsts.tileSize);
 			ViewConsts.vcMarker.paint(g, ViewConsts.colorFocused, assets, frame);

@@ -22,7 +22,7 @@ public class VCDebug implements IViewComponent<Game> {
 	{
 		g.setColor(Color.WHITE);
 
-		String playerMode = assets.translate("playerMode") + " " + assets.translate(game.thePlayer.mode.getUnlocalizedName());
+		String playerMode = assets.translate("playerMode") + " " + assets.translate(game.thePlayer.getMode().getUnlocalizedName());
 		g.drawString(playerMode, ViewConsts.viewWidth -g.getFontMetrics().stringWidth(playerMode) -10, 30);
 
 

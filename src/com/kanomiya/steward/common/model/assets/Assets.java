@@ -79,7 +79,7 @@ public class Assets {
 
 	public boolean saveNameIsValid(String saveName)
 	{
-		return ! fnValid.matcher(saveName).find();
+		return saveName != null && 0 < saveName.length() && ! fnValid.matcher(saveName).find();
 	}
 
 	public boolean setSaveName(String saveName)

@@ -144,8 +144,7 @@ public class AssetsUtils {
 		}
 
 		assets.getPlayer().logger.println(Text.create("*保存*")
-				.color((assets.getPlayer().mode == PlayerMode.WIZARD)
-						? GameColor.purple : GameColor.orange));
+				.color((assets.getPlayer().modeIs(PlayerMode.WIZARD)) ? GameColor.purple : GameColor.orange));
 
 
 	}

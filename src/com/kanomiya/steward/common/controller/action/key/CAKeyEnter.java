@@ -60,7 +60,7 @@ public class CAKeyEnter implements IControlAction<KeyboardUpdateEvent> {
 			}
 		} else
 		{
-			if (player.mode.enableSelecter())
+			if (player.getMode().enableSelecter())
 			{
 				player.selectedX = player.focusedX;
 				player.selectedY = player.focusedY;

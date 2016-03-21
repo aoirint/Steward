@@ -23,14 +23,17 @@ public class CAKeyMode implements IControlAction<KeyboardUpdateEvent> {
 
 		Player player = game.thePlayer;
 
+		if (player.hasWindow()) return ;
+
+
 		if (event.isPressed(VirtualKeypad.TARGET)) // target
-			player.changeMode((player.mode == PlayerMode.TARGET) ? PlayerMode.NORMAL : PlayerMode.TARGET);
+			player.changeMode(player.modeIs(PlayerMode.TARGET) ? PlayerMode.NORMAL : PlayerMode.TARGET);
 
 		if (event.isPressed(VirtualKeypad.F3)) // debug
 			player.debug = ! player.debug;
 
 		if (event.isPressed(VirtualKeypad.F12)) // wizard
-			player.changeMode((player.mode == PlayerMode.WIZARD) ? PlayerMode.NORMAL : PlayerMode.WIZARD);
+			player.changeMode(player.modeIs(PlayerMode.WIZARD) ? PlayerMode.NORMAL : PlayerMode.WIZARD);
 
 
 

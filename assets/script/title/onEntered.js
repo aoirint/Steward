@@ -1,6 +1,5 @@
 
 player.setVisible(false);
-player.disallowMode(PlayerMode.static.TARGET);
 
 var msg = message().lockClose();
 
@@ -28,7 +27,6 @@ var c_2 = choice('b', translate("vocabulary.gameStart")).confirmHandlerJS(functi
 							player.removeWindow();
 
 							player.setVisible(true);
-							player.allowMode(PlayerMode.static.TARGET);
 							msg.setClosable(true);
 							player.travel("test", 5,5);
 

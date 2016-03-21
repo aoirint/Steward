@@ -45,7 +45,7 @@ public class CAKeyArrow implements IControlAction<KeyboardUpdateEvent> {
 			}
 		} else
 		{
-			if (game.thePlayer.mode.enableSelecter())
+			if (game.thePlayer.getMode().enableSelecter())
 			{
 				if (ViewUtils.topInWindowEdge(game.thePlayer.focusedY, game.thePlayer, 1))
 				{
@@ -73,7 +73,7 @@ public class CAKeyArrow implements IControlAction<KeyboardUpdateEvent> {
 			}
 
 
-			if (game.thePlayer.mode.enableMove())
+			if (game.thePlayer.getMode().enableMove())
 			{
 				if (event.isPressed(VirtualKeypad.UP)) { player.move(Direction.NORTH); game.currentTurn().consume(); }
 				if (event.isPressed(VirtualKeypad.DOWN)) { player.move(Direction.SOUTH); game.currentTurn().consume(); }
@@ -89,14 +89,14 @@ public class CAKeyArrow implements IControlAction<KeyboardUpdateEvent> {
 
 		if (event.isPressed(VirtualKeypad.STAMPING))
 		{
-			if (player.mode.enableSelecter())
+			if (player.getMode().enableSelecter())
 			{
 				player.focusedX = ViewUtils.xCenterInWindow(player);
 				player.focusedY = ViewUtils.yCenterInWindow(player);
 
 			}
 
-			if (player.mode.enableTurn())
+			if (player.getMode().enableTurn())
 			{
 				player.walkState = player.walkState.next();
 				game.currentTurn().consume();

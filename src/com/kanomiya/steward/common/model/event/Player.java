@@ -19,7 +19,7 @@ public class Player extends Event {
 
 	@Expose public boolean debug;
 
-	@Expose public PlayerMode mode;
+	@Expose protected PlayerMode mode;
 	public Map<PlayerMode, Boolean> allowedModeMap;
 
 	public int selectedX, selectedY;
@@ -97,6 +97,26 @@ public class Player extends Event {
 		allowedModeMap.put(mode, false);
 	}
 
+	/**
+	 * @param mode
+	 * @return
+	 */
+	public boolean modeIsAllowed(PlayerMode mode) {
+		return allowedModeMap.get(mode);
+	}
+
+	/**
+	 * @return mode
+	 */
+	public PlayerMode getMode() {
+		return mode;
+	}
+
+	public boolean modeIs(PlayerMode mode)
+	{
+		return (getMode() == mode);
+	}
+
 
 	int turnCount = 0;
 	/**
@@ -119,6 +139,8 @@ public class Player extends Event {
 		System.out.println("hey, im " + id);  // DEBUG
 		return id.equals("player");
 	}
+
+
 
 
 

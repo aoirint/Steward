@@ -55,7 +55,7 @@ public class Game {
 		this.assets = assets;
 		thePlayer = assets.getPlayer();
 
-		PlayerMode.changeMode(this, thePlayer, thePlayer.mode);
+		PlayerMode.changeMode(this, thePlayer, thePlayer.getMode());
 
 		ViewConsts.viewGame.setSize(ViewConsts.viewWidth, ViewConsts.viewHeight);
 

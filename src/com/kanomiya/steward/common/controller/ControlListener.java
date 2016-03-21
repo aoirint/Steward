@@ -54,7 +54,7 @@ public class ControlListener implements KeyListener, MouseListener, MouseMotionL
 	public void keyPressed(KeyEvent e)
 	{
 		// DEBUG
-		System.out.println("key: " + e.getKeyCode() + " char: " + e.getKeyChar());
+		// System.out.println("key: " + e.getKeyCode() + " char: " + e.getKeyChar());
 
 		Key key = keyEventToKey(e);
 		keyboard.getKeyState(key).press();
@@ -114,7 +114,7 @@ public class ControlListener implements KeyListener, MouseListener, MouseMotionL
 
 	public boolean selectOnMouseEvent(MouseEvent e)
 	{
-		if (game.thePlayer.mode.enableSelecter())
+		if (game.thePlayer.getMode().enableSelecter())
 		{
 			Area area = game.thePlayer.area;
 
@@ -139,7 +139,7 @@ public class ControlListener implements KeyListener, MouseListener, MouseMotionL
 
 	public boolean wizardOnMouseEvent(MouseEvent e)
 	{
-		if (game.thePlayer.mode == PlayerMode.WIZARD && game.frameTip != null)
+		if (game.thePlayer.getMode() == PlayerMode.WIZARD && game.frameTip != null)
 		{
 			Tip tip;
 			int button = e.getButton();
@@ -211,7 +211,7 @@ public class ControlListener implements KeyListener, MouseListener, MouseMotionL
 		game.eventBus().post(new MouseUpdateEvent(keyboard, mouse, MouseButton.POINTER));
 
 
-		if (game.thePlayer.mode.enableSelecter())
+		if (game.thePlayer.getMode().enableSelecter())
 		{
 			Area area = game.thePlayer.area;
 

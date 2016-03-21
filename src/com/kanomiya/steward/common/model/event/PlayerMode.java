@@ -70,7 +70,9 @@ public enum PlayerMode implements IEnumWithId {
 
 	public static void changeMode(Game game, Player player, PlayerMode mode) // VELIF
 	{
-		if (player.mode == PlayerMode.WIZARD && game.frameTip.isVisible())
+		if (! player.modeIsAllowed(mode)) return ;
+
+		if (player.getMode() == PlayerMode.WIZARD && game.frameTip.isVisible())
 		{
 			game.frameTip.setVisible(false);
 		}
