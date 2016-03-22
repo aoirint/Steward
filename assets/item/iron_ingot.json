@@ -2,10 +2,7 @@
 	"id": "iron_ingot",
 	"unlocalizedName": "item.iron_ingot",
 	
-	"icon": 
-	{
-		"src": [ [ "item/iron_ingot.png" ] ]
-	},
+	"icon": "item/iron_ingot",
 	
 	"weight": 1.0
 	

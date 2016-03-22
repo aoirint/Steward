@@ -2,10 +2,7 @@
 	"id": "pear",
 	"unlocalizedName": "item.pear",
 	
-	"icon": 
-	{
-		"src": [ [ "item/pear.png" ] ]
-	},
+	"icon": "item/pear",
 	
 	"weight": 1.0
 	
