@@ -1,0 +1,8 @@
+{
+  "id": "test/un2",
+  "area": "test",
+  "x": 6,
+  "y": 6,
+  "access": "deny",
+  "icon": "event/test/un2"
+}

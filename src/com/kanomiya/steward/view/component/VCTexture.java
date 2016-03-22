@@ -50,6 +50,11 @@ public class VCTexture implements IViewComponent<Texture> {
 		for (int i=0; i<imgCount; i++)
 		{
 			TextureImage img = texFrame.getImageAt(i);
+			if (img == null)
+			{
+				Game.logger.warn("Texture Image is Null: " + texture.getId() + "(" + i + ")");
+				continue;
+			}
 
 			g.drawImage(img.getSubimage(dx, dy, texture.getTileWidth(), texture.getTileHeight()), 0, 0, null); // VELIF CPU load
 

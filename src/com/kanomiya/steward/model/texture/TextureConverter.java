@@ -126,7 +126,7 @@ public class TextureConverter implements JsonSerializer<Texture>, JsonDeserializ
 
 				for (int k=0; k<images.size(); k++)
 				{
-					frame.images[k] = assets.texImageRegistry.get(images.get(k).getAsString());
+					frame.images[k] = assets.getTextureImage(images.get(k).getAsString());
 				}
 
 

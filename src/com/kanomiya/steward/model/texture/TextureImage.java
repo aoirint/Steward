@@ -18,6 +18,12 @@ public class TextureImage extends BufferedImage implements IResource {
 		this.id = id;
 	}
 
+	public TextureImage(String id, int width, int height, int imageType) {
+		super(width, height, imageType);
+
+		this.id = id;
+	}
+
 	/**
 	* @inheritDoc
 	*/

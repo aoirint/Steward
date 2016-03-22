@@ -66,7 +66,7 @@ public class TransformerTextureImageConverter implements JsonSerializer<Transfor
 		String id = jsObj.get("id").getAsString();
 		String base = (jsObj.has("base")) ? jsObj.get("base").getAsString() : id;
 
-		TransformerTextureImage obj = new TransformerTextureImage(id, assets.texImageRegistry.get(base)); // VELIF 上書き
+		TransformerTextureImage obj = new TransformerTextureImage(id, assets.getTextureImage(base)); // VELIF 上書き
 
 		if (jsObj.has("imageX")) obj.imageX = jsObj.get("imageX").getAsInt();
 		if (jsObj.has("imageY")) obj.imageY = jsObj.get("imageY").getAsInt();

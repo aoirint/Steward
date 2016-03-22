@@ -36,7 +36,7 @@ public class ViewTips extends ViewBuffered<Game> {
 	{
 		if (tipList == null)
 		{
-			tipList = game.assets.tipRegistry.values();
+			tipList = game.assets.tipList();
 		}
 
 		Iterator<Tip> itr = tipList.iterator();

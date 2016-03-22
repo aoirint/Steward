@@ -52,7 +52,7 @@ public class ItemConverter implements JsonSerializer<Item>, JsonDeserializer<Ite
 
 		item.id = jsObj.get("id").getAsString();
 		item.unlocalizedName = jsObj.get("unlocalizedName").getAsString();
-		item.icon = assets.textureRegistry.get(jsObj.get("icon").getAsString());
+		item.icon = assets.getTexture(jsObj.get("icon").getAsString());
 		item.weight = jsObj.get("weight").getAsDouble();
 
 		return item;

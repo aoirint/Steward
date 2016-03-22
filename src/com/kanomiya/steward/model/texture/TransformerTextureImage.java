@@ -1,6 +1,8 @@
 package com.kanomiya.steward.model.texture;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 
 import com.kanomiya.steward.model.assets.resource.IResource;
 
@@ -28,19 +30,25 @@ public class TransformerTextureImage implements IResource {
 
 	public TextureImage toTextureImage()
 	{
-		TextureImage img = new TextureImage(id, base);
-		Graphics2D g = img.createGraphics();
 
 		if (autoSize)
 		{
-			width = img.getWidth();
-			height = img.getHeight();
+			width = base.getWidth();
+			height = base.getHeight();
 		}
 
-		img.getSubimage(imageX, imageY, width, height);
+		TextureImage img = new TextureImage(id, width, height, BufferedImage.TYPE_INT_ARGB);
+
+		Graphics2D g = img.createGraphics();
 
 		double theta = Math.toRadians(rotation);
-		ImageEffectUtils.rotate(g, width, height, theta);
+
+		g.rotate(theta, width /2, height /2);
+		g.setColor(Color.BLUE);
+		g.fillRect(0, 0, 12, 12);
+		g.drawImage(base.getSubimage(imageX, imageY, width, height), 0, 0, null);
+
+		g.dispose();
 
 		return img;
 	}

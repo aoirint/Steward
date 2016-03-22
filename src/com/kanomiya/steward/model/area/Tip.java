@@ -99,7 +99,7 @@ public class Tip implements IResource {
 			Tip tip = new Tip(jsObj.get("id").getAsString());
 
 			tip.name = jsObj.get("name").getAsString();
-			tip.icon = assets.textureRegistry.get(jsObj.get("icon").getAsString());
+			tip.icon = assets.getTexture(jsObj.get("icon").getAsString());
 			if (jsObj.has("access")) tip.access = context.deserialize(jsObj.get("access"), AccessType.class);
 
 			return tip;

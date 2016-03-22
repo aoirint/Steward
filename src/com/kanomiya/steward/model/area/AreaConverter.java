@@ -142,7 +142,7 @@ public class AreaConverter implements JsonSerializer<Area>, JsonDeserializer<Are
 
 		area.scripts = scripts;
 
-		if (jsObj.has("background")) area.setBackground(assets.textureRegistry.get(jsObj.get("background").getAsString()));
+		if (jsObj.has("background")) area.setBackground(assets.getTexture(jsObj.get("background").getAsString()));
 
 
 

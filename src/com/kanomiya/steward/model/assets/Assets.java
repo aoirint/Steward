@@ -1,5 +1,6 @@
 package com.kanomiya.steward.model.assets;
 
+import java.util.Collection;
 import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -16,8 +17,10 @@ import com.kanomiya.steward.model.event.Player;
 import com.kanomiya.steward.model.item.Item;
 import com.kanomiya.steward.model.lang.Language;
 import com.kanomiya.steward.model.script.ScriptCode;
+import com.kanomiya.steward.model.script.ScriptFunctionBinder;
 import com.kanomiya.steward.model.texture.Texture;
 import com.kanomiya.steward.model.texture.TextureImage;
+import com.kanomiya.steward.model.texture.TransformerTextureImage;
 
 
 /**
@@ -28,20 +31,22 @@ public class Assets {
 
 	public Map<ResourceType, ResourceRegistry> registries;
 
-	public ResourceRegistry<TextureImage> texImageRegistry;
-	public ResourceRegistry<Texture> textureRegistry;
-	public ResourceRegistry<Tip> tipRegistry;
-	public ResourceRegistry<ScriptCode> scriptCodeRegistry;
-	public ResourceRegistry<Item> itemRegistry;
-	public ResourceRegistry<Area> areaRegistry;
-	public ResourceRegistry<Event> eventRegistry;
-	public ResourceRegistry<Language> langRegistry;
-	public Map<Locale, Language> localeToLanguage;
+	protected ResourceRegistry<TextureImage> texImageRegistry;
+	protected ResourceRegistry<TransformerTextureImage> tftexImageRegistry;
+	protected ResourceRegistry<Texture> textureRegistry;
+	protected ResourceRegistry<Tip> tipRegistry;
+	protected ResourceRegistry<ScriptCode> scriptCodeRegistry;
+	protected ResourceRegistry<Item> itemRegistry;
+	protected ResourceRegistry<Area> areaRegistry;
+	protected ResourceRegistry<Event> eventRegistry;
+	protected ResourceRegistry<Language> langRegistry;
+	protected Map<Locale, Language> localeToLanguage;
 
 	public Locale locale;
 
 	protected String assetsDir, saveName;
 	protected ScriptEngine scriptEngine;
+	public ScriptFunctionBinder binder;
 
 	protected boolean inited;
 
@@ -53,6 +58,7 @@ public class Assets {
 		inited = false;
 
 		texImageRegistry = new ResourceRegistry<>();
+		tftexImageRegistry = new ResourceRegistry<>();
 		textureRegistry = new ResourceRegistry<>();
 		tipRegistry = new ResourceRegistry<>();
 		scriptCodeRegistry = new ResourceRegistry<>();
@@ -65,6 +71,7 @@ public class Assets {
 		registries = Maps.newHashMap();
 
 		registries.put(ResourceType.rtTextureImage, texImageRegistry);
+		registries.put(ResourceType.rtTransformerTextureImage, tftexImageRegistry);
 		registries.put(ResourceType.rtTexture, textureRegistry);
 		registries.put(ResourceType.rtTip, tipRegistry);
 		registries.put(ResourceType.rtScriptCode, scriptCodeRegistry);
@@ -135,6 +142,16 @@ public class Assets {
 		this.locale = locale;
 	}
 
+
+	public TextureImage getTextureImage(String id)
+	{
+		return texImageRegistry.get(id);
+	}
+
+	public Texture getTexture(String id)
+	{
+		return textureRegistry.get(id);
+	}
 
 	/**
 	 * @param id
@@ -216,6 +233,16 @@ public class Assets {
 		eventRegistry.clear();
 		langRegistry.clear();
 
+	}
+
+
+
+
+	/**
+	 * @return
+	 */
+	public Collection<Tip> tipList() {
+		return tipRegistry.values();
 	}
 
 

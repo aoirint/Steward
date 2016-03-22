@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map.Entry;
 import java.util.concurrent.FutureTask;
 
 import javax.script.ScriptEngine;
@@ -14,6 +15,7 @@ import jdk.nashorn.api.scripting.NashornScriptEngineFactory;
 
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
+import com.kanomiya.steward.Game;
 import com.kanomiya.steward.model.assets.resource.ResourceLoader;
 import com.kanomiya.steward.model.assets.resource.type.ResourceType;
 import com.kanomiya.steward.model.event.Player;
@@ -28,6 +30,7 @@ import com.kanomiya.steward.model.overlay.text.TextField;
 import com.kanomiya.steward.model.overlay.window.message.Message;
 import com.kanomiya.steward.model.overlay.window.message.MessageBook;
 import com.kanomiya.steward.model.script.ScriptFunctionBinder;
+import com.kanomiya.steward.model.texture.TransformerTextureImage;
 
 
 /**
@@ -62,12 +65,30 @@ public class AssetsFactory {
 				}
 			}.toRegistry();
 
+			assets.tftexImageRegistry = new ResourceLoader(ResourceType.rtTransformerTextureImage, assets.tftexImageRegistry)
+			{
+				{
+					load(loadDir, gson, futureTaskList);
+				}
+			}.toRegistry();
+
+			Iterator<Entry<String, TransformerTextureImage>> tftexItr = assets.tftexImageRegistry.entrySet().iterator();
+			while (tftexItr.hasNext())
+			{
+				Entry<String, TransformerTextureImage> entry = tftexItr.next();
+
+				if (assets.texImageRegistry.containsKey(entry.getKey())) Game.logger.debug("Overload a TextureImage: " + entry.getKey());
+				assets.texImageRegistry.put(entry.getKey(), entry.getValue().toTextureImage());
+			}
+
+
 			assets.textureRegistry = new ResourceLoader(ResourceType.rtTexture, assets.textureRegistry)
 			{
 				{
 					load(loadDir, gson, futureTaskList);
 				}
 			}.toRegistry();
+
 
 			assets.tipRegistry = new ResourceLoader(ResourceType.rtTip, assets.tipRegistry)
 			{
@@ -145,7 +166,8 @@ public class AssetsFactory {
 		scriptEngine.put("PlayerMode", PlayerMode.class);
 		scriptEngine.put("ItemStack", ItemStack.class);
 
-		scriptEngine.put("binder", new ScriptFunctionBinder(assets, player));
+		assets.binder = new ScriptFunctionBinder(assets, player);
+		scriptEngine.put("binder", assets.binder);
 
 		try {
 			scriptEngine.eval("var translate = Function.prototype.bind.call(assets.translate, assets);");

@@ -1,0 +1,15 @@
+{
+	"id": "event/test/un2",
+	"tileWidth": 32,
+	"tileHeight": 32,
+	
+	"frames":
+	[
+		{
+			"images": ["event/un2"],
+			"from": 0,
+			"to": 5
+		}
+	]
+
+}
