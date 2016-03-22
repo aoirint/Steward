@@ -1,4 +1,4 @@
-package com.kanomiya.steward.common.model.texture;
+package com.kanomiya.steward.common.model.util;
 
 import java.util.List;
 

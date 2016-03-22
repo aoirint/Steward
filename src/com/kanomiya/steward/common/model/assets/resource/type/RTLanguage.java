@@ -9,8 +9,8 @@ import java.util.PropertyResourceBundle;
 import java.util.concurrent.FutureTask;
 
 import com.google.gson.Gson;
-import com.kanomiya.steward.common.model.assets.filter.ExtensionFilter;
 import com.kanomiya.steward.common.model.lang.Language;
+import com.kanomiya.steward.common.util.filter.ExtensionFilter;
 
 /**
  * @author Kanomiya

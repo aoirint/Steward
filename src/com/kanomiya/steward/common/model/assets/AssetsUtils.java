@@ -13,8 +13,6 @@ import java.util.Collection;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.kanomiya.steward.common.model.EnumWithIdConverter;
-import com.kanomiya.steward.common.model.IEnumWithId;
 import com.kanomiya.steward.common.model.area.Area;
 import com.kanomiya.steward.common.model.area.AreaConverter;
 import com.kanomiya.steward.common.model.area.Tip;
@@ -31,6 +29,8 @@ import com.kanomiya.steward.common.model.texture.Texture;
 import com.kanomiya.steward.common.model.texture.TextureConverter;
 import com.kanomiya.steward.common.model.texture.TransformerTextureImage;
 import com.kanomiya.steward.common.model.texture.TransformerTextureImageConverter;
+import com.kanomiya.steward.common.model.util.EnumWithIdConverter;
+import com.kanomiya.steward.common.model.util.IEnumWithId;
 
 /**
  * @author Kanomiya

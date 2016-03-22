@@ -16,6 +16,7 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import com.kanomiya.steward.common.Game;
 import com.kanomiya.steward.common.model.assets.Assets;
+import com.kanomiya.steward.common.model.util.IdWithRange;
 import com.kanomiya.steward.common.view.ViewConsts;
 
 /**

@@ -1,6 +1,6 @@
 package com.kanomiya.steward.common.model.overlay;
 
-import com.kanomiya.steward.common.model.TBLR;
+import com.kanomiya.steward.common.model.util.TBLR;
 
 /**
  * @author Kanomiya

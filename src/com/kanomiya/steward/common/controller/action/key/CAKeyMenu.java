@@ -1,8 +1,8 @@
 package com.kanomiya.steward.common.controller.action.key;
 
 import com.kanomiya.steward.common.Game;
+import com.kanomiya.steward.common.config.GameKeys;
 import com.kanomiya.steward.common.controller.action.IControlAction;
-import com.kanomiya.steward.common.controller.unit.VirtualKeypad;
 import com.kanomiya.steward.common.controller.unit.event.KeyboardUpdateEvent;
 import com.kanomiya.steward.common.model.event.Player;
 import com.kanomiya.steward.common.model.overlay.InventoryWindow;
@@ -24,13 +24,13 @@ public class CAKeyMenu implements IControlAction<KeyboardUpdateEvent> {
 		Player player = game.thePlayer;
 
 
-		if (event.isPressed(VirtualKeypad.LOG)) // log
+		if (event.isPressed(GameKeys.LOG)) // log
 		{
 			if (! player.hasWindow()) player.logger.setVisible(! player.logger.isVisible());
 		}
 
 
-		if (event.isPressed(VirtualKeypad.INVENTORY)) // inventory
+		if (event.isPressed(GameKeys.INVENTORY)) // inventory
 		{
 			if (! player.hasWindow()) player.showWindow(new InventoryWindow(player.getInventory()));
 		}

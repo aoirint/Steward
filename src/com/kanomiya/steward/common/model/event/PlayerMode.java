@@ -1,7 +1,7 @@
 package com.kanomiya.steward.common.model.event;
 
 import com.kanomiya.steward.common.Game;
-import com.kanomiya.steward.common.model.IEnumWithId;
+import com.kanomiya.steward.common.model.util.IEnumWithId;
 
 /**
  * @author Kanomiya

@@ -1,4 +1,4 @@
-package com.kanomiya.steward.common.controller.unit;
+package com.kanomiya.steward.common.config;
 
 import com.kanomiya.steward.common.controller.unit.identifier.Key;
 
@@ -6,7 +6,7 @@ import com.kanomiya.steward.common.controller.unit.identifier.Key;
  * @author Kanomiya
  *
  */
-public class VirtualKeypad {
+public class GameKeys {
 
 	public static Key UP = Key.UP;
 	public static Key DOWN = Key.DOWN;

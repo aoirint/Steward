@@ -9,7 +9,7 @@ import javax.script.ScriptEngine;
 import com.google.common.collect.Maps;
 import com.kanomiya.steward.common.model.area.Area;
 import com.kanomiya.steward.common.model.area.Tip;
-import com.kanomiya.steward.common.model.assets.resource.registry.ResourceRegistry;
+import com.kanomiya.steward.common.model.assets.resource.ResourceRegistry;
 import com.kanomiya.steward.common.model.event.Event;
 import com.kanomiya.steward.common.model.event.Player;
 import com.kanomiya.steward.common.model.item.Item;

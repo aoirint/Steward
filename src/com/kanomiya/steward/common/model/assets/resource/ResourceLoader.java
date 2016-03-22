@@ -1,4 +1,4 @@
-package com.kanomiya.steward.common.model.assets.loader;
+package com.kanomiya.steward.common.model.assets.resource;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,8 +13,6 @@ import java.util.concurrent.FutureTask;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.kanomiya.steward.common.Game;
-import com.kanomiya.steward.common.model.assets.resource.IResource;
-import com.kanomiya.steward.common.model.assets.resource.registry.ResourceRegistry;
 import com.kanomiya.steward.common.model.assets.resource.type.ResourceType;
 
 /**

@@ -1,4 +1,4 @@
-package com.kanomiya.steward.common.model;
+package com.kanomiya.steward.common.model.util;
 
 /**
  * @author Kanomiya

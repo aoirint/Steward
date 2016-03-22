@@ -9,8 +9,8 @@ import java.util.concurrent.FutureTask;
 import javax.imageio.ImageIO;
 
 import com.google.gson.Gson;
-import com.kanomiya.steward.common.model.assets.filter.ExtensionFilter;
 import com.kanomiya.steward.common.model.texture.TextureImage;
+import com.kanomiya.steward.common.util.filter.ExtensionFilter;
 
 /**
  * @author Kanomiya

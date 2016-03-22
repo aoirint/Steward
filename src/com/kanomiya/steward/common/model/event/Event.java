@@ -41,7 +41,7 @@ public class Event implements ITextureOwner, IResource {
 	public Map<ScriptEventType, Script> scripts;
 	public boolean isDead;
 
-	public Texture texture;
+	public Texture icon;
 	public Inventory inventory;
 
 	public Assets assets;
@@ -84,8 +84,8 @@ public class Event implements ITextureOwner, IResource {
 		int fx = x +offsetX;
 		int fy = y +offsetY;
 
-		if (texture.type.isDirectable()) direction = Direction.getDirection(x, y, fx, fy, direction);
-		if (texture.type.isWalkable()) walkState = walkState.next();
+		if (icon.type.isDirectable()) direction = Direction.getDirection(x, y, fx, fy, direction);
+		if (icon.type.isWalkable()) walkState = walkState.next();
 
 		if (! area.tipExists(fx, fy)) return false;
 		if (area.getTip(fx, fy).getAccessType() == AccessType.DENY) return false;
@@ -186,7 +186,7 @@ public class Event implements ITextureOwner, IResource {
 	 */
 	public Texture getIcon()
 	{
-		return texture;
+		return icon;
 	}
 
 	/**

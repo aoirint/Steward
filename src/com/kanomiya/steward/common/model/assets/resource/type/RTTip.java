@@ -8,7 +8,7 @@ import java.util.concurrent.FutureTask;
 
 import com.google.gson.Gson;
 import com.kanomiya.steward.common.model.area.Tip;
-import com.kanomiya.steward.common.model.assets.filter.ExtensionFilter;
+import com.kanomiya.steward.common.util.filter.ExtensionFilter;
 
 /**
  * @author Kanomiya

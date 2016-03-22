@@ -1,8 +1,8 @@
 package com.kanomiya.steward.common.controller.action.key;
 
 import com.kanomiya.steward.common.Game;
+import com.kanomiya.steward.common.config.GameKeys;
 import com.kanomiya.steward.common.controller.action.IControlAction;
-import com.kanomiya.steward.common.controller.unit.VirtualKeypad;
 import com.kanomiya.steward.common.controller.unit.event.KeyboardUpdateEvent;
 import com.kanomiya.steward.common.model.event.Direction;
 import com.kanomiya.steward.common.model.event.Player;
@@ -32,15 +32,15 @@ public class CAKeyArrow implements IControlAction<KeyboardUpdateEvent> {
 			{
 				MessageBook book = (MessageBook) player.getWindow();
 
-				if (event.isPressed(VirtualKeypad.LEFT) && ! book.isFirstPage()) book.prevPage();
-				if (event.isPressed(VirtualKeypad.RIGHT) && ! book.isLastPage()) book.nextPage();
+				if (event.isPressed(GameKeys.LEFT) && ! book.isFirstPage()) book.prevPage();
+				if (event.isPressed(GameKeys.RIGHT) && ! book.isLastPage()) book.nextPage();
 
 				Message current = book.currentPage();
 
 				if (current.hasSelectable())
 				{
-					if (event.isPressed(VirtualKeypad.UP) && ! current.isFirstSelectable()) current.prevSelectable();
-					if (event.isPressed(VirtualKeypad.DOWN) && ! current.isLastSelectable()) current.nextSelectable();
+					if (event.isPressed(GameKeys.UP) && ! current.isFirstSelectable()) current.prevSelectable();
+					if (event.isPressed(GameKeys.DOWN) && ! current.isLastSelectable()) current.nextSelectable();
 				}
 			}
 		} else
@@ -49,25 +49,25 @@ public class CAKeyArrow implements IControlAction<KeyboardUpdateEvent> {
 			{
 				if (ViewUtils.topInWindowEdge(game.thePlayer.focusedY, game.thePlayer, 1))
 				{
-					if (event.anyIsPressed(VirtualKeypad.UP, VirtualKeypad.UP_LEFT, VirtualKeypad.UP_RIGHT))
+					if (event.anyIsPressed(GameKeys.UP, GameKeys.UP_LEFT, GameKeys.UP_RIGHT))
 						player.focusedY -= 1;
 				}
 
 				if (ViewUtils.bottomInWindowEdge(player.focusedY, player, 1))
 				{
-					if (event.anyIsPressed(VirtualKeypad.DOWN, VirtualKeypad.DOWN_LEFT, VirtualKeypad.DOWN_RIGHT))
+					if (event.anyIsPressed(GameKeys.DOWN, GameKeys.DOWN_LEFT, GameKeys.DOWN_RIGHT))
 						player.focusedY += 1;
 				}
 
 				if (ViewUtils.leftInWindowEdge(player.focusedX, player, 1))
 				{
-					if (event.anyIsPressed(VirtualKeypad.LEFT, VirtualKeypad.UP_LEFT, VirtualKeypad.DOWN_LEFT))
+					if (event.anyIsPressed(GameKeys.LEFT, GameKeys.UP_LEFT, GameKeys.DOWN_LEFT))
 						player.focusedX -= 1;
 				}
 
 				if (ViewUtils.rightInWindowEdge(player.focusedX, player, 1))
 				{
-					if (event.anyIsPressed(VirtualKeypad.RIGHT, VirtualKeypad.UP_RIGHT, VirtualKeypad.DOWN_RIGHT))
+					if (event.anyIsPressed(GameKeys.RIGHT, GameKeys.UP_RIGHT, GameKeys.DOWN_RIGHT))
 						player.focusedX += 1;
 				}
 			}
@@ -75,19 +75,19 @@ public class CAKeyArrow implements IControlAction<KeyboardUpdateEvent> {
 
 			if (game.thePlayer.getMode().enableMove())
 			{
-				if (event.isPressed(VirtualKeypad.UP)) { player.move(Direction.NORTH); game.currentTurn().consume(); }
-				if (event.isPressed(VirtualKeypad.DOWN)) { player.move(Direction.SOUTH); game.currentTurn().consume(); }
-				if (event.isPressed(VirtualKeypad.LEFT)) { player.move(Direction.WEST); game.currentTurn().consume(); }
-				if (event.isPressed(VirtualKeypad.RIGHT)) { player.move(Direction.EAST); game.currentTurn().consume(); }
-				if (event.isPressed(VirtualKeypad.UP_LEFT)) { player.move(Direction.NORTH, Direction.WEST); game.currentTurn().consume(); }
-				if (event.isPressed(VirtualKeypad.UP_RIGHT)) { player.move(Direction.NORTH, Direction.EAST); game.currentTurn().consume(); }
-				if (event.isPressed(VirtualKeypad.DOWN_LEFT)) { player.move(Direction.SOUTH, Direction.WEST); game.currentTurn().consume(); }
-				if (event.isPressed(VirtualKeypad.DOWN_RIGHT)) { player.move(Direction.SOUTH, Direction.EAST); game.currentTurn().consume(); }
+				if (event.isPressed(GameKeys.UP)) { player.move(Direction.NORTH); game.currentTurn().consume(); }
+				if (event.isPressed(GameKeys.DOWN)) { player.move(Direction.SOUTH); game.currentTurn().consume(); }
+				if (event.isPressed(GameKeys.LEFT)) { player.move(Direction.WEST); game.currentTurn().consume(); }
+				if (event.isPressed(GameKeys.RIGHT)) { player.move(Direction.EAST); game.currentTurn().consume(); }
+				if (event.isPressed(GameKeys.UP_LEFT)) { player.move(Direction.NORTH, Direction.WEST); game.currentTurn().consume(); }
+				if (event.isPressed(GameKeys.UP_RIGHT)) { player.move(Direction.NORTH, Direction.EAST); game.currentTurn().consume(); }
+				if (event.isPressed(GameKeys.DOWN_LEFT)) { player.move(Direction.SOUTH, Direction.WEST); game.currentTurn().consume(); }
+				if (event.isPressed(GameKeys.DOWN_RIGHT)) { player.move(Direction.SOUTH, Direction.EAST); game.currentTurn().consume(); }
 			}
 
 		}
 
-		if (event.isPressed(VirtualKeypad.STAMPING))
+		if (event.isPressed(GameKeys.STAMPING))
 		{
 			if (player.getMode().enableSelecter())
 			{

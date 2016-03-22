@@ -1,8 +1,8 @@
 package com.kanomiya.steward.common.controller.action.key;
 
 import com.kanomiya.steward.common.Game;
+import com.kanomiya.steward.common.config.GameKeys;
 import com.kanomiya.steward.common.controller.action.IControlAction;
-import com.kanomiya.steward.common.controller.unit.VirtualKeypad;
 import com.kanomiya.steward.common.controller.unit.event.KeyboardUpdateEvent;
 import com.kanomiya.steward.common.model.event.Player;
 import com.kanomiya.steward.common.model.overlay.text.Choice;
@@ -23,7 +23,7 @@ public class CAKeyEnter implements IControlAction<KeyboardUpdateEvent> {
 	public void action(KeyboardUpdateEvent event, Game game)
 	{
 		if (event.isCancelledOrConsumed()) return ;
-		if (! event.isPressed(VirtualKeypad.ENTER)) return ;
+		if (! event.isPressed(GameKeys.ENTER)) return ;
 
 
 		Player player = game.thePlayer;

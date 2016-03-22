@@ -14,7 +14,7 @@ import jdk.nashorn.api.scripting.NashornScriptEngineFactory;
 
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
-import com.kanomiya.steward.common.model.assets.loader.ResourceLoader;
+import com.kanomiya.steward.common.model.assets.resource.ResourceLoader;
 import com.kanomiya.steward.common.model.assets.resource.type.ResourceType;
 import com.kanomiya.steward.common.model.event.Player;
 import com.kanomiya.steward.common.model.event.PlayerMode;

@@ -1,8 +1,8 @@
 package com.kanomiya.steward.common.controller.action.key;
 
 import com.kanomiya.steward.common.Game;
+import com.kanomiya.steward.common.config.GameKeys;
 import com.kanomiya.steward.common.controller.action.IControlAction;
-import com.kanomiya.steward.common.controller.unit.VirtualKeypad;
 import com.kanomiya.steward.common.controller.unit.event.KeyboardUpdateEvent;
 import com.kanomiya.steward.common.model.event.Player;
 import com.kanomiya.steward.common.model.event.PlayerMode;
@@ -26,13 +26,13 @@ public class CAKeyMode implements IControlAction<KeyboardUpdateEvent> {
 		if (player.hasWindow()) return ;
 
 
-		if (event.isPressed(VirtualKeypad.TARGET)) // target
+		if (event.isPressed(GameKeys.TARGET)) // target
 			player.changeMode(player.modeIs(PlayerMode.TARGET) ? PlayerMode.NORMAL : PlayerMode.TARGET);
 
-		if (event.isPressed(VirtualKeypad.F3)) // debug
+		if (event.isPressed(GameKeys.F3)) // debug
 			player.debug = ! player.debug;
 
-		if (event.isPressed(VirtualKeypad.F12)) // wizard
+		if (event.isPressed(GameKeys.F12)) // wizard
 			player.changeMode(player.modeIs(PlayerMode.WIZARD) ? PlayerMode.NORMAL : PlayerMode.WIZARD);
 
 

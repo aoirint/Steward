@@ -9,7 +9,7 @@ import java.util.concurrent.FutureTask;
 import com.google.gson.Gson;
 import com.kanomiya.steward.common.model.area.Area;
 import com.kanomiya.steward.common.model.assets.AssetsUtils;
-import com.kanomiya.steward.common.model.assets.filter.ExtensionFilter;
+import com.kanomiya.steward.common.util.filter.ExtensionFilter;
 
 /**
  * @author Kanomiya

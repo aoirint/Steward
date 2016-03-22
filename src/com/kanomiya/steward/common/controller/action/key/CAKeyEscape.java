@@ -1,8 +1,8 @@
 package com.kanomiya.steward.common.controller.action.key;
 
 import com.kanomiya.steward.common.Game;
+import com.kanomiya.steward.common.config.GameKeys;
 import com.kanomiya.steward.common.controller.action.IControlAction;
-import com.kanomiya.steward.common.controller.unit.VirtualKeypad;
 import com.kanomiya.steward.common.controller.unit.event.KeyboardUpdateEvent;
 import com.kanomiya.steward.common.model.assets.Assets;
 import com.kanomiya.steward.common.model.assets.AssetsUtils;
@@ -25,7 +25,7 @@ public class CAKeyEscape implements IControlAction<KeyboardUpdateEvent> {
 	public void action(KeyboardUpdateEvent event, Game game)
 	{
 		if (event.isCancelledOrConsumed()) return ;
-		if (! event.isPressed(VirtualKeypad.ESCAPE)) return ;
+		if (! event.isPressed(GameKeys.ESCAPE)) return ;
 
 		Player player = game.thePlayer;
 

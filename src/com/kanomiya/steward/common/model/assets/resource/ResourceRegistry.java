@@ -1,8 +1,6 @@
-package com.kanomiya.steward.common.model.assets.resource.registry;
+package com.kanomiya.steward.common.model.assets.resource;
 
 import java.util.HashMap;
-
-import com.kanomiya.steward.common.model.assets.resource.IResource;
 
 /**
  * @author Kanomiya

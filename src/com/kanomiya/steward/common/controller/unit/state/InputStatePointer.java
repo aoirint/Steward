@@ -1,6 +1,6 @@
 package com.kanomiya.steward.common.controller.unit.state;
 
-import com.kanomiya.steward.common.model.IRegion;
+import com.kanomiya.steward.common.model.util.IRegion;
 
 /**
  * @author Kanomiya

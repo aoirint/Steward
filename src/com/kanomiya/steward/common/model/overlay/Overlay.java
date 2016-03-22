@@ -1,8 +1,8 @@
 package com.kanomiya.steward.common.model.overlay;
 
-import com.kanomiya.steward.common.model.TBLR;
 import com.kanomiya.steward.common.model.assets.Assets;
 import com.kanomiya.steward.common.model.texture.Texture;
+import com.kanomiya.steward.common.model.util.TBLR;
 import com.kanomiya.steward.common.view.ViewConsts;
 
 /**
