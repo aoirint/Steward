@@ -1,9 +1,8 @@
 package com.kanomiya.steward;
 
-import com.kanomiya.steward.common.Game;
-import com.kanomiya.steward.common.model.assets.Assets;
-import com.kanomiya.steward.common.model.assets.AssetsFactory;
-import com.kanomiya.steward.common.view.ViewConsts;
+import com.kanomiya.steward.model.assets.Assets;
+import com.kanomiya.steward.model.assets.AssetsFactory;
+import com.kanomiya.steward.view.ViewConsts;
 
 
 

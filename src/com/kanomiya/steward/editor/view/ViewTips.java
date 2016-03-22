@@ -4,12 +4,12 @@ import java.awt.Graphics2D;
 import java.util.Collection;
 import java.util.Iterator;
 
-import com.kanomiya.steward.common.Game;
-import com.kanomiya.steward.common.model.area.Tip;
-import com.kanomiya.steward.common.model.texture.Texture;
-import com.kanomiya.steward.common.view.ViewBuffered;
-import com.kanomiya.steward.common.view.ViewConsts;
+import com.kanomiya.steward.Game;
 import com.kanomiya.steward.editor.FrameTip;
+import com.kanomiya.steward.model.area.Tip;
+import com.kanomiya.steward.model.texture.Texture;
+import com.kanomiya.steward.view.ViewBuffered;
+import com.kanomiya.steward.view.ViewConsts;
 
 /**
  * @author Kanomiya

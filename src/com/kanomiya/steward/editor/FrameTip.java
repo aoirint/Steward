@@ -8,11 +8,11 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Collection;
 
-import com.kanomiya.steward.common.FrameWithView;
-import com.kanomiya.steward.common.Game;
-import com.kanomiya.steward.common.model.area.Tip;
-import com.kanomiya.steward.common.model.event.PlayerMode;
-import com.kanomiya.steward.common.view.ViewConsts;
+import com.kanomiya.steward.Game;
+import com.kanomiya.steward.model.area.Tip;
+import com.kanomiya.steward.model.event.PlayerMode;
+import com.kanomiya.steward.util.awt.FrameWithView;
+import com.kanomiya.steward.view.ViewConsts;
 
 /**
  * @author Kanomiya
