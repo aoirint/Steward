@@ -32,8 +32,6 @@ public class CAKeyMode implements IControlAction<KeyboardUpdateEvent> {
 		if (event.isPressed(GameKeys.F3)) // debug
 			player.debug = ! player.debug;
 
-		if (event.isPressed(GameKeys.F12)) // wizard
-			player.changeMode(player.modeIs(PlayerMode.WIZARD) ? PlayerMode.NORMAL : PlayerMode.WIZARD);
 
 
 

@@ -17,7 +17,7 @@ public class TextField extends Text implements IEditableText {
 		return new TextField(defaulz);
 	}
 
-	protected ConfirmHandler confirmHandler;
+	protected ConfirmHandler<String, ConfirmResult> confirmHandler;
 	protected int caretIndex;
 
 	public TextField()
@@ -56,7 +56,7 @@ public class TextField extends Text implements IEditableText {
 	* @inheritDoc
 	*/
 	@Override
-	public IConfirmable confirmHandler(ConfirmHandler confirmHandler) {
+	public TextField confirmHandler(ConfirmHandler<String, ConfirmResult> confirmHandler) {
 		this.confirmHandler = confirmHandler;
 		return this;
 	}

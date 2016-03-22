@@ -21,7 +21,7 @@ public interface IConfirmable<T> {
 	}
 
 
-	IConfirmable confirmHandler(ConfirmHandler confirmHandler);
+	IConfirmable confirmHandler(ConfirmHandler<T, ConfirmResult> confirmHandler);
 
 	default IConfirmable confirmHandlerJS(ScriptObjectMirror jsFunction)
 	{

@@ -45,7 +45,7 @@ public class CAKeyArrow implements IControlAction<KeyboardUpdateEvent> {
 			}
 		} else
 		{
-			if (player.getMode().enableSelecter())
+			if (player.getMode().enableSelecter() && ! player.getMode().enableMove())
 			{
 				if (ViewUtils.topInWindowEdge(player.focusedY, player, 1))
 				{

@@ -11,8 +11,13 @@ import com.kanomiya.steward.controller.action.IControlAction;
 import com.kanomiya.steward.controller.unit.event.KeyboardUpdateEvent;
 import com.kanomiya.steward.model.assets.Assets;
 import com.kanomiya.steward.model.event.Player;
+import com.kanomiya.steward.model.event.PlayerMode;
 import com.kanomiya.steward.model.overlay.GameColor;
+import com.kanomiya.steward.model.overlay.text.ConfirmHandler;
+import com.kanomiya.steward.model.overlay.text.ConfirmResult;
 import com.kanomiya.steward.model.overlay.text.Text;
+import com.kanomiya.steward.model.overlay.text.TextField;
+import com.kanomiya.steward.model.overlay.window.message.Message;
 import com.kanomiya.steward.view.ViewConsts;
 
 /**
@@ -61,7 +66,45 @@ public class CAKeyFunction implements IControlAction<KeyboardUpdateEvent> {
 		if (event.isPressed(GameKeys.F10)); //
 		if (event.isPressed(GameKeys.F11)); //
 
-		// F12 -> CAKeyMode
+
+		if (event.isPressed(GameKeys.F12)) // wizard
+		{
+			if (! player.hasWindow())
+			{
+				player.showWindow(Message.create("コンソール")
+						.println("")
+						.println(TextField.create().confirmHandler(new ConfirmHandler<String, ConfirmResult>()
+						{
+							@Override
+							public ConfirmResult apply(String text)
+							{
+
+								if (text.equals("wizard"))
+								{
+									player.changeMode(PlayerMode.WIZARD);
+									player.logger.println("Oracle: Wi-zaaaard!");
+								} else if (text.equals("normal"))
+								{
+									player.changeMode(PlayerMode.NORMAL);
+									player.logger.println("Oracle: Normal;");
+								} else
+								{
+									player.logger.println("Oracle: Huh? What do you mean?");
+								}
+
+
+								player.removeWindow();
+
+								return null;
+							}
+						}
+						)));
+
+
+			}
+
+		}
+
 
 
 	}

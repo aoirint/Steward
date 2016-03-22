@@ -4,7 +4,7 @@ package com.kanomiya.steward.model.overlay.text;
  * @author Kanomiya
  *
  */
-public interface IEditableText extends ISelectableText, IConfirmable {
+public interface IEditableText extends ISelectableText, IConfirmable<String> {
 
 	public boolean multiLineIsAvailable();
 
