@@ -25,6 +25,8 @@ public class ResourceSaver<R extends IResource> {
 
 	public ResourceSaver<R> save(File saveBaseDir, Gson gson) throws IOException
 	{
+		if (! type.enableSave()) return this;
+
 		File baseDir = new File(saveBaseDir, type.getDirName());
 		if (! baseDir.exists()) baseDir.mkdirs();
 

@@ -18,7 +18,7 @@ import com.kanomiya.steward.util.filter.ExtensionFilter;
 public class RTArea extends ResourceType<Area> {
 
 	protected RTArea() {
-		super(false, true, "area", new ExtensionFilter("json", true));
+		super(true, true, "area", new ExtensionFilter("json", true));
 	}
 
 	/**

@@ -6,7 +6,7 @@
 "background": "background/title",
 "scripts": {
 	"onEntered": {
-		"src": "title/onEntered.js"
+		"src": "title/onEntered"
 	}
 },
 "tips": [

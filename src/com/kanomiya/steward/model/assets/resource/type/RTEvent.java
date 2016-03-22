@@ -20,7 +20,7 @@ import com.kanomiya.steward.util.filter.ExtensionFilter;
 public class RTEvent extends ResourceType<Event> {
 
 	protected RTEvent() {
-		super(false, true, "event", new ExtensionFilter("json", true));
+		super(true, true, "event", new ExtensionFilter("json", true));
 	}
 
 	/**

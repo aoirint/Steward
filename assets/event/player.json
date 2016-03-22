@@ -1,8 +1,8 @@
 {
 "id": "player",
-"area": "test",
-"x": 3,
-"y": 4,
+"area": "title",
+"x": 0,
+"y": 0,
 "icon": "event/player",
 "debugMode": false
 }
