@@ -1,9 +1,11 @@
 package com.kanomiya.steward.model.assets.resource.type;
 
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -31,7 +33,7 @@ public class RTLanguage extends ResourceType<Language> {
 	@Override
 	public Language load(String id, File file, Gson gson, List<FutureTask> futureTaskList) throws IOException
 	{
-		PropertyResourceBundle bundle = new PropertyResourceBundle(new FileReader(file));
+		PropertyResourceBundle bundle = new PropertyResourceBundle(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8));
 
 		String[] tags = id.split("_");
 		if (tags.length < 2) return null;
