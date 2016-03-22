@@ -7,6 +7,6 @@ package com.kanomiya.steward.model.assets.resource;
  */
 public interface IResource {
 
-	public String getId();
+	String getId();
 
 }

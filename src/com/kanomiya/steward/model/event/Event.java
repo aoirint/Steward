@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 import javax.script.ScriptEngine;
 import javax.script.ScriptException;
 
+import com.kanomiya.steward.Game;
 import com.kanomiya.steward.model.area.AccessType;
 import com.kanomiya.steward.model.area.Area;
 import com.kanomiya.steward.model.area.Chunk;
@@ -16,6 +17,7 @@ import com.kanomiya.steward.model.assets.Assets;
 import com.kanomiya.steward.model.assets.resource.IResource;
 import com.kanomiya.steward.model.item.Inventory;
 import com.kanomiya.steward.model.script.Script;
+import com.kanomiya.steward.model.script.ScriptCode;
 import com.kanomiya.steward.model.script.ScriptEventType;
 import com.kanomiya.steward.model.texture.ITextureOwner;
 import com.kanomiya.steward.model.texture.Texture;
@@ -260,7 +262,13 @@ public class Event implements ITextureOwner, IResource {
 		if (! scripts.containsKey(eventType)) return ;
 
 		Script script = scripts.get(eventType);
-		String scriptCode = assets.getScriptCode(script.src).code; // TODO: No such script code
+		ScriptCode scriptCode = assets.getScriptCode(script.src);
+
+		if (scriptCode == null)
+		{
+			Game.logger.warn("No such Script code: " + script.src);
+			return ;
+		}
 
 		ScriptEngine scriptEngine = assets.getScriptEngine();
 
@@ -281,7 +289,7 @@ public class Event implements ITextureOwner, IResource {
 		}
 
 		try {
-			scriptEngine.eval(scriptCode);
+			scriptEngine.eval(scriptCode.code);
 
 		} catch (ScriptException e) {
 			// TODO 自動生成された catch ブロック

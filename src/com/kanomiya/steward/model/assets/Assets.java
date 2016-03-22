@@ -10,6 +10,7 @@ import com.google.common.collect.Maps;
 import com.kanomiya.steward.model.area.Area;
 import com.kanomiya.steward.model.area.Tip;
 import com.kanomiya.steward.model.assets.resource.ResourceRegistry;
+import com.kanomiya.steward.model.assets.resource.type.ResourceType;
 import com.kanomiya.steward.model.event.Event;
 import com.kanomiya.steward.model.event.Player;
 import com.kanomiya.steward.model.item.Item;
@@ -24,6 +25,8 @@ import com.kanomiya.steward.model.texture.TextureImage;
  *
  */
 public class Assets {
+
+	public Map<ResourceType, ResourceRegistry> registries;
 
 	public ResourceRegistry<TextureImage> texImageRegistry;
 	public ResourceRegistry<Texture> textureRegistry;
@@ -58,6 +61,18 @@ public class Assets {
 		eventRegistry = new ResourceRegistry<>();
 		langRegistry = new ResourceRegistry<>();
 		localeToLanguage = Maps.newHashMap();
+
+		registries = Maps.newHashMap();
+
+		registries.put(ResourceType.rtTextureImage, texImageRegistry);
+		registries.put(ResourceType.rtTexture, textureRegistry);
+		registries.put(ResourceType.rtTip, tipRegistry);
+		registries.put(ResourceType.rtScriptCode, scriptCodeRegistry);
+		registries.put(ResourceType.rtItem, itemRegistry);
+		registries.put(ResourceType.rtArea, areaRegistry);
+		registries.put(ResourceType.rtEvent, eventRegistry);
+		registries.put(ResourceType.rtLanguage, langRegistry);
+
 
 	}
 

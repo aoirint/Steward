@@ -7,7 +7,7 @@
   "icon": "item/pear",
   "scripts": {
     "onColided": {
-      "src": "eventGetItem.js",
+      "src": "eventGetItem",
 	  "args":
 	  {
 		"id": "pear"

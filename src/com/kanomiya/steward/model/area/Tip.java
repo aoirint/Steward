@@ -54,7 +54,12 @@ public class Tip implements IResource {
 		return getName();
 	}
 
-
+	/**
+	 * @return
+	 */
+	public boolean hasIcon() {
+		return icon != null;
+	}
 
 
 
@@ -69,7 +74,7 @@ public class Tip implements IResource {
 
 			jsObj.addProperty("id", obj.id);
 			jsObj.addProperty("name", obj.name);
-			jsObj.addProperty("icon", obj.icon.getId());
+			if (obj.hasIcon()) jsObj.addProperty("icon", obj.icon.getId());
 			if (obj.access != AccessType.ALLOW) jsObj.add("access", context.serialize(obj.access));
 
 			return jsObj;
@@ -100,5 +105,7 @@ public class Tip implements IResource {
 			return tip;
 		}
 	}
+
+
 
 }

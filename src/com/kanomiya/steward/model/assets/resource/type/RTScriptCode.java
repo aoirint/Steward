@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.concurrent.FutureTask;
 
 import com.google.gson.Gson;
+import com.kanomiya.steward.model.assets.AssetsUtils;
 import com.kanomiya.steward.model.script.ScriptCode;
 import com.kanomiya.steward.util.filter.ExtensionFilter;
 
@@ -46,9 +47,13 @@ public class RTScriptCode extends ResourceType<ScriptCode> {
 	* @inheritDoc
 	*/
 	@Override
-	public void save(ScriptCode resource, File file, Gson gson) throws IOException
+	public void save(ScriptCode resource, File baseDir, Gson gson) throws IOException
 	{
-		// TODO 自動生成されたメソッド・スタブ
+		File file = new File(baseDir, resource.getId() + ".js");
+
+		if (! file.getParentFile().exists()) file.getParentFile().mkdirs();
+
+		AssetsUtils.saveString(resource.code, file);
 
 	}
 

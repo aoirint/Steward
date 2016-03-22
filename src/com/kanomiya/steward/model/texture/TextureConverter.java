@@ -56,39 +56,41 @@ public class TextureConverter implements JsonSerializer<Texture>, JsonDeserializ
 
 		jsObj.add("type", context.serialize(texture.type));
 
-
-		List<IdWithRange> rangeList = IdWithRange.list(Arrays.asList(texture.frames));
-		Iterator<IdWithRange> rangeItr = rangeList.iterator();
-
-		JsonArray jsFrameArr = new JsonArray();
-
-		while (rangeItr.hasNext())
+		if (texture.hasFrame())
 		{
-			JsonObject jsFrame = new JsonObject();
+			List<IdWithRange> rangeList = IdWithRange.list(Arrays.asList(texture.frames));
+			Iterator<IdWithRange> rangeItr = rangeList.iterator();
 
-			IdWithRange rangeObj = rangeItr.next();
-			TextureFrame frameObj = texture.getFrameAt(rangeObj.from);
+			JsonArray jsFrameArr = new JsonArray();
 
-			JsonArray jsImages = new JsonArray();
-			Iterator<TextureImage> imgItr = Arrays.asList(frameObj.images).iterator();
-
-			while (imgItr.hasNext())
+			while (rangeItr.hasNext())
 			{
-				jsImages.add(imgItr.next().getId());
+				JsonObject jsFrame = new JsonObject();
+
+				IdWithRange rangeObj = rangeItr.next();
+				TextureFrame frameObj = texture.getFrameAt(rangeObj.from);
+
+				JsonArray jsImages = new JsonArray();
+				Iterator<TextureImage> imgItr = Arrays.asList(frameObj.images).iterator();
+
+				while (imgItr.hasNext())
+				{
+					jsImages.add(imgItr.next().getId());
+				}
+
+				if (frameObj.drawingX != 0) jsFrame.addProperty("drawingX", frameObj.drawingX);
+				if (frameObj.drawingY != 0) jsFrame.addProperty("drawingY", frameObj.drawingY);
+
+
+				JsonObject jsRange = context.serialize(rangeObj).getAsJsonObject();
+				mergeJsonObject(jsFrame, jsRange);
+
+				jsFrameArr.add(jsFrame);
 			}
 
-			if (frameObj.drawingX != 0) jsFrame.addProperty("drawingX", frameObj.drawingX);
-			if (frameObj.drawingY != 0) jsFrame.addProperty("drawingY", frameObj.drawingY);
+			jsObj.add("frames", jsFrameArr);
 
-
-			JsonObject jsRange = context.serialize(rangeObj).getAsJsonObject();
-			mergeJsonObject(jsFrame, jsRange);
-
-			jsFrameArr.add(jsFrame);
 		}
-
-		jsObj.add("frames", jsFrameArr);
-
 
 		return jsObj;
 	}
@@ -134,8 +136,8 @@ public class TextureConverter implements JsonSerializer<Texture>, JsonDeserializ
 				int from = Math.max(0, Math.min(frames.length -1, iwr.from));
 				int to = Math.max(0, Math.min(frames.length -1, iwr.to));
 
-				if (from != iwr.from) Game.logger.warning("Json 'from': IndexOutOfBounds ( " + iwr.from + "->" + from + " ) at " + id);
-				if (to != iwr.to) Game.logger.warning("Json 'to': IndexOutOfBounds ( " + iwr.to + "->" + to + " ) at " + id);
+				if (from != iwr.from) Game.logger.warn("Json 'from': IndexOutOfBounds ( " + iwr.from + "->" + from + " ) at " + id);
+				if (to != iwr.to) Game.logger.warn("Json 'to': IndexOutOfBounds ( " + iwr.to + "->" + to + " ) at " + id);
 
 				for (int j=from; j<=to;j++) // VELIF ? isValid
 				{

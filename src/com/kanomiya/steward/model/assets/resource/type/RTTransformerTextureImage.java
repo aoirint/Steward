@@ -18,7 +18,7 @@ import com.kanomiya.steward.util.filter.ExtensionFilter;
 public class RTTransformerTextureImage extends ResourceType<TransformerTextureImage> {
 
 	protected RTTransformerTextureImage() {
-		super(false, true, "texture/image", new ExtensionFilter("json", true));
+		super(false, true, "image", new ExtensionFilter("json", true));
 	}
 
 	/**
@@ -34,8 +34,12 @@ public class RTTransformerTextureImage extends ResourceType<TransformerTextureIm
 	* @inheritDoc
 	*/
 	@Override
-	public void save(TransformerTextureImage resource, File file, Gson gson) throws IOException
+	public void save(TransformerTextureImage resource, File baseDir, Gson gson) throws IOException
 	{
+		File file = new File(baseDir, resource.getId() + ".json");
+
+		if (! file.getParentFile().exists()) file.getParentFile().mkdirs();
+
 		AssetsUtils.saveAsJson(resource, gson, file);
 	}
 

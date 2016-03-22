@@ -7,7 +7,7 @@
   "icon": "event/test/ped2",
   "scripts": {
     "onColided": {
-      "src": "test/ped2/onColided.js"
+      "src": "test/ped2/onColided"
     }
   }
 }

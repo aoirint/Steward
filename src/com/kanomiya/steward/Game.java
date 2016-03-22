@@ -1,7 +1,8 @@
 package com.kanomiya.steward;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import com.google.common.collect.Maps;
 import com.google.common.eventbus.EventBus;

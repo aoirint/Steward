@@ -2,9 +2,12 @@ package com.kanomiya.steward.model.assets.resource.type;
 
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Properties;
 import java.util.PropertyResourceBundle;
 import java.util.concurrent.FutureTask;
 
@@ -43,9 +46,25 @@ public class RTLanguage extends ResourceType<Language> {
 	* @inheritDoc
 	*/
 	@Override
-	public void save(Language resource, File file, Gson gson) throws IOException
+	public void save(Language resource, File baseDir, Gson gson) throws IOException
 	{
-		// TODO 自動生成されたメソッド・スタブ
+		File file = new File(baseDir, resource.getId() + ".lang");
+		FileWriter fw = new FileWriter(file);
+
+		Properties props = new Properties();
+		Iterator<String> keyItr = resource.mappings.keySet().iterator();
+
+		while (keyItr.hasNext())
+		{
+			String key = keyItr.next();
+			props.setProperty(key, resource.mappings.getString(key));
+		}
+
+		if (! file.getParentFile().exists()) file.getParentFile().mkdirs();
+
+		props.store(fw, "Steward Language Property File");
+
+		fw.close();
 
 	}
 

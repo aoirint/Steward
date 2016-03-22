@@ -136,7 +136,6 @@ public class Player extends Event {
 
 	public static boolean isPlayerId(String id)
 	{
-		System.out.println("hey, im " + id);  // DEBUG
 		return id.equals("player");
 	}
 

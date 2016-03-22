@@ -8,6 +8,7 @@ import java.util.concurrent.FutureTask;
 
 import com.google.gson.Gson;
 import com.kanomiya.steward.model.area.Tip;
+import com.kanomiya.steward.model.assets.AssetsUtils;
 import com.kanomiya.steward.util.filter.ExtensionFilter;
 
 /**
@@ -37,10 +38,13 @@ public class RTTip extends ResourceType<Tip> {
 	* @inheritDoc
 	*/
 	@Override
-	public void save(Tip resource, File file, Gson gson) throws IOException
+	public void save(Tip resource, File baseDir, Gson gson) throws IOException
 	{
-		// TODO 自動生成されたメソッド・スタブ
+		File file = new File(baseDir, resource.getId() + ".json");
 
+		if (! file.getParentFile().exists()) file.getParentFile().mkdirs();
+
+		AssetsUtils.saveAsJson(resource, gson, file);
 	}
 
 

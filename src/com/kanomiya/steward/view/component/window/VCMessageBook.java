@@ -118,7 +118,7 @@ public class VCMessageBook implements IViewComponent<MessageBook> {
 
 		if (book.isFirstPage() && book.isClosable())
 		{
-			ViewConsts.vcTexture.paint(g, assets.textureRegistry.get("arrowBtnCheck"), assets, frame);
+			ViewConsts.vcTexture.paint(g, assets.textureRegistry.get("check"), assets, frame);
 		}
 
 		g.translate(-x2 -x4, -y1);

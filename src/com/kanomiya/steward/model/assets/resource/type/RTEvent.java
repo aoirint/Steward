@@ -43,6 +43,7 @@ public class RTEvent extends ResourceType<Event> {
 			}
 		}));
 
+
 		return event;
 	}
 
@@ -50,9 +51,13 @@ public class RTEvent extends ResourceType<Event> {
 	* @inheritDoc
 	*/
 	@Override
-	public void save(Event resource, File file, Gson gson) throws IOException
+	public void save(Event resource, File baseDir, Gson gson) throws IOException
 	{
-		AssetsUtils.saveAsJson(resource, gson, file); // TODO フォルダ作成
+		File file = new File(baseDir, resource.getId() + ".json");
+
+		if (! file.getParentFile().exists()) file.getParentFile().mkdirs();
+
+		AssetsUtils.saveAsJson(resource, gson, file);
 	}
 
 

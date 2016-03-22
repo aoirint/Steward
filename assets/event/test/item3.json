@@ -7,7 +7,7 @@
   "icon": "item/iron_ingot",
   "scripts": {
     "onColided": {
-      "src": "eventGetItem.js",
+      "src": "eventGetItem",
 	  "args":
 	  {
 		"id": "iron_ingot"

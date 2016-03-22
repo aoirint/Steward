@@ -58,7 +58,7 @@ public abstract class ResourceType<R extends IResource> {
 	}
 
 	public abstract R load(String id, File file, Gson gson, List<FutureTask> futureTaskList) throws IOException;
-	public abstract void save(R resource, File file, Gson gson) throws IOException;
+	public abstract void save(R resource, File baseDir, Gson gson) throws IOException;
 
 	public boolean enableSave() { return enableSave; }
 	public boolean enableExclusive() { return enableExclusive; }

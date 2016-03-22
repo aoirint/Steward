@@ -31,9 +31,19 @@ public class ResourceLoader<R extends IResource> {
 		registry = defaulz;
 	}
 
+
+	private int loadedCount;
+
 	public ResourceLoader<R> load(File baseDir, Gson gson, List<FutureTask> futureTaskList) throws IOException
 	{
 		File root = new File(baseDir, type.getDirName());
+
+		String typeName = type.getClass().getSimpleName();
+
+		Game.logger.debug("####################################################");
+		Game.logger.debug("Start Loading " + typeName + ": " + root.getPath());
+
+		loadedCount = 0;
 
 		Files.walkFileTree(root.toPath(), new SimpleFileVisitor<Path>() {
 			@Override
@@ -55,10 +65,11 @@ public class ResourceLoader<R extends IResource> {
 					resource = type.load(id, f, gson, futureTaskList);
 				} catch (IOException | JsonSyntaxException e)
 				{
-					Game.logger.warning("Exception at " + file.toString());
+					Game.logger.warn("Exception at " + file.toString());
 					throw e;
 				}
 
+				loadedCount ++;
 
 				if (resource != null)
 				{
@@ -68,13 +79,16 @@ public class ResourceLoader<R extends IResource> {
 					}
 
 					registry.put(resource.getId(), resource);
+					Game.logger.debug("Loaded " + typeName + ": " + resource.getId());
 
 				}
-				else Game.logger.warning("Resource is null: " + f.getCanonicalPath());
+				else Game.logger.warn("Resource is null: " + f.getCanonicalPath());
 
 				return FileVisitResult.CONTINUE;
 			}
 		});
+
+		Game.logger.debug("Finished Loading " + typeName + "(" + loadedCount + ")" + " -> Total(" + registry.size() + ")");
 
 		return this;
 	}

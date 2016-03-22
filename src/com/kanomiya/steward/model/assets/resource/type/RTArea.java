@@ -33,8 +33,12 @@ public class RTArea extends ResourceType<Area> {
 	* @inheritDoc
 	*/
 	@Override
-	public void save(Area resource, File file, Gson gson) throws IOException
+	public void save(Area resource, File baseDir, Gson gson) throws IOException
 	{
+		File file = new File(baseDir, resource.getId() + ".json");
+
+		if (! file.getParentFile().exists()) file.getParentFile().mkdirs();
+
 		AssetsUtils.saveAsJson(resource, gson, file);
 	}
 

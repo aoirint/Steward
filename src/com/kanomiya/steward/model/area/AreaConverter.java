@@ -50,6 +50,23 @@ public class AreaConverter implements JsonSerializer<Area>, JsonDeserializer<Are
 
 		if (area.hasBackground()) jsObj.addProperty("background", area.background.getId());
 
+		if (area.scripts != null)
+		{
+			Iterator<Entry<ScriptEventType, Script>> itr = area.scripts.entrySet().iterator();
+
+			JsonObject scriptObj = new JsonObject();
+
+			while (itr.hasNext())
+			{
+				Entry<ScriptEventType, Script> entry = itr.next();
+
+				scriptObj.add(entry.getKey().getId(), context.serialize(entry.getValue()));
+			}
+
+			jsObj.add("scripts", scriptObj);
+		}
+
+
 		JsonArray tips = new JsonArray();
 
 		for (int y=0; y<height; y++)
@@ -71,23 +88,6 @@ public class AreaConverter implements JsonSerializer<Area>, JsonDeserializer<Are
 
 		jsObj.add("tips", tips);
 
-
-
-		if (area.scripts != null)
-		{
-			Iterator<Entry<ScriptEventType, Script>> itr = area.scripts.entrySet().iterator();
-
-			JsonObject scriptObj = new JsonObject();
-
-			while (itr.hasNext())
-			{
-				Entry<ScriptEventType, Script> entry = itr.next();
-
-				scriptObj.add(entry.getKey().getId(), context.serialize(entry.getValue()));
-			}
-
-			jsObj.add("scripts", scriptObj);
-		}
 
 		return jsObj;
 	}

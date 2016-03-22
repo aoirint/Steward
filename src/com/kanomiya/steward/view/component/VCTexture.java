@@ -2,6 +2,7 @@ package com.kanomiya.steward.view.component;
 
 import java.awt.Graphics2D;
 
+import com.kanomiya.steward.Game;
 import com.kanomiya.steward.model.assets.Assets;
 import com.kanomiya.steward.model.texture.ITextureOwner;
 import com.kanomiya.steward.model.texture.Texture;
@@ -23,6 +24,12 @@ public class VCTexture implements IViewComponent<Texture> {
 	@Override
 	public void paint(Graphics2D g, Texture texture, Assets assets, int frame)
 	{
+		if (texture == null)
+		{
+			Game.logger.warn("Texture is Null");
+			return ;
+		}
+
 		if (! texture.hasFrame()) return ;
 
 		TextureFrame texFrame = texture.getFrameAt(Math.max(0, Math.min(texture.getFrameCount() -1, frame /10))); // 0-9, 10-19, 20-29, 30-39, 40-49, 50-59, 60

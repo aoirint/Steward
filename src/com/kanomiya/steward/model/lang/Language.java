@@ -17,7 +17,7 @@ public class Language implements IResource {
 
 	protected String id;
 	protected Locale locale;
-	protected PropertyResourceBundle mappings;
+	public PropertyResourceBundle mappings;
 
 	public Language(String id, Locale locale, PropertyResourceBundle mappings)
 	{

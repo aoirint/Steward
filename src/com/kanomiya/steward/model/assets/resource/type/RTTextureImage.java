@@ -19,7 +19,7 @@ import com.kanomiya.steward.util.filter.ExtensionFilter;
 public class RTTextureImage extends ResourceType<TextureImage> {
 
 	protected RTTextureImage() {
-		super(false, true, "textureImage", new ExtensionFilter("json", false));
+		super(false, true, "image", new ExtensionFilter("json", false));
 	}
 
 	/**
@@ -32,7 +32,6 @@ public class RTTextureImage extends ResourceType<TextureImage> {
 		BufferedImage image = ImageIO.read(file);
 
 		TextureImage texImg = new TextureImage(id, image);
-
 
 		/* -> RTTransformerTextureImage
 		 *

@@ -9,13 +9,17 @@ import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.util.Collection;
+import java.util.Iterator;
+import java.util.Map.Entry;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.kanomiya.steward.model.area.Area;
 import com.kanomiya.steward.model.area.AreaConverter;
 import com.kanomiya.steward.model.area.Tip;
+import com.kanomiya.steward.model.assets.resource.ResourceRegistry;
+import com.kanomiya.steward.model.assets.resource.ResourceSaver;
+import com.kanomiya.steward.model.assets.resource.type.ResourceType;
 import com.kanomiya.steward.model.event.Event;
 import com.kanomiya.steward.model.event.EventConverter;
 import com.kanomiya.steward.model.event.PlayerMode;
@@ -67,8 +71,6 @@ public class AssetsUtils {
 	{
 		Gson gson = createGson(assets);
 
-		Collection<Area> areaList = assets.areaRegistry.values();
-		Collection<Event> eventList = assets.eventRegistry.values();
 
 		try
 		{
@@ -120,30 +122,12 @@ public class AssetsUtils {
 				}
 			});
 
+			Iterator<Entry<ResourceType, ResourceRegistry>> regItr = assets.registries.entrySet().iterator();
 
-			File areaDir = new File(saveDir, "area");
-			File eventDir = new File(saveDir, "event");
-
-			if (! areaDir.exists()) areaDir.mkdir();
-			if (! eventDir.exists()) eventDir.mkdir();
-
-			for (Area area: areaList)
+			while (regItr.hasNext())
 			{
-				File areaFile = new File(areaDir, area.getId() + ".json");
-				File aDir = areaFile.getParentFile();
-				if (! aDir.exists()) aDir.mkdirs();
-
-
-				saveAsJson(area, gson, areaFile);
-			}
-
-			for (Event event: eventList)
-			{
-				File eventFile = new File(eventDir, event.getId() + ".json");
-				File eDir = eventFile.getParentFile();
-				if (! eDir.exists()) eDir.mkdirs();
-
-				saveAsJson(event, gson, eventFile);
+				Entry<ResourceType, ResourceRegistry> entry = regItr.next();
+				new ResourceSaver<>(entry.getKey(), entry.getValue()).save(saveDir, gson);
 			}
 
 		} catch (IOException e)
@@ -168,15 +152,19 @@ public class AssetsUtils {
 		saveAssets(assets, new File(savesDir, assets.saveName));
 	}
 
+
+	public static void saveString(String string, File file) throws IOException
+	{
+		FileWriter fw = new FileWriter(file);
+		fw.write(string);
+
+		fw.close();
+	}
+
 	public static void saveAsJson(Object obj, Gson gson, File file) throws IOException
 	{
 		String json = gson.toJson(obj);
-
-		FileWriter fw = new FileWriter(file);
-		fw.write(json);
-
-		fw.close();
-
+		saveString(json, file);
 	}
 
 
