@@ -14,7 +14,6 @@ import com.kanomiya.steward.common.model.event.Direction;
 import com.kanomiya.steward.common.model.event.PlayerMode;
 import com.kanomiya.steward.common.model.event.WalkState;
 import com.kanomiya.steward.common.model.script.ScriptEventType;
-import com.kanomiya.steward.common.model.texture.TextureMode;
 import com.kanomiya.steward.common.model.texture.TextureType;
 
 /**
@@ -43,7 +42,6 @@ public class EnumWithIdConverter implements JsonSerializer<IEnumWithId>, JsonDes
 			String id = jsElm.getAsString();
 
 			if (clazz.isAssignableFrom(TextureType.class)) return TextureType.getFromId(id);
-			if (clazz.isAssignableFrom(TextureMode.class)) return TextureMode.getFromId(id);
 			if (clazz.isAssignableFrom(PlayerMode.class)) return PlayerMode.getFromId(id);
 			if (clazz.isAssignableFrom(Direction.class)) return Direction.getFromId(id);
 			if (clazz.isAssignableFrom(WalkState.class)) return WalkState.getFromId(id);

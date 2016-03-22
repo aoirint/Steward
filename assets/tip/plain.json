@@ -2,9 +2,6 @@
 	"id": "plain",
 	"name": "平地",
 
-	"icon":
-	{
-		"src": ["tip/plain.png"]
-	}
+	"icon": "tip/plain"
 
 }

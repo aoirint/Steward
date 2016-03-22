@@ -1,0 +1,13 @@
+{
+	"id": "item/pear",
+	
+	"frames":
+	[
+		{
+			"images": ["item/pear"],
+			"from": 0,
+			"to": 5
+		}
+	]
+	
+}

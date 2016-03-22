@@ -3,7 +3,6 @@ package com.kanomiya.steward.common.model.overlay.window.message;
 import com.kanomiya.steward.common.model.assets.Assets;
 import com.kanomiya.steward.common.model.overlay.LocationType;
 import com.kanomiya.steward.common.model.overlay.text.Text;
-import com.kanomiya.steward.common.model.texture.Texture;
 
 /**
  * @author Kanomiya
@@ -13,8 +12,8 @@ public class IngameLogger extends MessageBook {
 
 	public static int millsWait = 5000;
 
-	public static String bgTextureSrc = "background/overlay/ingameLogger.png";
-	public static Texture bgTexture = new Texture(bgTextureSrc);
+	// public static String bgTextureSrc = "background/overlay/ingameLogger.png";
+	// public static Texture bgTexture = new Texture(bgTextureSrc);
 
 	protected int millsCountShow, millsCountLock;
 
@@ -24,7 +23,7 @@ public class IngameLogger extends MessageBook {
 	{
 		super();
 
-		setBackground(bgTexture);
+		// setBackground(bgTexture);
 
 		autoCloseLock = false;
 		autoLastLock = false;
@@ -32,7 +31,7 @@ public class IngameLogger extends MessageBook {
 		width = 560;
 		height = 232;
 
-		autoSize(assets);
+		// autoSize(assets);
 		autoLocation(LocationType.BOTTOM_RIGHT);
 
 		append(new Message());

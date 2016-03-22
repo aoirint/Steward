@@ -4,9 +4,6 @@
 
 	"access": "deny",
 
-	"icon":
-	{
-		"src": []
-	}
+	"icon": "tip/null"
 
 }

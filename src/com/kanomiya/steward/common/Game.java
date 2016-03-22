@@ -1,6 +1,7 @@
 package com.kanomiya.steward.common;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import com.google.common.collect.Maps;
 import com.google.common.eventbus.EventBus;
@@ -24,6 +25,10 @@ public class Game {
 
 	protected static Map<Assets, Game> instanceMap;
 
+	public static Logger logger = Logger.getLogger("Steward");
+
+
+
 	public static Game newInstance(Assets assets)
 	{
 		if (instanceMap == null) instanceMap = Maps.newHashMap();
@@ -38,7 +43,6 @@ public class Game {
 	{
 		return instanceMap.get(assets);
 	}
-
 
 	public Assets assets;
 	public Player thePlayer;

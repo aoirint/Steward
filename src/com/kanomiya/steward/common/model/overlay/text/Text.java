@@ -106,8 +106,8 @@ public class Text implements IText { // TODO PrettyText??
 	{
 		int height = Text.defaultHeight;
 
-		if (hasBackground()) height = Math.max(height, background.height);
-		if (hasIcon()) height = Math.max(height, icon.height);
+		if (hasBackground()) height = Math.max(height, background.getHeight());
+		if (hasIcon()) height = Math.max(height, icon.getHeight());
 
 		return height;
 	}

@@ -17,6 +17,7 @@ import com.kanomiya.steward.common.model.EnumWithIdConverter;
 import com.kanomiya.steward.common.model.IEnumWithId;
 import com.kanomiya.steward.common.model.area.Area;
 import com.kanomiya.steward.common.model.area.AreaConverter;
+import com.kanomiya.steward.common.model.area.Tip;
 import com.kanomiya.steward.common.model.event.Event;
 import com.kanomiya.steward.common.model.event.EventConverter;
 import com.kanomiya.steward.common.model.event.PlayerMode;
@@ -28,6 +29,8 @@ import com.kanomiya.steward.common.model.overlay.GameColor;
 import com.kanomiya.steward.common.model.overlay.text.Text;
 import com.kanomiya.steward.common.model.texture.Texture;
 import com.kanomiya.steward.common.model.texture.TextureConverter;
+import com.kanomiya.steward.common.model.texture.TransformerTextureImage;
+import com.kanomiya.steward.common.model.texture.TransformerTextureImageConverter;
 
 /**
  * @author Kanomiya
@@ -42,10 +45,16 @@ public class AssetsUtils {
 		GsonBuilder gb = new GsonBuilder();
 
 		gb.registerTypeHierarchyAdapter(IEnumWithId.class, new EnumWithIdConverter());
-		gb.registerTypeAdapter(Texture.class, new TextureConverter());
+
+		gb.registerTypeAdapter(TransformerTextureImage.class, new TransformerTextureImageConverter(assets));
+		gb.registerTypeAdapter(Texture.class, new TextureConverter(assets));
+
+		gb.registerTypeAdapter(Tip.class, new Tip.Serializer());
+		gb.registerTypeAdapter(Tip.class, new Tip.Deserializer(assets));
+
 		gb.registerTypeAdapter(Area.class, new AreaConverter(assets));
 		gb.registerTypeHierarchyAdapter(Event.class, new EventConverter(assets));
-		gb.registerTypeHierarchyAdapter(Item.class, new ItemConverter());
+		gb.registerTypeHierarchyAdapter(Item.class, new ItemConverter(assets));
 		gb.registerTypeHierarchyAdapter(ItemStack.class, new ItemStackConverter(assets));
 
 		Gson gson = gb.setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
@@ -58,8 +67,8 @@ public class AssetsUtils {
 	{
 		Gson gson = createGson(assets);
 
-		Collection<Area> areaList = assets.areaList();
-		Collection<Event> eventList = assets.eventList();
+		Collection<Area> areaList = assets.areaRegistry.values();
+		Collection<Event> eventList = assets.eventRegistry.values();
 
 		try
 		{

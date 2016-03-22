@@ -4,13 +4,7 @@
   "x": 1,
   "y": 11,
   "access": "deny",
-  "icon": {
-    "src": [
-      [
-        "item/iron_ingot.png"
-      ]
-    ]
-  },
+  "icon": "item/iron_ingot",
   "scripts": {
     "onColided": {
       "src": "eventGetItem.js",

@@ -1,0 +1,13 @@
+{
+	"id": "arrowButtonDown",
+	
+	"frames":
+	[
+		{
+			"images": ["arrowButtonDown"],
+			"from": 0,
+			"to": 5
+		}
+	]
+	
+}

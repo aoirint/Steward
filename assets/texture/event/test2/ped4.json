@@ -1,0 +1,13 @@
+{
+	"id": "event/test2/ped4",
+	
+	"frames":
+	[
+		{
+			"images": ["event/ped4"],
+			"from": 0,
+			"to": 5
+		}
+	]
+	
+}

@@ -17,7 +17,6 @@ import com.google.gson.reflect.TypeToken;
 import com.kanomiya.steward.common.model.assets.Assets;
 import com.kanomiya.steward.common.model.script.Script;
 import com.kanomiya.steward.common.model.script.ScriptEventType;
-import com.kanomiya.steward.common.model.texture.Texture;
 
 /**
  * @author Kanomiya
@@ -49,7 +48,7 @@ public class AreaConverter implements JsonSerializer<Area>, JsonDeserializer<Are
 		jsObj.addProperty("width", width);
 		jsObj.addProperty("height", height);
 
-		if (area.hasBackground()) jsObj.add("background", context.serialize(area.getBackground()));
+		if (area.hasBackground()) jsObj.addProperty("background", area.background.getId());
 
 		JsonArray tips = new JsonArray();
 
@@ -143,7 +142,7 @@ public class AreaConverter implements JsonSerializer<Area>, JsonDeserializer<Are
 
 		area.scripts = scripts;
 
-		if (jsObj.has("background")) area.setBackground(context.deserialize(jsObj.get("background"), Texture.class));
+		if (jsObj.has("background")) area.setBackground(assets.textureRegistry.get(jsObj.get("background").getAsString()));
 
 
 

@@ -4,9 +4,6 @@
 
 	"access": "deny",
 
-	"icon":
-	{
-		"src": ["tip/plain.png", "tip/tree.png"]
-	}
+	"icon": "tip/tree"
 
 }

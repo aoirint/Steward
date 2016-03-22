@@ -7,6 +7,7 @@ import javax.script.ScriptException;
 
 import com.google.common.collect.Lists;
 import com.kanomiya.steward.common.model.assets.Assets;
+import com.kanomiya.steward.common.model.assets.resource.IResource;
 import com.kanomiya.steward.common.model.event.Event;
 import com.kanomiya.steward.common.model.script.Script;
 import com.kanomiya.steward.common.model.script.ScriptEventType;
@@ -19,7 +20,7 @@ import com.kanomiya.steward.common.model.texture.Texture;
  * @author Kanomiya
  *
  */
-public class Area {
+public class Area implements IResource {
 	protected String id, name;
 
 	protected int width, height;
@@ -63,6 +64,7 @@ public class Area {
 	/**
 	 * @return id
 	 */
+	@Override
 	public String getId() {
 		return id;
 	}
@@ -265,7 +267,7 @@ public class Area {
 		if (scripts != null && scripts.containsKey(type))
 		{
 			Script script = scripts.get(type);
-			String code = assets.getScriptCode(script.src);
+			String code = assets.getScriptCode(script.src).code;
 
 			try {
 				assets.getScriptEngine().eval(code);

@@ -18,8 +18,8 @@ public class ViewBuffered<T> extends View<T> {
 	/**
 	 * @param maxFrame
 	 */
-	public ViewBuffered(int maxFrame) {
-		super(maxFrame);
+	public ViewBuffered(int internalFPS) {
+		super(internalFPS);
 	}
 
 	public void setSize(int width, int height)

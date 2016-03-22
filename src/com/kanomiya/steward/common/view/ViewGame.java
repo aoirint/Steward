@@ -14,7 +14,7 @@ public class ViewGame extends ViewBuffered<Game> {
 	 * @param maxFrame
 	 */
 	public ViewGame() {
-		super(ViewConsts.maxFrame);
+		super(ViewConsts.FPS);
 	}
 
 	/**

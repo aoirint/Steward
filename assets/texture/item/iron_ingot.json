@@ -1,0 +1,13 @@
+{
+	"id": "item/iron_ingot",
+	
+	"frames":
+	[
+		{
+			"images": ["item/iron_ingot"],
+			"from": 0,
+			"to": 5
+		}
+	]
+	
+}

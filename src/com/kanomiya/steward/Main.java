@@ -13,16 +13,13 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args)
-	{
+{
 
-		AssetsFactory afact = AssetsFactory.newInstance();
+		AssetsFactory afact = new AssetsFactory();
 		Assets assets = afact.newAssets();
 
-		// DEBUG
-		// System.out.println(assets.toString());
-
-
 		Game game = Game.newInstance(assets);
+
 
 
 		Thread repainter = new Thread("Repainter") // VELIF 通知式にする？
@@ -44,6 +41,9 @@ public class Main {
 		};
 
 		repainter.start();
+
+
+
 
 
 		/*

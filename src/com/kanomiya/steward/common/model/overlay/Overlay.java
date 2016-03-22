@@ -78,16 +78,8 @@ public abstract class Overlay {
 	{
 		if (! hasBackground()) return ;
 
-		String[][] src = getBackground().src;
-
-		for (int i=0; i<src.length; i++)
-		{
-			for (int j=0; j<src[i].length; j++)
-			{
-				width = Math.max(width, assets.getCachedImageDim(src[i][j]).width);
-				height = Math.max(height, assets.getCachedImageDim(src[i][j]).height);
-			}
-		}
+		width = background.getWidth();
+		height = background.getHeight();
 
 	}
 

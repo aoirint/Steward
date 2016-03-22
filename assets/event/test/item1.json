@@ -4,13 +4,7 @@
   "x": 1,
   "y": 9,
   "access": "deny",
-  "icon": {
-    "src": [
-      [
-        "item/pear.png"
-      ]
-    ]
-  },
+  "icon": "item/pear",
   "scripts": {
     "onColided": {
       "src": "eventGetItem.js",

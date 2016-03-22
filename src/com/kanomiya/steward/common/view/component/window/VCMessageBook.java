@@ -93,7 +93,7 @@ public class VCMessageBook implements IViewComponent<MessageBook> {
 		if (! book.isFirstPage() && book.isClosable())
 		{
 			x2 = -27;
-			ViewConsts.vcTexture.paint(g, ViewConsts.texCheck, assets, frame);
+			ViewConsts.vcTexture.paint(g, assets.textureRegistry.get("check"), assets, frame);
 		}
 
 		g.translate(x2, 0);
@@ -101,7 +101,7 @@ public class VCMessageBook implements IViewComponent<MessageBook> {
 		if (! book.isLastPage())
 		{
 			x3 = -27;
-			ViewConsts.vcTexture.paint(g, ViewConsts.texArrowBtnRight, assets, frame);
+			ViewConsts.vcTexture.paint(g, assets.textureRegistry.get("arrowBtnRight"), assets, frame);
 		}
 
 		g.translate(x3, 0);
@@ -111,14 +111,14 @@ public class VCMessageBook implements IViewComponent<MessageBook> {
 		if (! book.isFirstPage())
 		{
 			x4 = -27;
-			ViewConsts.vcTexture.paint(g, ViewConsts.texArrowBtnLeft, assets, frame);
+			ViewConsts.vcTexture.paint(g, assets.textureRegistry.get("arrowBtnLeft"), assets, frame);
 		}
 
 		g.translate(x4, 0);
 
 		if (book.isFirstPage() && book.isClosable())
 		{
-			ViewConsts.vcTexture.paint(g, ViewConsts.texCheck, assets, frame);
+			ViewConsts.vcTexture.paint(g, assets.textureRegistry.get("arrowBtnCheck"), assets, frame);
 		}
 
 		g.translate(-x2 -x4, -y1);
@@ -180,7 +180,7 @@ public class VCMessageBook implements IViewComponent<MessageBook> {
 					ViewConsts.vcTexture.paint(g, item.icon, assets, frame);
 					g.translate(-left, -top);
 
-					left += item.icon.width;
+					left += item.icon.getWidth();
 				}
 
 				if (item.hasBackground())

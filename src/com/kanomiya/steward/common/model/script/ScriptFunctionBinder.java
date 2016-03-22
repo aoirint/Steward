@@ -23,7 +23,7 @@ public class ScriptFunctionBinder {
 	public void execute(String src)
 	{
 		try {
-			assets.getScriptEngine().eval(assets.getScriptCode(src));
+			assets.getScriptEngine().eval(assets.getScriptCode(src).code);
 		} catch (ScriptException e) {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();

@@ -1,0 +1,13 @@
+{
+	"id": "tip/tree",
+	
+	"frames":
+	[
+		{
+			"images": ["tip/plain", "tip/tree"],
+			"from": 0,
+			"to": 5
+		}
+	]
+	
+}

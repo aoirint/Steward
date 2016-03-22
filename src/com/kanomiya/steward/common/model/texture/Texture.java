@@ -1,107 +1,150 @@
 package com.kanomiya.steward.common.model.texture;
 
-import java.util.Arrays;
-
-import com.kanomiya.steward.common.view.ViewConsts;
+import com.kanomiya.steward.common.model.assets.resource.IResource;
 
 
 /**
  * @author Kanomiya
  *
  */
-public class Texture {
+public class Texture implements IResource {
 
-	public String[][] src;
-	public TextureMode mode;
+	public String id;
+	protected TextureFrame[] frames;
 	public TextureType type;
-	public int interval;
-	public int x, y;
-	public int offsetX, offsetY;
-	public int width, height;
-	public double rotation; // 0-360
-	public boolean autoSize;
+
+	protected int width, height;
+	protected int tileWidth, tileHeight;
+
+	// public int interval;
+	// public double rotation; // 0-360
 
 	public int count = 0;
 	public int index = 0;
 
-	public ITextureOwner owner;
 
-	public Texture()
+	protected Texture(String id, TextureFrame[] frames)
 	{
-		this((String[][]) null, 0,0, ViewConsts.tileSize, ViewConsts.tileSize, false, 0,0, 0d, TextureMode.STATIC, TextureType.FRONT, null, 1000);
+		this.id = id;
+		this.frames = frames;
+
+		type = TextureType.FRONT;
+
+		calcSize();
+
+		tileWidth = width;
+		tileHeight = height;
 	}
 
 
-	public Texture(String src)
+	public TextureFrame getFrameAt(int index)
 	{
-		this(src, 0,0, true);
+		return frames[index];
+	}
+
+	public int getFrameCount()
+	{
+		return frames.length;
 	}
 
 
-	public Texture(String src, int width, int height)
+	public void calcSize()
 	{
-		this(src, width, height, false);
-	}
+		width = height = 0;
 
-	public Texture(String src, int width, int height, boolean autoSize)
-	{
-		this(new String[][] { new String[] { src } }, 0,0, width, height, autoSize, 0,0, 0d, TextureMode.STATIC, TextureType.FRONT, null, 1000);
+		if (frames == null) return;
+
+		for (int i=0; i<frames.length; i++)
+		{
+			if (frames[i] == null) continue;
+
+			for (int j=0; j<frames[i].images.length; j++)
+			{
+				if (frames[i].images[j] == null) continue;
+
+				width = Math.max(width, frames[i].images[j].getWidth());
+				height = Math.max(height, frames[i].images[j].getHeight());
+			}
+		}
+
 	}
 
 	/**
-	 *
-	 * @param src
-	 * @param mode
-	 * @param type
-	 * @param owner typeがfrontのときはnullでよい
-	 * @param interval
+	 * @return
 	 */
-
-	public Texture(String[][] src, int x, int y, int width, int height,
-			boolean autoSize, int offsetX, int offsetY, double rotation,
-			TextureMode mode, TextureType type, ITextureOwner owner, int interval)
-	{
-		this.src = src;
-
-		this.x = x;
-		this.y = y;
-		this.width = width;
-		this.height = height;
-		this.autoSize = autoSize;
-
-		this.offsetX = offsetX;
-		this.offsetY = offsetY;
-		this.rotation = rotation;
-
-		this.mode = mode;
-		this.type = type;
-		this.owner = owner;
-		this.interval = Math.max(interval, 1000);
+	public int getWidth() {
+		return width;
 	}
 
-	public boolean hasOwner()
-	{
-		return (owner != null);
-	}
-
-	public ITextureOwner getOwner()
-	{
-		return owner;
-	}
-
-	public Texture rotation(double rotation)
-	{
-		this.rotation = rotation;
-		return this;
+	/**
+	 * @return
+	 */
+	public int getHeight() {
+		return height;
 	}
 
 
-	public Texture copy()
-	{
-		return new Texture(Arrays.copyOf(src, src.length), x, y, width, height,
-				autoSize, offsetX, offsetY, rotation,
-				mode, type, owner, interval);
+	/**
+	 * @return tileWidth
+	 */
+	public int getTileWidth() {
+		return tileWidth;
 	}
+
+
+
+	/**
+	 * @return tileHeight
+	 */
+	public int getTileHeight() {
+		return tileHeight;
+	}
+
+
+
+	/**
+	 * @param tileWidth セットする tileWidth
+	 */
+	public void setTileWidth(int tileWidth) {
+		this.tileWidth = tileWidth;
+	}
+
+
+
+	/**
+	 * @param tileHeight セットする tileHeight
+	 */
+	public void setTileHeight(int tileHeight) {
+		this.tileHeight = tileHeight;
+	}
+
+
+
+	/**
+	* @inheritDoc
+	*/
+	@Override
+	public String getId() {
+		return id;
+	}
+
+
+
+	/**
+	 * @return
+	 */
+	public boolean hasFrame() {
+		return frames != null && 0 < frames.length;
+	}
+
+
+
+
+
+
+
+
+
 
 
 

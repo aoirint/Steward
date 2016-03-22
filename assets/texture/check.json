@@ -1,0 +1,13 @@
+{
+	"id": "check",
+	
+	"frames":
+	[
+		{
+			"images": ["check"],
+			"from": 0,
+			"to": 5
+		}
+	]
+	
+}

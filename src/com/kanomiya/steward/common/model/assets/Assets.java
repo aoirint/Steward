@@ -1,11 +1,7 @@
 package com.kanomiya.steward.common.model.assets;
 
-import java.awt.Dimension;
-import java.awt.image.BufferedImage;
-import java.util.Collection;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 import java.util.regex.Pattern;
 
 import javax.script.ScriptEngine;
@@ -13,10 +9,14 @@ import javax.script.ScriptEngine;
 import com.google.common.collect.Maps;
 import com.kanomiya.steward.common.model.area.Area;
 import com.kanomiya.steward.common.model.area.Tip;
+import com.kanomiya.steward.common.model.assets.resource.registry.ResourceRegistry;
 import com.kanomiya.steward.common.model.event.Event;
 import com.kanomiya.steward.common.model.event.Player;
 import com.kanomiya.steward.common.model.item.Item;
-import com.kanomiya.steward.common.model.lang.I18n;
+import com.kanomiya.steward.common.model.lang.Language;
+import com.kanomiya.steward.common.model.script.ScriptCode;
+import com.kanomiya.steward.common.model.texture.Texture;
+import com.kanomiya.steward.common.model.texture.TextureImage;
 
 
 /**
@@ -25,15 +25,16 @@ import com.kanomiya.steward.common.model.lang.I18n;
  */
 public class Assets {
 
+	public ResourceRegistry<TextureImage> texImageRegistry;
+	public ResourceRegistry<Texture> textureRegistry;
+	public ResourceRegistry<Tip> tipRegistry;
+	public ResourceRegistry<ScriptCode> scriptCodeRegistry;
+	public ResourceRegistry<Item> itemRegistry;
+	public ResourceRegistry<Area> areaRegistry;
+	public ResourceRegistry<Event> eventRegistry;
+	public ResourceRegistry<Language> langRegistry;
+	public Map<Locale, Language> localeToLanguage;
 
-	protected Map<String, BufferedImage> srcToImage = Maps.newHashMap();
-	protected Map<BufferedImage, Dimension> imageToSize = Maps.newHashMap();
-	protected Map<String, Tip> idToTip = Maps.newHashMap();
-	protected Map<String, Area> idToArea = Maps.newHashMap();
-	protected Map<String, String> srcToScriptCode = Maps.newHashMap();
-	protected Map<String, Event> idToEvent = Maps.newHashMap();
-	protected Map<String, Item> idToItem = Maps.newHashMap();
-	protected Map<Locale, I18n> localeToI18n = Maps.newHashMap();
 	public Locale locale;
 
 	protected String assetsDir, saveName;
@@ -46,8 +47,18 @@ public class Assets {
 		this.assetsDir = assetsDir;
 
 		saveName = "unknown";
-
 		inited = false;
+
+		texImageRegistry = new ResourceRegistry<>();
+		textureRegistry = new ResourceRegistry<>();
+		tipRegistry = new ResourceRegistry<>();
+		scriptCodeRegistry = new ResourceRegistry<>();
+		itemRegistry = new ResourceRegistry<>();
+		areaRegistry = new ResourceRegistry<>();
+		eventRegistry = new ResourceRegistry<>();
+		langRegistry = new ResourceRegistry<>();
+		localeToLanguage = Maps.newHashMap();
+
 	}
 
 
@@ -77,6 +88,7 @@ public class Assets {
 
 	protected Pattern fnValid = Pattern.compile("[\0\\./'\"`\t\n\r\f?*\\\\<:|>]+");
 
+
 	public boolean saveNameIsValid(String saveName)
 	{
 		return saveName != null && 0 < saveName.length() && ! fnValid.matcher(saveName).find();
@@ -91,50 +103,6 @@ public class Assets {
 	}
 
 
-	public Area getArea(String id)
-	{
-		return idToArea.get(id);
-	}
-
-	public BufferedImage getCachedImage(String path)
-	{
-		return srcToImage.get(path);
-	}
-
-	public Dimension getCachedImageDim(BufferedImage cachedImage)
-	{
-		return imageToSize.get(cachedImage);
-	}
-
-	/**
-	 * @param bgTextureSrc
-	 * @return
-	 */
-	public Dimension getCachedImageDim(String path) {
-		return getCachedImageDim(getCachedImage(path));
-	}
-
-
-	public Tip getTip(String id)
-	{
-		return idToTip.get(id);
-	}
-
-	public String getScriptCode(String path)
-	{
-		return srcToScriptCode.get(path);
-	}
-
-	public Event getEvent(String id)
-	{
-		return idToEvent.get(id);
-	}
-
-	public Item getItem(String id)
-	{
-		return idToItem.get(id);
-	}
-
 
 	public ScriptEngine getScriptEngine()
 	{
@@ -147,125 +115,59 @@ public class Assets {
 	}
 
 
-
-	public void cacheImage(String path, BufferedImage image)
-	{
-		srcToImage.put(path, image);
-		imageToSize.put(image, new Dimension(image.getWidth(null), image.getHeight(null)));
-
-		// System.out.println(path + " @ " + imageToSize.get(image));
-	}
-
-	public void addTip(Tip tip)
-	{
-		idToTip.put(tip.getId(), tip);
-	}
-
-	public void addArea(Area area)
-	{
-		idToArea.put(area.getId(), area);
-	}
-
-	public void addScriptCode(String path, String source)
-	{
-		srcToScriptCode.put(path, source);
-	}
-
-	public void addEvent(Event event)
-	{
-		idToEvent.put(event.getId(), event);
-	}
-
-	public void addItem(Item item)
-	{
-		idToItem.put(item.getId(), item);
-	}
-
-	public void addI18n(I18n i18n)
-	{
-		localeToI18n.put(i18n.getLocale(), i18n);
-	}
-
 	public void setLocale(Locale locale)
 	{
 		this.locale = locale;
 	}
 
 
-	@Override
-	public String toString()
-	{
-		StringBuilder builder = new StringBuilder();
+	/**
+	 * @param id
+	 * @return
+	 */
+	public ScriptCode getScriptCode(String id) {
+		return scriptCodeRegistry.get(id);
+	}
 
-		builder.append(getClass().getSimpleName());
-		builder.append('[');
+	/**
+	 * @param id
+	 * @return
+	 */
+	public Tip getTip(String id) {
+		return tipRegistry.get(id);
+	}
 
+	/**
+	 * @param id
+	 * @return
+	 */
+	public Item getItem(String id) {
+		return itemRegistry.get(id);
+	}
 
-		builder.append("textures");
-		builder.append('[');
+	/**
+	 * @param id
+	 * @return
+	 */
+	public Area getArea(String id) {
+		return areaRegistry.get(id);
+	}
 
-		Set<String> texKeys = srcToImage.keySet();
-		for (String key: texKeys)
-		{
-			builder.append(key);
-			builder.append(',');
-		}
-
-		builder.append("], ");
-
-
-		builder.append("tips");
-		builder.append('[');
-
-		Set<String> tipKeys = idToTip.keySet();
-		for (String key: tipKeys)
-		{
-			builder.append(key);
-			builder.append(',');
-		}
-
-		builder.append("], ");
-
-
-		builder.append("areas");
-		builder.append('[');
-
-		Set<String> areaKeys = idToArea.keySet();
-		for (String key: areaKeys)
-		{
-			builder.append(idToArea.get(key).toString());
-			builder.append(',');
-		}
-
-		builder.append("], ");
-
-		builder.append(']');
-
-		return new String(builder);
+	/**
+	 * @param id
+	 * @return
+	 */
+	public Event getEvent(String id) {
+		return eventRegistry.get(id);
 	}
 
 
-	public Player getPlayer()
-	{
-		return (Player) getEvent("player");
+	/**
+	 * @return
+	 */
+	public Player getPlayer() {
+		return (Player) eventRegistry.get("player");
 	}
-
-
-
-	public Collection<Tip> tipList() {
-		return idToTip.values();
-	}
-
-	public Collection<Area> areaList() {
-		return idToArea.values();
-	}
-
-	public Collection<Event> eventList() {
-		return idToEvent.values();
-	}
-
-
-
 
 
 	/**
@@ -275,14 +177,35 @@ public class Assets {
 	public String translate(String unlocalizedName, String... args) {
 		Locale locale = this.locale;
 
-		if (! localeToI18n.containsKey(locale))
+		if (! localeToLanguage.containsKey(locale))
 		{
-			if (! localeToI18n.containsKey(Locale.JAPAN)) return unlocalizedName;
+			if (! localeToLanguage.containsKey(Locale.JAPAN)) return unlocalizedName;
 			locale = Locale.JAPAN;
 		}
 
-		return localeToI18n.get(locale).translate(unlocalizedName, args);
+		return localeToLanguage.get(locale).translate(unlocalizedName, args);
 	}
+
+
+
+
+
+	protected void clearRegistries()
+	{
+		texImageRegistry.clear();
+		textureRegistry.clear();
+		tipRegistry.clear();
+		scriptCodeRegistry.clear();
+		itemRegistry.clear();
+		areaRegistry.clear();
+		eventRegistry.clear();
+		langRegistry.clear();
+
+	}
+
+
+
+
 
 
 

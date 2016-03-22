@@ -1,25 +1,12 @@
 package com.kanomiya.steward.common.model.assets;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.FileVisitResult;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.SimpleFileVisitor;
-import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.util.PropertyResourceBundle;
-import java.util.concurrent.Callable;
 import java.util.concurrent.FutureTask;
 
-import javax.imageio.ImageIO;
 import javax.script.ScriptEngine;
 import javax.script.ScriptException;
 
@@ -27,14 +14,12 @@ import jdk.nashorn.api.scripting.NashornScriptEngineFactory;
 
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
-import com.kanomiya.steward.common.model.area.Area;
-import com.kanomiya.steward.common.model.area.Tip;
-import com.kanomiya.steward.common.model.event.Event;
+import com.kanomiya.steward.common.model.assets.loader.ResourceLoader;
+import com.kanomiya.steward.common.model.assets.resource.type.ResourceType;
 import com.kanomiya.steward.common.model.event.Player;
 import com.kanomiya.steward.common.model.event.PlayerMode;
-import com.kanomiya.steward.common.model.item.Item;
 import com.kanomiya.steward.common.model.item.ItemStack;
-import com.kanomiya.steward.common.model.lang.I18n;
+import com.kanomiya.steward.common.model.lang.Language;
 import com.kanomiya.steward.common.model.overlay.GameColor;
 import com.kanomiya.steward.common.model.overlay.text.Choice;
 import com.kanomiya.steward.common.model.overlay.text.ConfirmResult;
@@ -42,7 +27,6 @@ import com.kanomiya.steward.common.model.overlay.text.Text;
 import com.kanomiya.steward.common.model.overlay.text.TextField;
 import com.kanomiya.steward.common.model.overlay.window.message.Message;
 import com.kanomiya.steward.common.model.overlay.window.message.MessageBook;
-import com.kanomiya.steward.common.model.script.ScriptEventType;
 import com.kanomiya.steward.common.model.script.ScriptFunctionBinder;
 
 
@@ -53,42 +37,86 @@ import com.kanomiya.steward.common.model.script.ScriptFunctionBinder;
 public class AssetsFactory {
 
 
-	protected AssetsFactory() {  }
-
-
-	protected String assetsDir;
-
-	public static AssetsFactory newInstance()
-	{
-		AssetsFactory afact = new AssetsFactory();
-
-		afact.setAssetsDir("assets");
-
-		return afact;
-	}
-
-	public void setAssetsDir(String assetsDir)
-	{
-		this.assetsDir = assetsDir;
-	}
-
-
 	public Assets newAssets()
 	{
-		Assets assets = new Assets(assetsDir);
+		return newAssets(new File("assets"));
+	}
+
+	protected Assets newAssets(File loadDir)
+	{
+		return loadAssets(new Assets(loadDir.getPath()), loadDir);
+	}
+
+	protected Assets loadAssets(Assets assets, File loadDir)
+	{
 		List<FutureTask> futureTaskList = Lists.newArrayList();
 
 		Gson gson = AssetsUtils.createGson(assets);
 
 		try {
-			initTextures(gson, assets, futureTaskList);
-			initTips(gson, assets, futureTaskList);
-			initScripts(gson, assets, futureTaskList);
-			initI18n(assets, futureTaskList);
 
-			initItems(gson, assets, futureTaskList);
-			initAreas(gson, assets, futureTaskList);
-			initEvents(gson, assets, futureTaskList);
+			assets.texImageRegistry = new ResourceLoader(ResourceType.rtTextureImage, assets.texImageRegistry)
+			{
+				{
+					load(loadDir, gson, futureTaskList);
+				}
+			}.toRegistry();
+
+			assets.textureRegistry = new ResourceLoader(ResourceType.rtTexture, assets.textureRegistry)
+			{
+				{
+					load(loadDir, gson, futureTaskList);
+				}
+			}.toRegistry();
+
+			assets.tipRegistry = new ResourceLoader(ResourceType.rtTip, assets.tipRegistry)
+			{
+				{
+					load(loadDir, gson, futureTaskList);
+				}
+			}.toRegistry();
+
+			assets.scriptCodeRegistry = new ResourceLoader(ResourceType.rtScriptCode, assets.scriptCodeRegistry)
+			{
+				{
+					load(loadDir, gson, futureTaskList);
+				}
+			}.toRegistry();
+
+			assets.itemRegistry = new ResourceLoader(ResourceType.rtItem, assets.itemRegistry)
+			{
+				{
+					load(loadDir, gson, futureTaskList);
+				}
+			}.toRegistry();
+
+			assets.areaRegistry = new ResourceLoader(ResourceType.rtArea, assets.areaRegistry)
+			{
+				{
+					load(loadDir, gson, futureTaskList);
+				}
+			}.toRegistry();
+
+			assets.eventRegistry = new ResourceLoader(ResourceType.rtEvent, assets.eventRegistry)
+			{
+				{
+					load(loadDir, gson, futureTaskList);
+				}
+			}.toRegistry();
+
+			assets.langRegistry = new ResourceLoader(ResourceType.rtLanguage, assets.langRegistry)
+			{
+				{
+					load(loadDir, gson, futureTaskList);
+				}
+			}.toRegistry();
+
+			Iterator<Language> langItr = assets.langRegistry.values().iterator();
+			while (langItr.hasNext())
+			{
+				Language lang = langItr.next();
+				assets.localeToLanguage.put(lang.getLocale(), lang);
+			}
 
 		} catch (IOException e) {
 			// TODO 自動生成された catch ブロック
@@ -160,209 +188,9 @@ public class AssetsFactory {
 		return assets;
 	}
 
-	protected void initTextures(Gson gson, Assets assets, List<FutureTask> futureTaskList) throws IOException
-	{
-		File root = new File(assetsDir, "texture");
-
-		Files.walkFileTree(root.toPath(), new SimpleFileVisitor<Path>() {
-			@Override
-			public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException
-			{
-				File f = file.toFile();
-				String relative = f.getCanonicalPath().substring(root.getCanonicalPath().length() +1);
-				relative = relative.replace('\\', '/');
-
-				BufferedImage image = ImageIO.read(f);
-
-				assets.cacheImage(relative, image);
-				return FileVisitResult.CONTINUE;
-			}
-		});
-
-	}
-
-	protected void initTips(Gson gson, Assets assets, List<FutureTask> futureTaskList) throws IOException
-	{
-		File root = new File(assetsDir, "tip");
-
-		Files.walkFileTree(root.toPath(), new SimpleFileVisitor<Path>() {
-			@Override
-			public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException
-			{
-				if (! file.toString().endsWith(".json")) return FileVisitResult.CONTINUE;
-
-				File f = file.toFile();
-				// String relative = f.getCanonicalPath().substring(root.getCanonicalPath().length() +1);
-				// relative = relative.replace('\\', '/');
-
-				FileReader fr = new FileReader(f);
-				Tip tipObj = gson.fromJson(fr, Tip.class);
-
-				assets.addTip(tipObj);
-
-				return FileVisitResult.CONTINUE;
-			}
-		});
-
-	}
 
 
-	protected void initItems(Gson gson, Assets assets, List<FutureTask> futureTaskList) throws IOException
-	{
-		File root = new File(assetsDir, "item");
 
-		Files.walkFileTree(root.toPath(), new SimpleFileVisitor<Path>() {
-			@Override
-			public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException
-			{
-				if (! file.toString().endsWith(".json")) return FileVisitResult.CONTINUE;
-
-				File f = file.toFile();
-				String relative = f.getCanonicalPath().substring(root.getCanonicalPath().length() +1);
-				relative = relative.replace('\\', '/');
-
-				FileReader fr = new FileReader(f);
-
-				Item item = gson.fromJson(fr, Item.class);
-
-				assets.addItem(item);
-
-				return FileVisitResult.CONTINUE;
-			}
-		});
-
-	}
-
-	protected void initAreas(Gson gson, Assets assets, List<FutureTask> futureTaskList) throws IOException
-	{
-		File root = new File(assetsDir, "area");
-
-		Files.walkFileTree(root.toPath(), new SimpleFileVisitor<Path>() {
-			@Override
-			public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException
-			{
-				if (! file.toString().endsWith(".json")) return FileVisitResult.CONTINUE;
-
-				File f = file.toFile();
-				// String relative = f.getCanonicalPath().substring(root.getCanonicalPath().length() +1);
-				// relative = relative.replace('\\', '/');
-
-				FileReader fr = new FileReader(f);
-				Area areaObj = gson.fromJson(fr, Area.class);
-
-				assets.addArea(areaObj);
-
-				return FileVisitResult.CONTINUE;
-			}
-		});
-
-	}
-
-	protected void initEvents(Gson gson, Assets assets, List<FutureTask> futureTaskList) throws IOException
-	{
-		File root = new File(assetsDir, "event");
-
-		Files.walkFileTree(root.toPath(), new SimpleFileVisitor<Path>() {
-			@Override
-			public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException
-			{
-				if (! file.toString().endsWith(".json")) return FileVisitResult.CONTINUE;
-
-				File f = file.toFile();
-				String relative = f.getCanonicalPath().substring(root.getCanonicalPath().length() +1);
-				relative = relative.replace('\\', '/');
-
-				FileReader fr = new FileReader(f);
-
-				// boolean isPlayer = file.getFileName().endsWith("player.json");
-				Event eventObj = gson.fromJson(fr, Event.class);
-
-				eventObj.texture.owner = eventObj;
-
-				futureTaskList.add(new FutureTask(new Callable<Boolean>()
-				{
-					@Override
-					public Boolean call() {
-						eventObj.area.setEvent(eventObj);
-						eventObj.area.launchEvent(eventObj, eventObj.x, eventObj.y, ScriptEventType.ONENTERED);
-
-						return true;
-					}
-				}));
-
-				assets.addEvent(eventObj);
-
-				return FileVisitResult.CONTINUE;
-			}
-		});
-
-	}
-
-	protected void initScripts(Gson gson, Assets assets, List<FutureTask> futureTaskList) throws IOException
-	{
-		File root = new File(assetsDir, "script");
-
-		Files.walkFileTree(root.toPath(), new SimpleFileVisitor<Path>() {
-			@Override
-			public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException
-			{
-				if (! file.toString().endsWith(".js")) return FileVisitResult.CONTINUE;
-
-				File f = file.toFile();
-				String relative = f.getCanonicalPath().substring(root.getCanonicalPath().length() +1);
-				relative = relative.replace('\\', '/');
-
-				InputStreamReader isrScript = new InputStreamReader(new FileInputStream(f), StandardCharsets.UTF_8);
-
-				StringBuilder sb = new StringBuilder();
-
-				while (isrScript.ready())
-				{
-					sb.appendCodePoint(isrScript.read());
-				}
-
-				isrScript.close();
-
-				assets.addScriptCode(relative, sb.toString());
-
-				return FileVisitResult.CONTINUE;
-			}
-		});
-
-	}
-
-
-	/**
-	 * @param assets
-	 */
-	protected void initI18n(Assets assets, List<FutureTask> futureTaskList) throws IOException {
-		File root = new File(assetsDir, "lang");
-
-		Files.walkFileTree(root.toPath(), new SimpleFileVisitor<Path>() {
-			@Override
-			public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException
-			{
-				if (! file.toString().endsWith(".lang")) return FileVisitResult.CONTINUE;
-				File f = file.toFile();
-
-				String name = file.getFileName().toString();
-				name = name.substring(0, name.lastIndexOf('.'));
-
-				PropertyResourceBundle bundle = new PropertyResourceBundle(new FileReader(f));
-
-				String[] tags = name.split("_");
-				if (tags.length < 2) return FileVisitResult.CONTINUE;
-
-				Locale.Builder builder = new Locale.Builder().setLanguage(tags[0]).setRegion(tags[1]);
-				if (3 <= tags.length) builder.setVariant(tags[2]);
-
-				assets.addI18n(new I18n(builder.build(), bundle));
-
-				return FileVisitResult.CONTINUE;
-			}
-		});
-
-	}
 
 
 

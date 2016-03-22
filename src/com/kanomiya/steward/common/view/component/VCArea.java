@@ -47,7 +47,11 @@ public class VCArea implements IViewComponent<Area> {
 			if (! tevent.isVisible()) continue;
 
 			g.translate(tevent.x *ViewConsts.tileSize, tevent.y * ViewConsts.tileSize);
+
+			ViewConsts.vcTexture.temporaryOwner = tevent;
 			ViewConsts.vcTexture.paint(g, tevent.getIcon(), assets, frame);
+			ViewConsts.vcTexture.temporaryOwner = null;
+
 			g.translate(-tevent.x *ViewConsts.tileSize, -tevent.y * ViewConsts.tileSize);
 		}
 

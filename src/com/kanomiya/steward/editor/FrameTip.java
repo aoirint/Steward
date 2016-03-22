@@ -57,7 +57,7 @@ public class FrameTip extends FrameWithView<Game> {
 
 		Scrollbar vscroll = new Scrollbar(Scrollbar.VERTICAL);
 
-		Collection<Tip> tipList = game.assets.tipList();
+		Collection<Tip> tipList = game.assets.tipRegistry.values();
 		int tipCount = tipList.size();
 		tips = tipList.toArray(new Tip[tipCount]);
 

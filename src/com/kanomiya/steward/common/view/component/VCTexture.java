@@ -1,12 +1,14 @@
 package com.kanomiya.steward.common.view.component;
 
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
 
+import com.kanomiya.steward.common.Game;
 import com.kanomiya.steward.common.model.assets.Assets;
+import com.kanomiya.steward.common.model.event.Player;
+import com.kanomiya.steward.common.model.texture.ITextureOwner;
 import com.kanomiya.steward.common.model.texture.Texture;
+import com.kanomiya.steward.common.model.texture.TextureFrame;
+import com.kanomiya.steward.common.model.texture.TextureImage;
 
 
 /**
@@ -15,82 +17,52 @@ import com.kanomiya.steward.common.model.texture.Texture;
  */
 public class VCTexture implements IViewComponent<Texture> {
 
+	protected ITextureOwner temporaryOwner;
+
 	/**
 	* @inheritDoc
 	*/
 	@Override
-	public void paint(Graphics2D g, Texture texture, Assets assets, int frame) {
+	public void paint(Graphics2D g, Texture texture, Assets assets, int frame)
+	{
+		if (! texture.hasFrame()) return ;
 
-		if (texture.src == null) return ;
+		TextureFrame texFrame = texture.getFrameAt(Math.max(0, Math.min(texture.getFrameCount() -1, frame /10))); // 0-9, 10-19, 20-29, 30-39, 40-49, 50-59, 60
 
-		g.setColor(Color.WHITE);
+		int imgCount = texFrame.getImageCount();
 
-		int srcLen = texture.src[0].length;
-		int dx = texture.x;
-		int dy = texture.y;
+		g.translate(texFrame.drawingX, texFrame.drawingY);
 
-		int width = texture.width;
-		int height = texture.height;
+		int dx = 0;
+		int dy = 0;
 
-		g.translate(texture.offsetX, texture.offsetY);
-
-		double rad = Math.toRadians(texture.rotation);
-
-		g.rotate(-rad);
-
-		if (texture.hasOwner())
+		if (temporaryOwner != null)
 		{
-			if (texture.type.isWalkable()) dx = texture.getOwner().getWalkState().getIconX();
-			if (texture.type.isDirectable()) dy = texture.getOwner().getDirection().getIconY();
-		}
+			if (texture.type.isWalkable()) dx = temporaryOwner.getWalkState().getIconX();
+			if (texture.type.isDirectable()) dy = temporaryOwner.getDirection().getIconY();
 
-		switch (texture.mode)
-		{
-		case STATIC:
-
-			for (int i=0; i<srcLen; i++)
+			if (temporaryOwner instanceof Player)
 			{
-				BufferedImage img = assets.getCachedImage(texture.src[0][i]);
-				Dimension dim = assets.getCachedImageDim(img);
-
-				if (texture.autoSize)
-				{
-					width = dim.width;
-					height = dim.height;
-				}
-
-				g.drawImage(img, 0,0, width, height, dx, dy, dx +width, dy +height, null);
+				Game.logger.info(dx + ", " + texture.getTileWidth());
+				Game.logger.info(dy + ", " + texture.getTileHeight());
 
 			}
-
-			break;
-
-		case ANIMATION:
-
-			texture.count ++;
-			if (texture.interval <= texture.count)
-			{
-				texture.count = 0;
-				texture.index ++;
-			}
-			if (texture.src.length <= texture.index) texture.index = 0;
-
-			for (int i=0; i<srcLen; i++)
-			{
-				BufferedImage img = assets.getCachedImage(texture.src[texture.index][i]);
-				Dimension dim = assets.getCachedImageDim(img);
-
-				g.drawImage(img, 0,0, dim.width, dim.height, dx, dy, dx +dim.width, dy +dim.height, null);
-			}
-
-
-			break;
 
 		}
 
+		for (int i=0; i<imgCount; i++)
+		{
+			TextureImage img = texFrame.getImageAt(i);
 
-		g.rotate(rad);
-		g.translate(-texture.offsetX, -texture.offsetY);
+			g.drawImage(img.getSubimage(dx, dy, texture.getTileWidth(), texture.getTileHeight()), 0, 0, null); // VELIF CPU load
+
+			// g.drawImage(img, 0, 0, texture.getTileWidth(), texture.getTileHeight(), dx, dy, dx +texture.getTileWidth(), dy +texture.getTileHeight(), null);
+
+
+		}
+
+		g.translate(-texFrame.drawingX, -texFrame.drawingY);
+
 
 	}
 

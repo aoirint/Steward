@@ -8,25 +8,25 @@ import java.awt.Graphics;
  */
 public abstract class View<T> {
 
-	protected int maxFrame;
+	protected int internalFPS;
 	private int frame;
 
-	public View(int maxFrame)
+	public View(int internalFPS)
 	{
-		this.maxFrame = maxFrame;
+		this.internalFPS = internalFPS;
 		frame = 0;
 	}
 
 	public void update(Graphics g, T model)
 	{
 		frame ++;
-		if (maxFrame < frame) frame = 0;
+		if (internalFPS < frame) frame = 0;
 
 		paint(g, model, frame);
 	}
 
 	public abstract void paint(Graphics g, T model, int frame);
 
-	public int getMaxFrame() { return maxFrame; }
+	public int getInternalFPS() { return internalFPS; }
 
 }

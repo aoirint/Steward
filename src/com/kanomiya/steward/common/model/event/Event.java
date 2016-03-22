@@ -13,6 +13,7 @@ import com.kanomiya.steward.common.model.area.Area;
 import com.kanomiya.steward.common.model.area.Chunk;
 import com.kanomiya.steward.common.model.area.Tip;
 import com.kanomiya.steward.common.model.assets.Assets;
+import com.kanomiya.steward.common.model.assets.resource.IResource;
 import com.kanomiya.steward.common.model.item.Inventory;
 import com.kanomiya.steward.common.model.script.Script;
 import com.kanomiya.steward.common.model.script.ScriptEventType;
@@ -23,7 +24,7 @@ import com.kanomiya.steward.common.model.texture.Texture;
  * @author Kanomiya
  *
  */
-public class Event implements ITextureOwner {
+public class Event implements ITextureOwner, IResource {
 
 	public String id;
 	public Area area;
@@ -169,6 +170,7 @@ public class Event implements ITextureOwner {
 
 
 
+	@Override
 	public String getId()
 	{
 		return id;
@@ -258,7 +260,7 @@ public class Event implements ITextureOwner {
 		if (! scripts.containsKey(eventType)) return ;
 
 		Script script = scripts.get(eventType);
-		String scriptCode = assets.getScriptCode(script.src); // TODO: No such script code
+		String scriptCode = assets.getScriptCode(script.src).code; // TODO: No such script code
 
 		ScriptEngine scriptEngine = assets.getScriptEngine();
 

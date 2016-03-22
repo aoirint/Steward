@@ -1,5 +1,6 @@
 package com.kanomiya.steward.common.model.item;
 
+import com.kanomiya.steward.common.model.assets.resource.IResource;
 import com.kanomiya.steward.common.model.texture.Texture;
 
 
@@ -7,7 +8,7 @@ import com.kanomiya.steward.common.model.texture.Texture;
  * @author Kanomiya
  *
  */
-public class Item {
+public class Item implements IResource {
 
 	protected String id;
 	protected String unlocalizedName;

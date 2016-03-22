@@ -1,0 +1,16 @@
+{
+	"id": "event/player",
+	"type": "walkable",
+	"tileWidth": 32,
+	"tileHeight": 32,
+	
+	"frames":
+	[
+		{
+			"images": ["event/player"],
+			"from": 0,
+			"to": 5
+		}
+	]
+	
+}

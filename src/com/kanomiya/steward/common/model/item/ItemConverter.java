@@ -9,13 +9,20 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
-import com.kanomiya.steward.common.model.texture.Texture;
+import com.kanomiya.steward.common.model.assets.Assets;
 
 /**
  * @author Kanomiya
  *
  */
 public class ItemConverter implements JsonSerializer<Item>, JsonDeserializer<Item> {
+
+	protected Assets assets;
+
+	public ItemConverter(Assets assets)
+	{
+		this.assets = assets;
+	}
 
 	/**
 	* @inheritDoc
@@ -27,7 +34,7 @@ public class ItemConverter implements JsonSerializer<Item>, JsonDeserializer<Ite
 
 		jsObj.addProperty("id", item.id);
 		jsObj.addProperty("unlocalizedName", item.unlocalizedName);
-		jsObj.add("icon", context.serialize(item.icon));
+		jsObj.addProperty("icon", item.icon.getId());
 		jsObj.addProperty("weight", item.weight);
 
 		return jsObj;
@@ -45,7 +52,7 @@ public class ItemConverter implements JsonSerializer<Item>, JsonDeserializer<Ite
 
 		item.id = jsObj.get("id").getAsString();
 		item.unlocalizedName = jsObj.get("unlocalizedName").getAsString();
-		item.icon = context.deserialize(jsObj.get("icon"), Texture.class);
+		item.icon = assets.textureRegistry.get(jsObj.get("icon"));
 		item.weight = jsObj.get("weight").getAsDouble();
 
 		return item;

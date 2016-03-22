@@ -1,0 +1,12 @@
+{
+	"id": "background/title",
+	
+	"frames":
+	[
+		{
+			"images": ["background/title"],
+			"from": 0,
+			"to": 5
+		}
+	]
+}

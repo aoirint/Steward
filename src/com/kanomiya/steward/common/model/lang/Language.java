@@ -5,23 +5,34 @@ import java.util.PropertyResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.kanomiya.steward.common.model.assets.resource.IResource;
+
 /**
  * @author Kanomiya
  *
  */
-public class I18n {
+public class Language implements IResource {
 
 	public static Pattern argPattern = Pattern.compile("%(.*?)%");
 
+	protected String id;
 	protected Locale locale;
 	protected PropertyResourceBundle mappings;
 
-	public I18n(Locale locale, PropertyResourceBundle mappings)
+	public Language(String id, Locale locale, PropertyResourceBundle mappings)
 	{
+		this.id = id;
 		this.locale = locale;
 		this.mappings = mappings;
 	}
 
+	/**
+	* @inheritDoc
+	*/
+	@Override
+	public String getId() {
+		return id;
+	}
 
 	public String translate(String unlocalized, String... args)
 	{
@@ -48,5 +59,8 @@ public class I18n {
 	{
 		return locale;
 	}
+
+
+
 
 }

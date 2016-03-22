@@ -52,7 +52,7 @@ public class EventConverter implements JsonDeserializer<Event>, JsonSerializer<E
 		if (event.walkState != WalkState.UPRIGHT) jsObj.add("walkState", context.serialize(event.walkState));
 		if (event.access != AccessType.ALLOW) jsObj.add("access", context.serialize(event.access));
 
-		jsObj.add("icon", context.serialize(event.getIcon()));
+		jsObj.addProperty("icon", event.getIcon().getId());
 
 		if (event.hasInventory()) jsObj.add("inventory", context.serialize(event.getInventory()));
 
@@ -108,7 +108,7 @@ public class EventConverter implements JsonDeserializer<Event>, JsonSerializer<E
 		AccessType access = AccessType.ALLOW;
 		if (jsObj.has("access")) access = context.deserialize(jsObj.get("access"), AccessType.class);
 
-		Texture texture = context.deserialize(jsObj.get("icon"), Texture.class);
+		Texture texture = assets.textureRegistry.get(jsObj.get("icon").getAsString());
 
 		Inventory inventory = null;
 		if (jsObj.has("inventory")) inventory = context.deserialize(jsObj.get("inventory"), Inventory.class);

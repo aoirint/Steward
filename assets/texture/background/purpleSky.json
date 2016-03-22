@@ -1,0 +1,12 @@
+{
+	"id": "background/purpleSky",
+	
+	"frames":
+	[
+		{
+			"images": ["background/purpleSky"],
+			"from": 0,
+			"to": 5
+		}
+	]
+}

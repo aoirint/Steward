@@ -3,13 +3,7 @@
 "name": "area.title",
 "width": 25,
 "height": 19,
-"background": {
-	"src": [
-	[
-		"background/title.png"
-	]
-	]
-},
+"background": "background/title",
 "scripts": {
 	"onEntered": {
 		"src": "title/onEntered.js"

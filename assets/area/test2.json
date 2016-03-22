@@ -3,13 +3,7 @@
   "name": "area.test2",
   "width": 40,
   "height": 25,
-  "background": {
-    "src": [
-      [
-        "background/purpleSky.png"
-      ]
-    ]
-  },
+  "background": "background/purpleSky",
   "tips": [
     [
       "null",

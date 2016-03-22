@@ -24,7 +24,7 @@ public class ViewTips extends ViewBuffered<Game> {
 	 * @param maxFrame
 	 */
 	public ViewTips() {
-		super(ViewConsts.maxFrame);
+		super(ViewConsts.FPS);
 
 	}
 
@@ -36,7 +36,7 @@ public class ViewTips extends ViewBuffered<Game> {
 	{
 		if (tipList == null)
 		{
-			tipList = game.assets.tipList();
+			tipList = game.assets.tipRegistry.values();
 		}
 
 		Iterator<Tip> itr = tipList.iterator();

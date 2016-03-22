@@ -4,13 +4,7 @@
   "x": 10,
   "y": 11,
   "access": "deny",
-  "icon": {
-    "src": [
-      [
-        "event/ped2.png"
-      ]
-    ]
-  },
+  "icon": "event/test/ped2",
   "scripts": {
     "onColided": {
       "src": "test/ped2/onColided.js"
