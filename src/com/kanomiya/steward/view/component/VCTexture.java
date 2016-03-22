@@ -2,9 +2,7 @@ package com.kanomiya.steward.view.component;
 
 import java.awt.Graphics2D;
 
-import com.kanomiya.steward.Game;
 import com.kanomiya.steward.model.assets.Assets;
-import com.kanomiya.steward.model.event.Player;
 import com.kanomiya.steward.model.texture.ITextureOwner;
 import com.kanomiya.steward.model.texture.Texture;
 import com.kanomiya.steward.model.texture.TextureFrame;
@@ -40,14 +38,6 @@ public class VCTexture implements IViewComponent<Texture> {
 		{
 			if (texture.type.isWalkable()) dx = temporaryOwner.getWalkState().getIconX();
 			if (texture.type.isDirectable()) dy = temporaryOwner.getDirection().getIconY();
-
-			if (temporaryOwner instanceof Player)
-			{
-				Game.logger.info(dx + ", " + texture.getTileWidth());
-				Game.logger.info(dy + ", " + texture.getTileHeight());
-
-			}
-
 		}
 
 		for (int i=0; i<imgCount; i++)
