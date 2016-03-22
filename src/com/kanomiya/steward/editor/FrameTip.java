@@ -44,7 +44,7 @@ public class FrameTip extends FrameWithView<Game> {
 			@Override
 			public void windowClosing(WindowEvent e)
 			{
-				PlayerMode.changeMode(game, game.thePlayer, PlayerMode.NORMAL);
+				PlayerMode.changeMode(game, game.assets.getPlayer(), PlayerMode.NORMAL);
 				e.getWindow().setVisible(false);
 			}
 		});

@@ -27,7 +27,7 @@ public class CAKeyEscape implements IControlAction<KeyboardUpdateEvent> {
 		if (event.isCancelledOrConsumed()) return ;
 		if (! event.isPressed(GameKeys.ESCAPE)) return ;
 
-		Player player = game.thePlayer;
+		Player player = game.assets.getPlayer();
 
 
 		if (player.hasWindow())

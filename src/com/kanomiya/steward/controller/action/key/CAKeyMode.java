@@ -21,7 +21,7 @@ public class CAKeyMode implements IControlAction<KeyboardUpdateEvent> {
 	{
 		if (event.isCancelledOrConsumed()) return ;
 
-		Player player = game.thePlayer;
+		Player player = game.assets.getPlayer();
 
 		if (player.hasWindow()) return ;
 

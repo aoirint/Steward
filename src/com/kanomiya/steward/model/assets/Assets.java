@@ -12,6 +12,7 @@ import com.kanomiya.steward.model.area.Area;
 import com.kanomiya.steward.model.area.Tip;
 import com.kanomiya.steward.model.assets.resource.ResourceRegistry;
 import com.kanomiya.steward.model.assets.resource.type.ResourceType;
+import com.kanomiya.steward.model.assets.save.SaveFile;
 import com.kanomiya.steward.model.event.Event;
 import com.kanomiya.steward.model.event.Player;
 import com.kanomiya.steward.model.item.Item;
@@ -124,6 +125,16 @@ public class Assets {
 		return true;
 	}
 
+
+	public void load()
+	{
+		AssetsUtils.loadAssets(this, SaveFile.create(saveName));
+	}
+
+	public void save()
+	{
+		AssetsUtils.saveAssets(this, SaveFile.create(saveName));
+	}
 
 
 	public ScriptEngine getScriptEngine()

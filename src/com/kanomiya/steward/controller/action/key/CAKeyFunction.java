@@ -30,7 +30,7 @@ public class CAKeyFunction implements IControlAction<KeyboardUpdateEvent> {
 		if (event.isCancelledOrConsumed()) return ;
 
 		Assets assets = game.assets;
-		Player player = game.thePlayer;
+		Player player = assets.getPlayer();
 
 		if (event.isPressed(GameKeys.F1)); // help
 

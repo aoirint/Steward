@@ -24,7 +24,7 @@ public class CAKeyArrow implements IControlAction<KeyboardUpdateEvent> {
 	{
 		if (event.isCancelledOrConsumed()) return ;
 
-		Player player = game.thePlayer;
+		Player player = game.assets.getPlayer();
 
 		if (player.hasWindow())
 		{
@@ -45,9 +45,9 @@ public class CAKeyArrow implements IControlAction<KeyboardUpdateEvent> {
 			}
 		} else
 		{
-			if (game.thePlayer.getMode().enableSelecter())
+			if (player.getMode().enableSelecter())
 			{
-				if (ViewUtils.topInWindowEdge(game.thePlayer.focusedY, game.thePlayer, 1))
+				if (ViewUtils.topInWindowEdge(player.focusedY, player, 1))
 				{
 					if (event.anyIsPressed(GameKeys.UP, GameKeys.UP_LEFT, GameKeys.UP_RIGHT))
 						player.focusedY -= 1;
@@ -73,7 +73,7 @@ public class CAKeyArrow implements IControlAction<KeyboardUpdateEvent> {
 			}
 
 
-			if (game.thePlayer.getMode().enableMove())
+			if (player.getMode().enableMove())
 			{
 				if (event.isPressed(GameKeys.UP)) { player.move(Direction.NORTH); game.currentTurn().consume(); }
 				if (event.isPressed(GameKeys.DOWN)) { player.move(Direction.SOUTH); game.currentTurn().consume(); }

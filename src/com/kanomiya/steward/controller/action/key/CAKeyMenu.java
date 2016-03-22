@@ -21,7 +21,7 @@ public class CAKeyMenu implements IControlAction<KeyboardUpdateEvent> {
 	{
 		if (event.isCancelledOrConsumed()) return ;
 
-		Player player = game.thePlayer;
+		Player player = game.assets.getPlayer();
 
 
 		if (event.isPressed(GameKeys.LOG)) // log

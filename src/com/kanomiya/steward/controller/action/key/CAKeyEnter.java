@@ -26,7 +26,7 @@ public class CAKeyEnter implements IControlAction<KeyboardUpdateEvent> {
 		if (! event.isPressed(GameKeys.ENTER)) return ;
 
 
-		Player player = game.thePlayer;
+		Player player = game.assets.getPlayer();
 
 		if (player.hasWindow())
 		{

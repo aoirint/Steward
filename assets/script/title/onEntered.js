@@ -2,6 +2,18 @@
 player.setVisible(false);
 
 var msg = message().lockClose();
+var sfs = saveFiles();
+var sfNames = new Array();
+var chToSfs = new Array();
+
+for (var i=0; i<sfs.size(); i++)
+{
+	var ch = binder.nextChar('a', i);
+
+	sfNames[i] = sfs[i].name;
+	chToSfs[ch] = sfs[i];
+}
+
 
 var c_z = choice('z', "戻る").confirmHandlerJS(function()
 		{
@@ -11,6 +23,29 @@ var c_z = choice('z', "戻る").confirmHandlerJS(function()
 
 var c_1 = choice('a', translate("vocabulary.gameContinue")).confirmHandlerJS(function()
 		{
+			var c_msg = message().lockClose();
+
+			var c_func = function(ch)
+			{
+				var sf = chToSfs[ch];
+				player.removeWindow();
+
+				player.setVisible(true);
+
+				assets.setSaveName(sf.name);
+				assets.load();
+
+			};
+
+			for (var i=0; i<sfNames.length; i++)
+			{
+				var ch = binder.nextChar('a', i);
+				c_msg.println(choice(ch, sfNames[i]).confirmHandlerJS(c_func));
+			}
+
+			c_msg.println("").println(c_z);
+
+			showWindow(c_msg);
 
 		});
 
@@ -22,17 +57,19 @@ var c_2 = choice('b', translate("vocabulary.gameStart")).confirmHandlerJS(functi
 				.println(textField().confirmHandlerJS(function(text)
 					{
 
-						if (assets.setSaveName(text))
+						if (sfNames.indexOf(text) == -1 && assets.setSaveName(text))
 						{
 							player.removeWindow();
 
 							player.setVisible(true);
-							msg.setClosable(true);
 							player.travel("test", 5,5);
 
 						}
 
 					}))
+				.println("")
+				.println(c_z)
+
 			);
 
 		});

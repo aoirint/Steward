@@ -12,7 +12,6 @@ import com.kanomiya.steward.editor.FrameTip;
 import com.kanomiya.steward.model.Turn;
 import com.kanomiya.steward.model.assets.Assets;
 import com.kanomiya.steward.model.event.Event;
-import com.kanomiya.steward.model.event.Player;
 import com.kanomiya.steward.model.event.PlayerMode;
 import com.kanomiya.steward.view.ViewConsts;
 
@@ -46,7 +45,6 @@ public class Game {
 	}
 
 	public Assets assets;
-	public Player thePlayer;
 	public Turn currentTurn;
 
 	protected EventBus eventBus;
@@ -58,9 +56,8 @@ public class Game {
 	protected Game(Assets assets)
 	{
 		this.assets = assets;
-		thePlayer = assets.getPlayer();
 
-		PlayerMode.changeMode(this, thePlayer, thePlayer.getMode());
+		PlayerMode.changeMode(this, assets.getPlayer(), assets.getPlayer().getMode());
 
 		ViewConsts.viewGame.setSize(ViewConsts.viewWidth, ViewConsts.viewHeight);
 
@@ -87,9 +84,9 @@ public class Game {
 	{
 		// TODO: others
 
-		thePlayer.turn();
+		assets.getPlayer().turn();
 
-		List<Event> eventList = thePlayer.area.eventList();
+		List<Event> eventList = assets.getPlayer().area.eventList();
 		int elLen = eventList.size();
 
 		for (int i=0; i<elLen; i++)

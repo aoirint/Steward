@@ -114,22 +114,24 @@ public class ControlListener implements KeyListener, MouseListener, MouseMotionL
 
 	public boolean selectOnMouseEvent(MouseEvent e)
 	{
-		if (game.thePlayer.getMode().enableSelecter())
+		Player player = game.assets.getPlayer();
+
+		if (player.getMode().enableSelecter())
 		{
-			Area area = game.thePlayer.area;
+			Area area = player.area;
 
 			Insets frameInsets = game.getFrame().getInsets();
 
-			int x = -ViewUtils.getCamX(game.thePlayer.x, area.getWidth()) + (e.getX() -frameInsets.left) /ViewConsts.tileSize;
-			int y = -ViewUtils.getCamY(game.thePlayer.y, area.getHeight()) + (e.getY() -frameInsets.top) /ViewConsts.tileSize;
+			int x = -ViewUtils.getCamX(player.x, area.getWidth()) + (e.getX() -frameInsets.left) /ViewConsts.tileSize;
+			int y = -ViewUtils.getCamY(player.y, area.getHeight()) + (e.getY() -frameInsets.top) /ViewConsts.tileSize;
 
 			// DEBUG
 			// System.out.println("(" + x +"," + y + ")");
 
 			if (area.inArea(x, y))
 			{
-				game.thePlayer.selectedX = x;
-				game.thePlayer.selectedY = y;
+				player.selectedX = x;
+				player.selectedY = y;
 			}
 
 		}
@@ -139,7 +141,9 @@ public class ControlListener implements KeyListener, MouseListener, MouseMotionL
 
 	public boolean wizardOnMouseEvent(MouseEvent e)
 	{
-		if (game.thePlayer.getMode() == PlayerMode.WIZARD && game.frameTip != null)
+		Player player = game.assets.getPlayer();
+
+		if (player.getMode() == PlayerMode.WIZARD && game.frameTip != null)
 		{
 			Tip tip;
 			int button = e.getButton();
@@ -149,15 +153,15 @@ public class ControlListener implements KeyListener, MouseListener, MouseMotionL
 			{
 			case MouseEvent.BUTTON1: // 左クリック 設置
 				tip = game.frameTip.getSelectedTip();
-				int x = game.thePlayer.selectedX;
-				int y = game.thePlayer.selectedY;
+				int x = player.selectedX;
+				int y = player.selectedY;
 
-				game.thePlayer.area.setTip(tip, x, y);
+				player.area.setTip(tip, x, y);
 
 				break;
 			case MouseEvent.BUTTON3: // 右クリック スポイト
 
-				tip = game.thePlayer.area.getTip(game.thePlayer.selectedX, game.thePlayer.selectedY);
+				tip = player.area.getTip(player.selectedX, player.selectedY);
 
 				if (tip != null) game.frameTip.selectTip(tip);
 
@@ -210,18 +214,19 @@ public class ControlListener implements KeyListener, MouseListener, MouseMotionL
 
 		game.eventBus().post(new MouseUpdateEvent(keyboard, mouse, MouseButton.POINTER));
 
+		Player player = game.assets.getPlayer();
 
-		if (game.thePlayer.getMode().enableSelecter())
+		if (player.getMode().enableSelecter())
 		{
-			Area area = game.thePlayer.area;
+			Area area = player.area;
 
-			int tileX = -ViewUtils.getCamX(game.thePlayer.x, area.getWidth()) + x /ViewConsts.tileSize;
-			int tileY = -ViewUtils.getCamY(game.thePlayer.y, area.getHeight()) + y /ViewConsts.tileSize;
+			int tileX = -ViewUtils.getCamX(player.x, area.getWidth()) + x /ViewConsts.tileSize;
+			int tileY = -ViewUtils.getCamY(player.y, area.getHeight()) + y /ViewConsts.tileSize;
 
 			if (area.inArea(tileX, tileY))
 			{
-				game.thePlayer.focusedX = tileX;
-				game.thePlayer.focusedY = tileY;
+				player.focusedX = tileX;
+				player.focusedY = tileY;
 			}
 
 		}
@@ -256,7 +261,7 @@ public class ControlListener implements KeyListener, MouseListener, MouseMotionL
 			return ;
 		}
 
-		Player player = game.thePlayer; // VELIF
+		Player player = game.assets.getPlayer(); // VELIF
 
 		if (player.hasWindow())
 		{

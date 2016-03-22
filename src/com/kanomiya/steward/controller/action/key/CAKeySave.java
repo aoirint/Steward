@@ -24,7 +24,7 @@ public class CAKeySave implements IControlAction<KeyboardUpdateEvent> {
 		if (event.isCancelledOrConsumed()) return ;
 
 		Assets assets = game.assets;
-		Player player = game.thePlayer;
+		Player player = assets.getPlayer();
 
 
 		if (event.isPressed(Key.s) && event.isControled())

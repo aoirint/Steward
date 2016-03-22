@@ -45,5 +45,15 @@ public class ScriptFunctionBinder {
 	}
 
 
+	public char nextChar(char ch)
+	{
+		return nextChar(ch, 1);
+	}
+
+	public char nextChar(char ch, int step)
+	{
+		return (char) (ch +step);
+	}
+
 
 }

@@ -1,6 +1,6 @@
 
 // required args: id, (num)
-execute("getItem.js");
+execute("getItem");
 
 owner.setDead();
 

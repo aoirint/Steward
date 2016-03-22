@@ -1,7 +1,7 @@
 package com.kanomiya.steward;
 
 import com.kanomiya.steward.model.assets.Assets;
-import com.kanomiya.steward.model.assets.AssetsFactory;
+import com.kanomiya.steward.model.assets.AssetsUtils;
 import com.kanomiya.steward.view.ViewConsts;
 
 
@@ -12,10 +12,8 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args)
-{
-
-		AssetsFactory afact = new AssetsFactory();
-		Assets assets = afact.newAssets();
+	{
+		Assets assets = AssetsUtils.newAssets();
 
 		Game game = Game.newInstance(assets);
 

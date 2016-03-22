@@ -23,7 +23,7 @@ public class CAMouseWindow implements IControlAction<MouseUpdateEvent> {
 	{
 		if (event.isCancelledOrConsumed()) return ;
 
-		Player player = game.thePlayer;
+		Player player = game.assets.getPlayer();
 
 		if (player.hasWindow())
 		{

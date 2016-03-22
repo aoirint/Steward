@@ -37,10 +37,16 @@ public class ResourceLoader<R extends IResource> {
 	public ResourceLoader<R> load(File baseDir, Gson gson, List<FutureTask> futureTaskList) throws IOException
 	{
 		File root = new File(baseDir, type.getDirName());
-
 		String typeName = type.getClass().getSimpleName();
 
+
 		Game.logger.debug("####################################################");
+		if (! root.exists())
+		{
+			Game.logger.debug("Loading " + typeName + " Skipped: Not Found");
+			return this;
+		}
+
 		Game.logger.debug("Start Loading " + typeName + ": " + root.getPath());
 
 		loadedCount = 0;
