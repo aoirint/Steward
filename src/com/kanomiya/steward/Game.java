@@ -1,10 +1,8 @@
 package com.kanomiya.steward;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.log4j.Logger;
 
-import com.google.common.collect.Maps;
 import com.google.common.eventbus.EventBus;
 import com.kanomiya.steward.controller.ControlListener;
 import com.kanomiya.steward.controller.handler.PlayerControlEventHandler;
@@ -23,25 +21,16 @@ public class Game {
 
 	public static int tickMills = 100;
 
-	protected static Map<Assets, Game> instanceMap;
+	protected static Game instance;
 
 	public static Logger logger = Logger.getLogger("Steward");
 
 
 
-	public static Game newInstance(Assets assets)
-	{
-		if (instanceMap == null) instanceMap = Maps.newHashMap();
-
-		Game instance = new Game(assets);
-		instanceMap.put(assets, instance);
-
-		return instance;
-	}
-
 	public static Game getInstance(Assets assets)
 	{
-		return instanceMap.get(assets);
+		if (instance == null) instance = new Game(assets);
+		return instance;
 	}
 
 	public Assets assets;

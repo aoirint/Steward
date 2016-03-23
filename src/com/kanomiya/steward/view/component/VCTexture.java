@@ -56,7 +56,13 @@ public class VCTexture implements IViewComponent<Texture> {
 				continue;
 			}
 
-			g.drawImage(img.getSubimage(dx, dy, texture.getTileWidth(), texture.getTileHeight()), 0, 0, null); // VELIF CPU load
+			if (dx == 0 && dy == 0 && texture.getTileWidth() == texture.getWidth() && texture.getTileHeight() == texture.getHeight())
+			{
+				g.drawImage(img, 0, 0, null);
+			} else
+			{
+				g.drawImage(img.getSubimage(dx, dy, texture.getTileWidth(), texture.getTileHeight()), 0, 0, null); // VELIF CPU load
+			}
 
 			// g.drawImage(img, 0, 0, texture.getTileWidth(), texture.getTileHeight(), dx, dy, dx +texture.getTileWidth(), dy +texture.getTileHeight(), null);
 

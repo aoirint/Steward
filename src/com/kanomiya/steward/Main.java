@@ -15,7 +15,7 @@ public class Main {
 	{
 		Assets assets = AssetsUtils.newAssets();
 
-		Game game = Game.newInstance(assets);
+		Game game = Game.getInstance(assets);
 
 
 
