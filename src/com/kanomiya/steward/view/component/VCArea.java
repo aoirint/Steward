@@ -45,6 +45,7 @@ public class VCArea implements IViewComponent<Area> {
 		for (Event tevent: eventList)
 		{
 			if (! tevent.isVisible()) continue;
+			if (tevent.isDead()) continue;
 
 			g.translate(tevent.x *ViewConsts.tileSize, tevent.y * ViewConsts.tileSize);
 

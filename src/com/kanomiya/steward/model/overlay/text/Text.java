@@ -2,7 +2,6 @@ package com.kanomiya.steward.model.overlay.text;
 
 import java.awt.Color;
 
-import com.kanomiya.steward.model.overlay.GameColor;
 import com.kanomiya.steward.model.texture.Texture;
 
 /**
@@ -33,7 +32,7 @@ public class Text implements IText { // TODO PrettyText??
 	public Text(String text)
 	{
 		this.text = text;
-		color = GameColor.white;
+		color = Color.WHITE;
 
 	}
 

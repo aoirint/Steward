@@ -354,6 +354,13 @@ public class Assets {
 		return eventRegistry.get(id);
 	}
 
+	/**
+	 * @param event
+	 */
+	public void removeEvent(Event event) {
+		eventRegistry.remove(event);
+	}
+
 
 	/**
 	 * @return
@@ -405,6 +412,10 @@ public class Assets {
 	public Collection<Tip> tipList() {
 		return tipRegistry.values();
 	}
+
+
+
+
 
 
 

@@ -9,6 +9,7 @@ import com.kanomiya.steward.model.assets.Assets;
 import com.kanomiya.steward.model.overlay.GameColor;
 import com.kanomiya.steward.model.overlay.GameFont;
 import com.kanomiya.steward.model.overlay.text.Choice;
+import com.kanomiya.steward.model.overlay.text.IConfirmable;
 import com.kanomiya.steward.model.overlay.text.IEditableText;
 import com.kanomiya.steward.model.overlay.text.ISelectableText;
 import com.kanomiya.steward.model.overlay.text.Text;
@@ -194,7 +195,14 @@ public class VCMessageBook implements IViewComponent<MessageBook> {
 					g.translate(-left, -top);
 				}
 
-				g.setColor(item.color);
+				Color color = item.color;
+
+				if (item instanceof IConfirmable)
+				{
+					IConfirmable cItem = (IConfirmable) item;
+					if (! cItem.isEnabled()) color =  Color.LIGHT_GRAY;
+				}
+
 				g.setFont(GameFont.textFont);
 				if (item.bold) g.setFont(GameFont.textFontBold);
 
@@ -213,7 +221,9 @@ public class VCMessageBook implements IViewComponent<MessageBook> {
 						left = 0;
 					}
 
+					g.setColor(color);
 					g.drawString(lines[i], left, top);
+
 					if (item.underline) g.drawLine(left, top, g.getFontMetrics().stringWidth(lines[i]), top);
 				}
 
@@ -226,7 +236,7 @@ public class VCMessageBook implements IViewComponent<MessageBook> {
 					g.fillRect(left, itTop, book.width -lineHeight*2 -left, lineHeight *yLen);
 
 					g.setComposite(AlphaComposite.SrcOver);
-					g.setColor(item.color);
+					g.setColor(color);
 
 					if (item instanceof IEditableText) //  && 0 <= frame && frame <= 10)
 					{
@@ -237,6 +247,8 @@ public class VCMessageBook implements IViewComponent<MessageBook> {
 					}
 
 				}
+
+
 
 				line += yLen -1;
 				left += g.getFontMetrics().stringWidth(lines[yLen -1]);

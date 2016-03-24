@@ -36,7 +36,7 @@ var c_1 = choice(translate("vocabulary.gameContinue")).confirmHandlerJS(function
 
 			showWindow(c_msg);
 
-		});
+		}).enabled(0 < sfs.length);
 
 
 var c_2 = choice(translate("vocabulary.gameStart")).confirmHandlerJS(function()

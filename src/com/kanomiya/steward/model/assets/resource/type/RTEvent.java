@@ -39,7 +39,6 @@ public class RTEvent extends ResourceType<Event> {
 			}
 		});
 
-
 		return event;
 	}
 

@@ -37,6 +37,7 @@ public class Event implements IResource, ITextureOwner, IScriptOwner, IScriptLau
 	public AccessType access;
 	public Map<ScriptEventType, Script> scripts;
 	public boolean isDead;
+	public boolean canRevive;
 
 	public Texture icon;
 	public Inventory inventory;
@@ -97,6 +98,8 @@ public class Event implements IResource, ITextureOwner, IScriptOwner, IScriptLau
 		while (eventItr.hasNext())
 		{
 			Event event = eventItr.next();
+
+			if (event.isDead()) continue;
 
 			if (event.hasScript(this, ScriptEventType.ONENTERED))
 			{
@@ -253,7 +256,6 @@ public class Event implements IResource, ITextureOwner, IScriptOwner, IScriptLau
 
 	public void setDead()
 	{
-		area.removeEvent(this);
 		isDead = true;
 	}
 

@@ -23,13 +23,18 @@ public class Choice extends Text implements ISelectableText, IConfirmable<Charac
 
 
 	protected ConfirmHandler confirmHandler;
+	protected boolean enabled;
 
 	public Choice(Text text) {
 		super(text);
+
+		enabled = true;
 	}
 
 	public Choice(String text) {
 		super(text);
+
+		enabled = true;
 	}
 
 
@@ -59,6 +64,26 @@ public class Choice extends Text implements ISelectableText, IConfirmable<Charac
 	@Override
 	public ConfirmHandler getConfirmHandler() {
 		return confirmHandler;
+	}
+
+
+
+	/**
+	* @inheritDoc
+	*/
+	@Override
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+
+	/**
+	* @inheritDoc
+	*/
+	@Override
+	public Choice enabled(boolean enabled) {
+		this.enabled = enabled;
+		return this;
 	}
 
 

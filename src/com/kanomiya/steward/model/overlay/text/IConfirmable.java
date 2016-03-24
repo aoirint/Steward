@@ -16,6 +16,7 @@ public interface IConfirmable<T> {
 	default ConfirmResult confirm(T arg)
 	{
 		if (! hasConfirmHandler()) return null;
+		if (! isEnabled()) return null;
 
 		return getConfirmHandler().apply(arg);
 	}
@@ -27,5 +28,9 @@ public interface IConfirmable<T> {
 	{
 		return confirmHandler(ConfirmHandler.create(jsFunction));
 	}
+
+
+	boolean isEnabled();
+	IConfirmable enabled(boolean enabled);
 
 }

@@ -6,7 +6,6 @@ import java.util.Iterator;
 
 import com.kanomiya.steward.model.assets.Assets;
 import com.kanomiya.steward.model.item.ItemStack;
-import com.kanomiya.steward.model.overlay.GameColor;
 import com.kanomiya.steward.model.overlay.GameFont;
 import com.kanomiya.steward.model.overlay.InventoryWindow;
 import com.kanomiya.steward.model.overlay.text.Text;
@@ -25,7 +24,7 @@ public class VCInventoryWindow implements IViewComponent<InventoryWindow> {
 	@Override
 	public void paint(Graphics2D g, InventoryWindow invWindow, Assets assets, int frame)
 	{
-		Color frColor = (invWindow.hasForegroundColor()) ? invWindow.getForegroundColor() : GameColor.white;
+		Color frColor = (invWindow.hasForegroundColor()) ? invWindow.getForegroundColor() : Color.WHITE;
 		g.setColor(frColor);
 		g.setFont(GameFont.textFont);
 

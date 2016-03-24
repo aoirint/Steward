@@ -47,6 +47,8 @@ public class EventConverter implements JsonDeserializer<Event>, JsonSerializer<E
 		jsObj.addProperty("x", event.x);
 		jsObj.addProperty("y", event.y);
 		if (! event.visible) jsObj.addProperty("visible", event.visible);
+		if (event.isDead) jsObj.addProperty("isDead", event.isDead);
+		if (event.canRevive) jsObj.addProperty("canRevive", event.canRevive);
 
 		if (event.direction != Direction.SOUTH) jsObj.add("direction", context.serialize(event.direction));
 		if (event.walkState != WalkState.UPRIGHT) jsObj.add("walkState", context.serialize(event.walkState));
@@ -97,7 +99,11 @@ public class EventConverter implements JsonDeserializer<Event>, JsonSerializer<E
 		int x = jsObj.get("x").getAsInt();
 		int y = jsObj.get("y").getAsInt();
 		boolean visible = true;
-		if (jsObj.has("visible")) jsObj.get("visible").getAsBoolean();
+		if (jsObj.has("visible")) visible = jsObj.get("visible").getAsBoolean();
+		boolean isDead = false;
+		if (jsObj.has("isDead")) isDead = jsObj.get("isDead").getAsBoolean();
+		boolean canRevive = false;
+		if (jsObj.has("canRevive")) canRevive = jsObj.get("canRevive").getAsBoolean();
 
 		Direction direction = Direction.SOUTH;
 		if (jsObj.has("direction")) direction = context.deserialize(jsObj.get("direction"), Direction.class);
@@ -127,6 +133,8 @@ public class EventConverter implements JsonDeserializer<Event>, JsonSerializer<E
 		event.x = x;
 		event.y = y;
 		event.visible = visible;
+		event.isDead = isDead;
+		event.canRevive = canRevive;
 
 		event.direction = direction;
 		event.walkState = walkState;

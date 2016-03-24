@@ -13,11 +13,14 @@ public class TextField extends Text implements IEditableText {
 	}
 
 	protected ConfirmHandler<String, ConfirmResult> confirmHandler;
+	protected boolean enabled;
 	protected int caretIndex;
 
 	protected TextField()
 	{
 		super("");
+
+		enabled = true;
 	}
 
 
@@ -88,7 +91,22 @@ public class TextField extends Text implements IEditableText {
 	}
 
 
+	/**
+	* @inheritDoc
+	*/
+	@Override
+	public boolean isEnabled() {
+		return enabled;
+	}
 
+	/**
+	* @inheritDoc
+	*/
+	@Override
+	public TextField enabled(boolean enabled) {
+		this.enabled = enabled;
+		return this;
+	}
 
 
 }
