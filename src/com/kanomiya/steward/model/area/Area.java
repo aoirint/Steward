@@ -285,19 +285,7 @@ public class Area implements IResource, IScriptOwner {
 	@Override
 	public String toString()
 	{
-		StringBuilder builder = new StringBuilder();
-
-		builder.append(getClass().getSimpleName());
-		builder.append('[');
-
-		builder.append("id: ");
-		builder.append(id);
-		builder.append(", name: ");
-		builder.append(name);
-
-		builder.append(']');
-
-		return new String(builder);
+		return id;
 	}
 
 

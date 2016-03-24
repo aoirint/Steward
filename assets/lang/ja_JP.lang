@@ -27,6 +27,13 @@ vocabulary.test=テスト
 vocabulary.yes=はい
 vocabulary.no=いいえ
 vocabulary.back=戻る
+vocabulary.name=名前
+vocabulary.size=サイズ
+vocabulary.width=幅
+vocabulary.height=高さ
+vocabulary.travel=移動
+vocabulary.createNew=新規作成
+
 
 question.saveAndExit=セーブして終了しますか？
 

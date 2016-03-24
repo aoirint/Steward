@@ -9,6 +9,7 @@ import com.kanomiya.steward.Game;
 import com.kanomiya.steward.config.GameKeys;
 import com.kanomiya.steward.controller.action.IControlAction;
 import com.kanomiya.steward.controller.unit.event.KeyboardUpdateEvent;
+import com.kanomiya.steward.editor.FrameEditor;
 import com.kanomiya.steward.model.assets.Assets;
 import com.kanomiya.steward.model.event.Player;
 import com.kanomiya.steward.model.event.PlayerMode;
@@ -87,6 +88,9 @@ public class CAKeyFunction implements IControlAction<KeyboardUpdateEvent> {
 								{
 									player.changeMode(PlayerMode.NORMAL);
 									player.logger.println("Oracle: Normal;");
+								} else if (text.equals("editor"))
+								{
+									new FrameEditor(game).setVisible(true);
 								} else
 								{
 									player.logger.println("Oracle: Huh? What do you mean?");

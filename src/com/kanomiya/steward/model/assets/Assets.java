@@ -416,6 +416,16 @@ public class Assets {
 
 
 
+	/**
+	 * @return
+	 */
+	public Collection<Area> areaList() {
+		return areaRegistry.values();
+	}
+
+
+
+
 
 
 

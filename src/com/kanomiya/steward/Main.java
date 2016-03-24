@@ -1,5 +1,6 @@
 package com.kanomiya.steward;
 
+import com.kanomiya.steward.editor.FrameEditor;
 import com.kanomiya.steward.model.assets.Assets;
 import com.kanomiya.steward.model.assets.AssetsUtils;
 import com.kanomiya.steward.view.ViewConsts;
@@ -26,7 +27,9 @@ public class Main {
 		Assets assets = AssetsUtils.newAssets();
 
 		Game game = Game.getInstance(assets);
+		game.setName("ISteward");
 
+		new FrameEditor(game).setVisible(true);;
 
 
 		Thread repainter = new Thread("Repainter") // VELIF 通知式にする？
