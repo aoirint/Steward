@@ -26,6 +26,7 @@ vocabulary.exit=終了
 vocabulary.test=テスト
 vocabulary.yes=はい
 vocabulary.no=いいえ
+vocabulary.back=戻る
 
 question.saveAndExit=セーブして終了しますか？
 

@@ -7,12 +7,8 @@ exec("window/loadList");
 
 loadListInit();
 
+exec("window/back");
 
-
-var c_z = choice("戻る").confirmHandlerJS(function()
-		{
-			showWindow(msg);
-		});
 
 
 var c_1 = choice(translate("vocabulary.gameContinue")).confirmHandlerJS(function()
@@ -36,7 +32,7 @@ var c_1 = choice(translate("vocabulary.gameContinue")).confirmHandlerJS(function
 				c_msg.println(choice(sfNames[i]).confirmHandlerJS(c_func));
 			}
 
-			c_msg.println("").println(c_z);
+			c_msg.println("").println(backChoice(msg));
 
 			showWindow(c_msg);
 
@@ -45,25 +41,25 @@ var c_1 = choice(translate("vocabulary.gameContinue")).confirmHandlerJS(function
 
 var c_2 = choice(translate("vocabulary.gameStart")).confirmHandlerJS(function()
 		{
-			showWindow(message().lockClose()
-				.println("セーブデータ名 (使用不可：[\\0][.][/]['][\"][`][\\t][\\n][\\r][\\f][?][*][\\][<][:][|][>])")
-				.println(textField().confirmHandlerJS(function(text)
-					{
-
-						if (sfNames.indexOf(text) == -1 && assets.setSaveName(text))
+			var s_msg = message().lockClose()
+					.println("セーブデータ名 (使用不可：[\\0][.][/]['][\"][`][\\t][\\n][\\r][\\f][?][*][\\][<][:][|][>])")
+					.println(textField().confirmHandlerJS(function(text)
 						{
-							player.removeWindow();
 
-							player.setVisible(true);
-							player.travel("test", 5,5);
+							if (sfNames.indexOf(text) == -1 && assets.setSaveName(text))
+							{
+								player.removeWindow();
 
-						}
+								player.setVisible(true);
+								player.travel("test", 5,5);
 
-					}))
-				.println("")
-				.println(c_z)
+							}
 
-			);
+						}))
+					.println("")
+					.println(backChoice(msg));
+
+			showWindow(s_msg);
 
 		});
 
@@ -77,7 +73,8 @@ var c_4 = choice(translate("vocabulary.test")).confirmHandlerJS(function()
 		{
 			var c_a = choice("長文テスト").confirmHandlerJS(function()
 			{
-				showWindow(messageBook().lockClose().println(c_z)
+				showWindow(messageBook().lockClose()
+						.println(backChoice(t_msg))
 						.println(" ")
 						.println("長文テスト")
 						.println("長文テスト")
@@ -157,13 +154,15 @@ var c_4 = choice(translate("vocabulary.test")).confirmHandlerJS(function()
 								logger.println(text);
 							}))
 							.println("")
-							.println(c_z);
+							.println(backChoice(t_msg));
 
 
 						showWindow(msg_input);
 					});
 
-			showWindow(message().lockClose().println(c_a).println(c_b).println(c_z));
+			var t_msg = message().lockClose().println(c_a).println(c_b).println(backChoice(msg));
+
+			showWindow(t_msg);
 		});
 
 

@@ -266,7 +266,7 @@ public class Assets {
 		exec(script.src, arguments);
 	}
 
-	protected void exec(String id) {
+	public void exec(String id) {
 		exec(id, null);
 	}
 
@@ -318,7 +318,7 @@ public class Assets {
 			e.printStackTrace();
 		}
 
-		resetBindings();
+		// resetBindings();
 
 	}
 
