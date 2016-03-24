@@ -4,6 +4,8 @@ import java.util.function.Function;
 
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 
+import com.kanomiya.steward.Game;
+
 /**
  * @author Kanomiya
  *
@@ -26,7 +28,7 @@ public abstract class ConfirmHandler<T, R> implements Function<T, R> {
 
 				} catch (Exception e)
 				{
-					System.err.println("Exception source: ConfirmHandler");
+					Game.logger.warn("Exception source: ConfirmHandler");
 					e.printStackTrace();
 				}
 

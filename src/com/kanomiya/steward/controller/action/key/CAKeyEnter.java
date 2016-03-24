@@ -41,7 +41,8 @@ public class CAKeyEnter implements IControlAction<KeyboardUpdateEvent> {
 					ISelectableText selected = current.getSelectedText();
 					if (selected instanceof Choice)
 					{
-						((Choice) selected).confirm();
+						Choice choice = (Choice) selected;
+						choice.confirm(current.getChar(choice));
 						event.consume();
 					}
 

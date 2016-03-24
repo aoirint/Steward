@@ -1,6 +1,6 @@
 
-// required args: id, (num)
-execute("getItem");
+// required args: owner, id, (num)
+exec("getItem");
 
 owner.setDead();
 

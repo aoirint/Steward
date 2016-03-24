@@ -9,7 +9,6 @@ import com.kanomiya.steward.model.util.IEnumWithId;
 public enum ScriptEventType implements IEnumWithId {
 	ONENTERED("onEntered"),
 	ONEXITED("onExited"),
-	ONCOLIDED("onColided"),
 
 
 

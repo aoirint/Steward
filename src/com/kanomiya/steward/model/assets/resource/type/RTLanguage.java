@@ -11,9 +11,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.PropertyResourceBundle;
-import java.util.concurrent.FutureTask;
+import java.util.function.Consumer;
 
 import com.google.gson.Gson;
+import com.kanomiya.steward.model.assets.Assets;
 import com.kanomiya.steward.model.lang.Language;
 import com.kanomiya.steward.util.filter.ExtensionFilter;
 
@@ -31,7 +32,7 @@ public class RTLanguage extends ResourceType<Language> {
 	* @inheritDoc
 	*/
 	@Override
-	public Language load(String id, File file, Gson gson, List<FutureTask> futureTaskList) throws IOException
+	public Language load(String id, File file, Gson gson, List<Consumer<Assets>> futureTaskList) throws IOException
 	{
 		PropertyResourceBundle bundle = new PropertyResourceBundle(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8));
 

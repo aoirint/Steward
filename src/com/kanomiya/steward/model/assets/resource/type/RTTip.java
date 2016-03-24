@@ -4,10 +4,11 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
-import java.util.concurrent.FutureTask;
+import java.util.function.Consumer;
 
 import com.google.gson.Gson;
 import com.kanomiya.steward.model.area.Tip;
+import com.kanomiya.steward.model.assets.Assets;
 import com.kanomiya.steward.model.assets.AssetsUtils;
 import com.kanomiya.steward.util.filter.ExtensionFilter;
 
@@ -26,7 +27,7 @@ public class RTTip extends ResourceType<Tip> {
 	* @inheritDoc
 	*/
 	@Override
-	public Tip load(String id, File file, Gson gson, List<FutureTask> futureTaskList) throws IOException
+	public Tip load(String id, File file, Gson gson, List<Consumer<Assets>> futureTaskList) throws IOException
 	{
 		FileReader fr = new FileReader(file);
 		Tip tip = gson.fromJson(fr, Tip.class);

@@ -8,11 +8,12 @@ import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.List;
-import java.util.concurrent.FutureTask;
+import java.util.function.Consumer;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.kanomiya.steward.Game;
+import com.kanomiya.steward.model.assets.Assets;
 import com.kanomiya.steward.model.assets.resource.type.ResourceType;
 
 /**
@@ -34,7 +35,7 @@ public class ResourceLoader<R extends IResource> {
 
 	private int loadedCount;
 
-	public ResourceLoader<R> load(File baseDir, Gson gson, List<FutureTask> futureTaskList) throws IOException
+	public ResourceLoader<R> load(File baseDir, Gson gson, List<Consumer<Assets>> futureTaskList) throws IOException
 	{
 		File root = new File(baseDir, type.getDirName());
 		String typeName = type.getClass().getSimpleName();

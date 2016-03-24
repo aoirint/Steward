@@ -4,13 +4,12 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.FutureTask;
+import java.util.function.Consumer;
 
 import com.google.gson.Gson;
+import com.kanomiya.steward.model.assets.Assets;
 import com.kanomiya.steward.model.assets.AssetsUtils;
 import com.kanomiya.steward.model.event.Event;
-import com.kanomiya.steward.model.script.ScriptEventType;
 import com.kanomiya.steward.util.filter.ExtensionFilter;
 
 /**
@@ -27,21 +26,18 @@ public class RTEvent extends ResourceType<Event> {
 	* @inheritDoc
 	*/
 	@Override
-	public Event load(String id, File file, Gson gson, List<FutureTask> futureTaskList) throws IOException
+	public Event load(String id, File file, Gson gson, List<Consumer<Assets>> futureTaskList) throws IOException
 	{
 
 		Event event = gson.fromJson(new FileReader(file), Event.class);
 
-		futureTaskList.add(new FutureTask(new Callable<Boolean>()
+		futureTaskList.add(new Consumer<Assets>()
 		{
 			@Override
-			public Boolean call() {
-				event.area.setEvent(event);
-				event.area.launchEvent(event, event.x, event.y, ScriptEventType.ONENTERED); // TODO change ?? INITED
-
-				return true;
+			public void accept(Assets assets) {
+				event.area.setEvent(event, true);
 			}
-		}));
+		});
 
 
 		return event;

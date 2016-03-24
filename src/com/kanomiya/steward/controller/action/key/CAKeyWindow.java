@@ -5,6 +5,7 @@ import com.kanomiya.steward.controller.action.IControlAction;
 import com.kanomiya.steward.controller.unit.event.KeyboardUpdateEvent;
 import com.kanomiya.steward.controller.unit.identifier.Key;
 import com.kanomiya.steward.model.event.Player;
+import com.kanomiya.steward.model.overlay.text.Choice;
 import com.kanomiya.steward.model.overlay.text.ConfirmResult;
 import com.kanomiya.steward.model.overlay.text.IEditableText;
 import com.kanomiya.steward.model.overlay.window.Window;
@@ -70,7 +71,8 @@ public class CAKeyWindow implements IControlAction<KeyboardUpdateEvent> {
 
 			if (current.charToChoice().containsKey(ch))
 			{
-				ConfirmResult result = current.charToChoice().get(ch).confirm();
+				Choice choice = current.charToChoice().get(ch);
+				ConfirmResult result = choice.confirm(current.getChar(choice));
 
 
 			}

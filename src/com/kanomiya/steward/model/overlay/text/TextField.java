@@ -12,22 +12,12 @@ public class TextField extends Text implements IEditableText {
 		return new TextField();
 	}
 
-	public static TextField create(String defaulz)
-	{
-		return new TextField(defaulz);
-	}
-
 	protected ConfirmHandler<String, ConfirmResult> confirmHandler;
 	protected int caretIndex;
 
-	public TextField()
+	protected TextField()
 	{
 		super("");
-	}
-
-	public TextField(String defaulz)
-	{
-		super(defaulz);
 	}
 
 

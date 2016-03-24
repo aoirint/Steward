@@ -4,9 +4,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
-import java.util.concurrent.FutureTask;
+import java.util.function.Consumer;
 
 import com.google.gson.Gson;
+import com.kanomiya.steward.model.assets.Assets;
 import com.kanomiya.steward.model.assets.AssetsUtils;
 import com.kanomiya.steward.model.texture.Texture;
 import com.kanomiya.steward.util.filter.ExtensionFilter;
@@ -25,7 +26,7 @@ public class RTTexture extends ResourceType<Texture> {
 	* @inheritDoc
 	*/
 	@Override
-	public Texture load(String id, File file, Gson gson, List<FutureTask> futureTaskList) throws IOException
+	public Texture load(String id, File file, Gson gson, List<Consumer<Assets>> futureTaskList) throws IOException
 	{
 		return gson.fromJson(new FileReader(file), Texture.class);
 	}

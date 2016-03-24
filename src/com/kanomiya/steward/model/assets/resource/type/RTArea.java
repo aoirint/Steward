@@ -4,10 +4,11 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
-import java.util.concurrent.FutureTask;
+import java.util.function.Consumer;
 
 import com.google.gson.Gson;
 import com.kanomiya.steward.model.area.Area;
+import com.kanomiya.steward.model.assets.Assets;
 import com.kanomiya.steward.model.assets.AssetsUtils;
 import com.kanomiya.steward.util.filter.ExtensionFilter;
 
@@ -25,7 +26,7 @@ public class RTArea extends ResourceType<Area> {
 	* @inheritDoc
 	*/
 	@Override
-	public Area load(String id, File file, Gson gson, List<FutureTask> futureTaskList) throws IOException {
+	public Area load(String id, File file, Gson gson, List<Consumer<Assets>> futureTaskList) throws IOException {
 		return gson.fromJson(new FileReader(file), Area.class);
 	}
 

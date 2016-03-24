@@ -3,12 +3,12 @@ package com.kanomiya.steward.model.area;
 import java.util.List;
 import java.util.Map;
 
-import javax.script.ScriptException;
-
 import com.google.common.collect.Lists;
 import com.kanomiya.steward.model.assets.Assets;
 import com.kanomiya.steward.model.assets.resource.IResource;
 import com.kanomiya.steward.model.event.Event;
+import com.kanomiya.steward.model.script.IScriptLauncher;
+import com.kanomiya.steward.model.script.IScriptOwner;
 import com.kanomiya.steward.model.script.Script;
 import com.kanomiya.steward.model.script.ScriptEventType;
 import com.kanomiya.steward.model.texture.Texture;
@@ -20,7 +20,7 @@ import com.kanomiya.steward.model.texture.Texture;
  * @author Kanomiya
  *
  */
-public class Area implements IResource {
+public class Area implements IResource, IScriptOwner {
 	protected String id, name;
 
 	protected int width, height;
@@ -220,15 +220,14 @@ public class Area implements IResource {
 	 *
 	 * @param event
 	 */
-	public void setEvent(Event event)
+	public void setEvent(Event event, boolean flagEnter)
 	{
-		Area area = event.area;
+		// Area area = event.area;
 
 		if (event.area != null)
 		{
 			event.area.removeEvent(event);
 		}
-		if (event.chunk != null) event.chunk.eventList.remove(event);
 
 		event.area = this;
 		if (! eventList.contains(event)) eventList.add(event);
@@ -236,7 +235,10 @@ public class Area implements IResource {
 		event.chunk = getChunk(event.x, event.y);
 		if (! event.chunk.eventList.contains(event)) event.chunk.eventList.add(event);
 
-		if (assets.isInited() && area != this) launchEvent(event, event.x, event.y, ScriptEventType.ONENTERED); // VELIF futureTask
+		if (assets.isInited() && flagEnter)
+		{
+			assets.exec(this, event, ScriptEventType.ONENTERED);
+		}
 	}
 
 	/**
@@ -244,6 +246,11 @@ public class Area implements IResource {
 	 */
 	public void removeEvent(Event event)
 	{
+		if (assets.isInited())
+		{
+			assets.exec(this, event, ScriptEventType.ONEXITED);
+		}
+
 		getChunk(event.x, event.y).eventList.remove(event);
 		eventList.remove(event);
 	}
@@ -258,54 +265,21 @@ public class Area implements IResource {
 	}
 
 
-	public boolean launchEvent(Event launcher, int x, int y, ScriptEventType type)
+
+	@Override
+	public boolean hasScript(IScriptLauncher launcher, ScriptEventType eventType)
 	{
-		boolean success = false;
-
-		// System.out.println(launcher.id + ": " + launcher.x + "/" + launcher.y);
-
-		if (scripts != null && scripts.containsKey(type))
-		{
-			Script script = scripts.get(type);
-			String code = assets.getScriptCode(script.src).code;
-
-			try {
-				assets.getScriptEngine().eval(code);
-
-			} catch (ScriptException e) {
-				// TODO 自動生成された catch ブロック
-				System.err.println("Excepion source: " + script.src);
-				e.printStackTrace();
-
-			} catch (Exception e)
-			{
-				// TODO
-				System.err.println("Excepion source: " + script.src);
-				e.printStackTrace();
-			}
-		}
-
-		Chunk fchunk = getChunk(x, y);
-
-		if (fchunk.hasEvent())
-		{
-			List<Event> feventList = fchunk.eventList();
-
-			for (int i=0; i<feventList.size(); i++)
-			{
-				Event fevent = feventList.get(i);
-
-				if ((type != ScriptEventType.ONCOLIDED || fevent != launcher) && fevent.x == x && fevent.y == y)
-				{
-					fevent.launchScript(assets, launcher, type);
-					success = true;
-				}
-			}
-
-		}
-
-		return success;
+		if (scripts == null) return false;
+		return scripts.containsKey(eventType);
 	}
+
+	@Override
+	public Script getScript(IScriptLauncher launcher, ScriptEventType eventType)
+	{
+		if (scripts == null) return null;
+		return scripts.get(eventType);
+	}
+
 
 
 	@Override
@@ -325,7 +299,6 @@ public class Area implements IResource {
 
 		return new String(builder);
 	}
-
 
 
 

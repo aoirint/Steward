@@ -4,9 +4,10 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
 import java.util.List;
-import java.util.concurrent.FutureTask;
+import java.util.function.Consumer;
 
 import com.google.gson.Gson;
+import com.kanomiya.steward.model.assets.Assets;
 import com.kanomiya.steward.model.assets.resource.IResource;
 
 /**
@@ -57,7 +58,7 @@ public abstract class ResourceType<R extends IResource> {
 		this.fileFilter = fileFilter;
 	}
 
-	public abstract R load(String id, File file, Gson gson, List<FutureTask> futureTaskList) throws IOException;
+	public abstract R load(String id, File file, Gson gson, List<Consumer<Assets>> futureTaskList) throws IOException;
 	public abstract void save(R resource, File baseDir, Gson gson) throws IOException;
 
 	public boolean enableSave() { return enableSave; }

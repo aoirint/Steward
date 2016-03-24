@@ -4,11 +4,12 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.concurrent.FutureTask;
+import java.util.function.Consumer;
 
 import javax.imageio.ImageIO;
 
 import com.google.gson.Gson;
+import com.kanomiya.steward.model.assets.Assets;
 import com.kanomiya.steward.model.texture.TextureImage;
 import com.kanomiya.steward.util.filter.ExtensionFilter;
 
@@ -26,7 +27,7 @@ public class RTTextureImage extends ResourceType<TextureImage> {
 	* @inheritDoc
 	*/
 	@Override
-	public TextureImage load(String id, File file, Gson gson, List<FutureTask> futureTaskList) throws IOException
+	public TextureImage load(String id, File file, Gson gson, List<Consumer<Assets>> futureTaskList) throws IOException
 	{
 
 		BufferedImage image = ImageIO.read(file);

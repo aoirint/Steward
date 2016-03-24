@@ -9,34 +9,27 @@ package com.kanomiya.steward.model.overlay.text;
 public class Choice extends Text implements ISelectableText, IConfirmable<Character> {
 
 
-	public static Choice create(Character ch, Text text)
+	public static Choice create(Text text)
 	{
-		return new Choice(ch, text);
+		return new Choice(text);
 	}
 
-	public static Choice create(Character ch, String text)
+	public static Choice create(String text)
 	{
-		return new Choice(ch, text);
+		return new Choice(text);
 	}
 
 
 
 
-
-	public Character ch;
 	protected ConfirmHandler confirmHandler;
 
-
-	public Choice(Character ch, Text text) {
+	public Choice(Text text) {
 		super(text);
-
-		this.ch = ch;
 	}
 
-	public Choice(Character ch, String text) {
-		super(((ch != null) ? "[" + ch + "] " : "") + text);
-
-		this.ch = ch;
+	public Choice(String text) {
+		super(text);
 	}
 
 
@@ -68,9 +61,6 @@ public class Choice extends Text implements ISelectableText, IConfirmable<Charac
 		return confirmHandler;
 	}
 
-	public ConfirmResult confirm() {
-		return confirm(ch);
-	}
 
 
 

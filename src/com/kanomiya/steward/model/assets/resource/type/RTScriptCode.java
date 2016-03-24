@@ -6,9 +6,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
-import java.util.concurrent.FutureTask;
+import java.util.function.Consumer;
 
 import com.google.gson.Gson;
+import com.kanomiya.steward.model.assets.Assets;
 import com.kanomiya.steward.model.assets.AssetsUtils;
 import com.kanomiya.steward.model.script.ScriptCode;
 import com.kanomiya.steward.util.filter.ExtensionFilter;
@@ -27,7 +28,7 @@ public class RTScriptCode extends ResourceType<ScriptCode> {
 	* @inheritDoc
 	*/
 	@Override
-	public ScriptCode load(String id, File file, Gson gson, List<FutureTask> futureTaskList) throws IOException
+	public ScriptCode load(String id, File file, Gson gson, List<Consumer<Assets>> futureTaskList) throws IOException
 	{
 		InputStreamReader isrScript = new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8);
 

@@ -13,6 +13,16 @@ public class Main {
 	 */
 	public static void main(String[] args)
 	{
+		/*
+		SecurityManager sm = new SecurityManager();
+
+		System.setSecurityManager(sm);
+		new AccessControlContext(new ProtectionDomain[]
+		{
+				new ProtectionDomain(new CodeSource())
+		});
+		*/
+
 		Assets assets = AssetsUtils.newAssets();
 
 		Game game = Game.getInstance(assets);

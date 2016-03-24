@@ -13,10 +13,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map.Entry;
-import java.util.concurrent.FutureTask;
+import java.util.function.Consumer;
 
 import javax.script.ScriptEngine;
-import javax.script.ScriptException;
 
 import jdk.nashorn.api.scripting.NashornScriptEngineFactory;
 
@@ -34,7 +33,6 @@ import com.kanomiya.steward.model.assets.resource.type.ResourceType;
 import com.kanomiya.steward.model.assets.save.SaveFile;
 import com.kanomiya.steward.model.event.Event;
 import com.kanomiya.steward.model.event.EventConverter;
-import com.kanomiya.steward.model.event.Player;
 import com.kanomiya.steward.model.event.PlayerMode;
 import com.kanomiya.steward.model.item.Item;
 import com.kanomiya.steward.model.item.ItemConverter;
@@ -42,13 +40,8 @@ import com.kanomiya.steward.model.item.ItemStack;
 import com.kanomiya.steward.model.item.ItemStackConverter;
 import com.kanomiya.steward.model.lang.Language;
 import com.kanomiya.steward.model.overlay.GameColor;
-import com.kanomiya.steward.model.overlay.text.Choice;
-import com.kanomiya.steward.model.overlay.text.ConfirmResult;
 import com.kanomiya.steward.model.overlay.text.Text;
-import com.kanomiya.steward.model.overlay.text.TextField;
-import com.kanomiya.steward.model.overlay.window.message.Message;
-import com.kanomiya.steward.model.overlay.window.message.MessageBook;
-import com.kanomiya.steward.model.script.ScriptFunctionBinder;
+import com.kanomiya.steward.model.script.Script;
 import com.kanomiya.steward.model.texture.Texture;
 import com.kanomiya.steward.model.texture.TextureConverter;
 import com.kanomiya.steward.model.texture.TransformerTextureImage;
@@ -75,6 +68,8 @@ public class AssetsUtils {
 
 		gb.registerTypeAdapter(Tip.class, new Tip.Serializer());
 		gb.registerTypeAdapter(Tip.class, new Tip.Deserializer(assets));
+		gb.registerTypeAdapter(Script.class, new Script.Serializer());
+		gb.registerTypeAdapter(Script.class, new Script.Deserializer());
 
 		gb.registerTypeAdapter(Area.class, new AreaConverter(assets));
 		gb.registerTypeHierarchyAdapter(Event.class, new EventConverter(assets));
@@ -221,7 +216,7 @@ public class AssetsUtils {
 
 	protected static Assets loadAssets(Assets assets, File loadDir)
 	{
-		List<FutureTask> futureTaskList = Lists.newArrayList();
+		List<Consumer<Assets>> futureTaskList = Lists.newArrayList();
 
 		Gson gson = AssetsUtils.createGson(assets);
 
@@ -315,68 +310,19 @@ public class AssetsUtils {
 
 		assets.setLocale(Locale.getDefault());
 
-		Player player = assets.getPlayer();
 
 		NashornScriptEngineFactory factory = new NashornScriptEngineFactory();
 		ScriptEngine scriptEngine = factory.getScriptEngine("-strict", "--no-java", "--no-syntax-extensions");
-
-		scriptEngine.put("assets", assets);
-		scriptEngine.put("player", player);
-
-		scriptEngine.put("console", Game.logger);
-		scriptEngine.put("logger", player.logger);
-		scriptEngine.put("Text", Text.class);
-		scriptEngine.put("Choice", Choice.class);
-		scriptEngine.put("ChoiceResult", ConfirmResult.class);
-		scriptEngine.put("TextField", TextField.class);
-		scriptEngine.put("Message", Message.class);
-		scriptEngine.put("MessageBook", MessageBook.class);
-		scriptEngine.put("Book", MessageBook.class);
-		scriptEngine.put("GameColor", GameColor.class);
-		scriptEngine.put("PlayerMode", PlayerMode.class);
-		scriptEngine.put("ItemStack", ItemStack.class);
-		scriptEngine.put("SaveFile", SaveFile.class);
-
-		assets.binder = new ScriptFunctionBinder(assets, player);
-		scriptEngine.put("binder", assets.binder);
-
-		try {
-			scriptEngine.eval("var translate = Function.prototype.bind.call(assets.translate, assets);");
-			scriptEngine.eval("var text = Function.prototype.bind.call(Text.static.create, Text);");
-			scriptEngine.eval("var choice = Function.prototype.bind.call(Choice.static.create, Choice);");
-			scriptEngine.eval("var textField = Function.prototype.bind.call(TextField.static.create, TextField);");
-			scriptEngine.eval("var message = Function.prototype.bind.call(Message.static.create, Message);");
-			scriptEngine.eval("var messageBook = Function.prototype.bind.call(MessageBook.static.create, MessageBook);");
-			scriptEngine.eval("var book = Function.prototype.bind.call(Book.static.create, Book);");
-			scriptEngine.eval("var showWindow = Function.prototype.bind.call(player.showWindow, player);");
-			scriptEngine.eval("var execute = Function.prototype.bind.call(binder.execute, binder);");
-			scriptEngine.eval("var exit = Function.prototype.bind.call(binder.exit, binder);");
-			scriptEngine.eval("var itemStack = Function.prototype.bind.call(ItemStack.static.create, ItemStack);");
-			scriptEngine.eval("var saveFiles = Function.prototype.bind.call(SaveFile.static.saveFiles, SaveFile);");
-
-
-
-		} catch (ScriptException e) {
-			// TODO 自動生成された catch ブロック
-			System.err.println("Excepion source: AssetsFactory");
-			e.printStackTrace();
-		} catch (Exception e) {
-			// TODO
-			System.err.println("Excepion source: AssetsFactory");
-			e.printStackTrace();
-		}
 
 		assets.setScriptEngine(scriptEngine);
 
 		assets.inited = true;
 
-		Iterator<FutureTask> itr = futureTaskList.iterator();
+		Iterator<Consumer<Assets>> itr = futureTaskList.iterator();
 		while (itr.hasNext())
 		{
-			FutureTask task = itr.next();
-			if (task.isCancelled()) continue;
-
-			task.run();
+			Consumer<Assets> task = itr.next();
+			task.accept(assets);
 		}
 
 		return assets;

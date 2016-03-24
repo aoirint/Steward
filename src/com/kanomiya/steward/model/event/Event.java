@@ -1,14 +1,8 @@
 package com.kanomiya.steward.model.event;
 
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
-import javax.script.ScriptEngine;
-import javax.script.ScriptException;
-
-import com.kanomiya.steward.Game;
 import com.kanomiya.steward.model.area.AccessType;
 import com.kanomiya.steward.model.area.Area;
 import com.kanomiya.steward.model.area.Chunk;
@@ -16,8 +10,9 @@ import com.kanomiya.steward.model.area.Tip;
 import com.kanomiya.steward.model.assets.Assets;
 import com.kanomiya.steward.model.assets.resource.IResource;
 import com.kanomiya.steward.model.item.Inventory;
+import com.kanomiya.steward.model.script.IScriptLauncher;
+import com.kanomiya.steward.model.script.IScriptOwner;
 import com.kanomiya.steward.model.script.Script;
-import com.kanomiya.steward.model.script.ScriptCode;
 import com.kanomiya.steward.model.script.ScriptEventType;
 import com.kanomiya.steward.model.texture.ITextureOwner;
 import com.kanomiya.steward.model.texture.Texture;
@@ -26,7 +21,7 @@ import com.kanomiya.steward.model.texture.Texture;
  * @author Kanomiya
  *
  */
-public class Event implements ITextureOwner, IResource {
+public class Event implements IResource, ITextureOwner, IScriptOwner, IScriptLauncher {
 
 	public String id;
 	public Area area;
@@ -96,13 +91,19 @@ public class Event implements ITextureOwner, IResource {
 		int x = this.x;
 		int y = this.y;
 
-		List<Event> elist = area.getEvents(fx, fy);
+		Iterator<Event> eventItr = area.getEvents(fx, fy).iterator();
 		boolean canEnter = true;
 
-		for (int i=0; i<elist.size(); i++)
+		while (eventItr.hasNext())
 		{
-			elist.get(i).launchScript(assets, this, ScriptEventType.ONCOLIDED);
-			canEnter = canEnter && (elist.get(i).access != AccessType.DENY);
+			Event event = eventItr.next();
+
+			if (event.hasScript(this, ScriptEventType.ONENTERED))
+			{
+				assets.exec(event, this, ScriptEventType.ONENTERED);
+			}
+
+			canEnter = canEnter && (event.access != AccessType.DENY);
 		}
 
 		if (canEnter && area == this.area && this.x == x && this.y == y)
@@ -111,7 +112,7 @@ public class Event implements ITextureOwner, IResource {
 			this.y = fy;
 		}
 
-		this.area.setEvent(this);
+		this.area.setEvent(this, false);
 
 		return true;
 	}
@@ -130,16 +131,23 @@ public class Event implements ITextureOwner, IResource {
 	}
 
 
-	public boolean travel(Area area, int x, int y) // TODO: player travelling, remove message or not
+	public boolean travel(Area area, int x, int y)
 	{
 		if (! canTravel(area, x, y)) return false;
 
-		area.launchEvent(this, x, y, ScriptEventType.ONCOLIDED);
+		Iterator<Event> eventItr = area.getEvents(x, y).iterator();
+
+		while (eventItr.hasNext())
+		{
+			Event event = eventItr.next();
+
+			assets.exec(event, this, ScriptEventType.ONENTERED);
+		}
 
 		this.x = x;
 		this.y = y;
 
-		area.setEvent(this);
+		area.setEvent(this, true);
 
 		return true;
 	}
@@ -256,54 +264,18 @@ public class Event implements ITextureOwner, IResource {
 
 
 
-	public void launchScript(Assets assets, Event launcher, ScriptEventType eventType)
+	@Override
+	public boolean hasScript(IScriptLauncher launcher, ScriptEventType eventType)
 	{
-		if (scripts == null) return ;
-		if (! scripts.containsKey(eventType)) return ;
+		if (scripts == null) return false;
+		return scripts.containsKey(eventType);
+	}
 
-		Script script = scripts.get(eventType);
-		ScriptCode scriptCode = assets.getScriptCode(script.src);
-
-		if (scriptCode == null)
-		{
-			Game.logger.warn("No such Script code: " + script.src);
-			return ;
-		}
-
-		ScriptEngine scriptEngine = assets.getScriptEngine();
-
-		scriptEngine.put("launcher", launcher);
-		scriptEngine.put("owner", this);
-
-		if (script.hasArgument())
-		{
-			// Bindings bindings = scriptEngine.createBindings();
-			Iterator<Entry<String, Object>> itr = script.args.entrySet().iterator();
-
-			while (itr.hasNext())
-			{
-				Entry<String, Object> entry = itr.next();
-				scriptEngine.put(entry.getKey(), entry.getValue());
-			}
-
-		}
-
-		try {
-			scriptEngine.eval(scriptCode.code);
-
-		} catch (ScriptException e) {
-			// TODO 自動生成された catch ブロック
-			System.err.println("Excepion source: " + script.src);
-			e.printStackTrace();
-
-		} catch (Exception e)
-		{
-			// TODO
-			System.err.println("Excepion source: " + script.src);
-			e.printStackTrace();
-		}
-
-
+	@Override
+	public Script getScript(IScriptLauncher launcher, ScriptEventType eventType)
+	{
+		if (scripts == null) return null;
+		return scripts.get(eventType);
 	}
 
 

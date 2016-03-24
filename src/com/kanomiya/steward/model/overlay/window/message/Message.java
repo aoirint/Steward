@@ -4,8 +4,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.kanomiya.steward.model.overlay.text.Choice;
 import com.kanomiya.steward.model.overlay.text.ISelectableText;
 import com.kanomiya.steward.model.overlay.text.Text;
@@ -18,9 +19,12 @@ public class Message {
 
 	protected LinkedList<Text> items;
 	protected List<ISelectableText> selectableTexts;
-	protected Map<Character, Choice> charToChoice;
+	protected BiMap<Character, Choice> charToChoice;
 	protected boolean isClosable;
 	public int selectedIndexOfSelectable;
+
+	protected char nextChoiceChar = 'a';
+
 
 	public static Message create()
 	{
@@ -86,7 +90,8 @@ public class Message {
 			if (text instanceof Choice)
 			{
 				Choice choice = (Choice) selectable;
-				if (choice.ch != null) charToChoice().put(choice.ch, choice);
+				charToChoice().put(nextChoiceChar, choice);
+				nextChoiceChar ++;
 			}
 		}
 
@@ -122,7 +127,7 @@ public class Message {
 	 * @return
 	 */
 	public Map<Character, Choice> charToChoice() {
-		if (charToChoice == null) charToChoice = Maps.newHashMap();
+		if (charToChoice == null) charToChoice = HashBiMap.create();
 		return charToChoice;
 	}
 
@@ -219,6 +224,14 @@ public class Message {
 
 		selectedIndexOfSelectable ++;
 		return true;
+	}
+
+
+	/**
+	 * @return
+	 */
+	public Character getChar(Choice choice) {
+		return charToChoice.inverse().get(choice);
 	}
 
 

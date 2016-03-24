@@ -1,17 +1,17 @@
 {
-  "id": "test/item3",
-  "area": "test",
-  "x": 1,
-  "y": 11,
-  "access": "deny",
-  "icon": "item/iron_ingot",
-  "scripts": {
-    "onColided": {
-      "src": "eventGetItem",
-	  "args":
-	  {
+"id": "test/item3",
+"area": "test",
+"x": 1,
+"y": 11,
+"access": "deny",
+"icon": "item/iron_ingot",
+"scripts": {
+	"onEntered": {
+	"src": "eventGetItem",
+	"arguments":
+	{
 		"id": "iron_ingot"
-	  }
-    }
-  }
+	}
+	}
+}
 }

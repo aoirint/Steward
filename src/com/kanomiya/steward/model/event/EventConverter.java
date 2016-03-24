@@ -115,6 +115,7 @@ public class EventConverter implements JsonDeserializer<Event>, JsonSerializer<E
 
 		Map<ScriptEventType, Script> scripts = null;
 		Type sceventScriptMap = new TypeToken<Map<ScriptEventType, Script>>(){}.getType();
+
 		if (jsObj.has("scripts")) scripts = context.deserialize(jsObj.get("scripts"), sceventScriptMap);
 
 

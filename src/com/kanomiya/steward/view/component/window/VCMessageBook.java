@@ -8,6 +8,7 @@ import java.util.Iterator;
 import com.kanomiya.steward.model.assets.Assets;
 import com.kanomiya.steward.model.overlay.GameColor;
 import com.kanomiya.steward.model.overlay.GameFont;
+import com.kanomiya.steward.model.overlay.text.Choice;
 import com.kanomiya.steward.model.overlay.text.IEditableText;
 import com.kanomiya.steward.model.overlay.text.ISelectableText;
 import com.kanomiya.steward.model.overlay.text.Text;
@@ -167,6 +168,9 @@ public class VCMessageBook implements IViewComponent<MessageBook> {
 			while (itr.hasNext())
 			{
 				Text item = itr.next();
+				String itemText = item.text;
+				if (item instanceof Choice) itemText = "[" + page.getChar((Choice) item) + "] " +itemText;
+
 				int lineHeight = item.getLineHeight();
 				int maxLine = book.height /item.getLineHeight();
 
@@ -194,7 +198,7 @@ public class VCMessageBook implements IViewComponent<MessageBook> {
 				g.setFont(GameFont.textFont);
 				if (item.bold) g.setFont(GameFont.textFontBold);
 
-				String text = ViewUtils.wordWrap(item.text, g, left, book.innerWidth());
+				String text = ViewUtils.wordWrap(itemText, g, left, book.innerWidth());
 
 				// System.out.println(text);
 
@@ -228,7 +232,7 @@ public class VCMessageBook implements IViewComponent<MessageBook> {
 					{
 						int cridx = ((IEditableText) item).getCaretIndex();
 
-						int crleft = left +g.getFontMetrics().stringWidth(item.text.substring(0, cridx));
+						int crleft = left +g.getFontMetrics().stringWidth(itemText.substring(0, cridx));
 						g.drawLine(crleft, itTop, crleft, itTop +lineHeight);
 					}
 

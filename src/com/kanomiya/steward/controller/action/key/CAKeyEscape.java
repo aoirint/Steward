@@ -41,7 +41,7 @@ public class CAKeyEscape implements IControlAction<KeyboardUpdateEvent> {
 			player.showWindow(Message.create()
 					.println(assets.translate("question.saveAndExit"))
 					.println("")
-					.println(Choice.create('a', assets.translate("vocabulary.yes"))
+					.println(Choice.create(assets.translate("vocabulary.yes"))
 							.confirmHandler(new ConfirmHandler<Character, ConfirmResult>()
 									{
 										@Override
@@ -71,7 +71,7 @@ public class CAKeyEscape implements IControlAction<KeyboardUpdateEvent> {
 									})
 							)
 
-							.println(Choice.create('b', assets.translate("vocabulary.no"))
+							.println(Choice.create(assets.translate("vocabulary.no"))
 									.confirmHandler(new ConfirmHandler<Character, ConfirmResult>()
 											{
 										@Override
