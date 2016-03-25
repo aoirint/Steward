@@ -37,7 +37,15 @@ vocabulary.id=ID
 vocabulary.unknown=不明
 vocabulary.reflection=反映
 vocabulary.background=背景
+vocabulary.script=スクリプト
 vocabulary.save=保存
+vocabulary.add=追加
+vocabulary.delete=削除
+vocabulary.itemName=項目名
+vocabulary.value=値
+
+scriptEventType=イベント種別
+vocabulary.scriptSource=ソース
 
 
 question.saveAndExit=セーブして終了しますか？

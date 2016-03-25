@@ -3,6 +3,7 @@ package com.kanomiya.steward.model.event;
 import java.util.Iterator;
 import java.util.Map;
 
+import com.google.common.collect.Maps;
 import com.kanomiya.steward.model.area.AccessType;
 import com.kanomiya.steward.model.area.Area;
 import com.kanomiya.steward.model.area.Tip;
@@ -100,7 +101,7 @@ public class Event implements IResource, ITextureOwner, IScriptOwner, IScriptLau
 
 			if (event.isDead()) continue;
 
-			if (event.hasScript(this, ScriptEventType.ONENTERED))
+			if (event.hasScript(ScriptEventType.ONENTERED))
 			{
 				assets.exec(event, this, ScriptEventType.ONENTERED);
 			}
@@ -266,19 +267,28 @@ public class Event implements IResource, ITextureOwner, IScriptOwner, IScriptLau
 
 
 	@Override
-	public boolean hasScript(IScriptLauncher launcher, ScriptEventType eventType)
+	public boolean hasScript(ScriptEventType eventType)
 	{
 		if (scripts == null) return false;
 		return scripts.containsKey(eventType);
 	}
 
 	@Override
-	public Script getScript(IScriptLauncher launcher, ScriptEventType eventType)
+	public Script getScript(ScriptEventType eventType)
 	{
 		if (scripts == null) return null;
 		return scripts.get(eventType);
 	}
 
+	/**
+	* @inheritDoc
+	*/
+	@Override
+	public void setScript(ScriptEventType type, Script script)
+	{
+		if (scripts == null) scripts = Maps.newHashMap();
+		scripts.put(type, script);
+	}
 
 
 	@Override

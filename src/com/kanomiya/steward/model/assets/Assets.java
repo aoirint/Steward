@@ -255,9 +255,9 @@ public class Assets {
 	 * @param eventType
 	 */
 	public void exec(IScriptOwner owner, IScriptLauncher launcher, ScriptEventType eventType) {
-		if (! owner.hasScript(launcher, eventType)) return ;
+		if (! owner.hasScript(eventType)) return ;
 
-		Script script = owner.getScript(launcher, eventType);
+		Script script = owner.getScript(eventType);
 
 		Map<String, Object> arguments = (script.hasArgument()) ? Maps.newHashMap(script.arguments) : Maps.newHashMap();
 

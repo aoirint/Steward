@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -20,7 +21,6 @@ import com.google.gson.reflect.TypeToken;
 import com.kanomiya.steward.model.assets.Assets;
 import com.kanomiya.steward.model.assets.resource.IResource;
 import com.kanomiya.steward.model.event.Event;
-import com.kanomiya.steward.model.script.IScriptLauncher;
 import com.kanomiya.steward.model.script.IScriptOwner;
 import com.kanomiya.steward.model.script.Script;
 import com.kanomiya.steward.model.script.ScriptEventType;
@@ -251,19 +251,28 @@ public class Area implements IResource, IScriptOwner, Cloneable {
 
 
 	@Override
-	public boolean hasScript(IScriptLauncher launcher, ScriptEventType eventType)
+	public boolean hasScript(ScriptEventType eventType)
 	{
 		if (scripts == null) return false;
 		return scripts.containsKey(eventType);
 	}
 
 	@Override
-	public Script getScript(IScriptLauncher launcher, ScriptEventType eventType)
+	public Script getScript(ScriptEventType eventType)
 	{
 		if (scripts == null) return null;
 		return scripts.get(eventType);
 	}
 
+	/**
+	* @inheritDoc
+	*/
+	@Override
+	public void setScript(ScriptEventType type, Script script)
+	{
+		if (scripts == null) scripts = Maps.newHashMap();
+		scripts.put(type, script);
+	}
 
 
 	@Override
@@ -403,6 +412,7 @@ public class Area implements IResource, IScriptOwner, Cloneable {
 			return area;
 		}
 	}
+
 
 
 

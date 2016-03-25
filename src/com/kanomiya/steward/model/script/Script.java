@@ -25,7 +25,7 @@ import com.google.gson.annotations.Expose;
 public class Script {
 
 	@Expose public String src;
-	@Expose public Map<String, Object> arguments;
+	@Expose public Map<String, String> arguments;
 
 	public Script(String src)
 	{
@@ -53,12 +53,11 @@ public class Script {
 			{
 				JsonObject jsArgs = new JsonObject();
 
-				Iterator<Entry<String, Object>> itr = obj.arguments.entrySet().iterator();
+				Iterator<Entry<String, String>> itr = obj.arguments.entrySet().iterator();
 
 				while (itr.hasNext())
 				{
-					Entry<String, Object> entry = itr.next();
-
+					Entry<String, String> entry = itr.next();
 					JsonElement jsArg = context.serialize(entry.getValue());
 
 					if (jsArg instanceof JsonPrimitive)
@@ -94,7 +93,7 @@ public class Script {
 
 			if (jsObj.has("arguments"))
 			{
-				Map<String, Object> arguments = Maps.newHashMap();
+				Map<String, String> arguments = Maps.newHashMap();
 				JsonObject jsArgs = jsObj.get("arguments").getAsJsonObject();
 
 				Iterator<Entry<String, JsonElement>> itr = jsArgs.entrySet().iterator();
@@ -107,9 +106,7 @@ public class Script {
 					{
 						JsonPrimitive pValue = entry.getValue().getAsJsonPrimitive();
 
-						if (pValue.isBoolean()) arguments.put(entry.getKey(), pValue.getAsBoolean());
-						else if (pValue.isNumber()) arguments.put(entry.getKey(), pValue.getAsNumber());
-						else if (pValue.isString()) arguments.put(entry.getKey(), pValue.getAsString());
+						arguments.put(entry.getKey(), pValue.getAsString());
 
 					} else
 					{

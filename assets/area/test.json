@@ -2,6 +2,7 @@
   "id": "test",
   "name": "area.test",
   "background": "background/purpleSky",
+  "scripts": {},
   "width": 40,
   "height": 25,
   "tips": [

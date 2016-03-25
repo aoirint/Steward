@@ -121,7 +121,11 @@ public class FrameEditor extends JFrame {
 				DefaultMutableTreeNode cNodeDMTN = (DefaultMutableTreeNode) cNode;
 				if (cNodeDMTN.getUserObject() == obj) return new TreePath(cNodeDMTN.getPath());
 
-				if (exclusive) getTreePathFromUserObject(cNodeDMTN, obj, true);
+				if (exclusive)
+				{
+					TreePath ex = getTreePathFromUserObject(cNodeDMTN, obj, true);
+					if (ex != null) return ex;
+				}
 			}
 		}
 

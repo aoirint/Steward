@@ -27,11 +27,11 @@ import com.kanomiya.steward.model.texture.Texture;
  */
 public class PanelArea extends JPanel {
 
-	public JTextField textId;
-	public JTextField textName;
+	public JTextField inputId;
+	public JTextField inputName;
 	public JLabel lblLocalizedName;
-	public JTextField textWidth, textHeight;
-	public JComboBox textBackground;
+	public JTextField inputWidth, inputHeight;
+	public JComboBox inputBackground;
 
 
 	public PanelArea(Game game, Area area, FrameEditor editor)
@@ -58,16 +58,16 @@ public class PanelArea extends JPanel {
 			{
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					area.setId(textId.getText());
-					area.setName(textName.getText());
+					area.setId(inputId.getText());
+					area.setName(inputName.getText());
 					lblLocalizedName.setText(game.assets.translate(area.getName()));
 
-					area.setSize(Integer.valueOf(textWidth.getText()), Integer.valueOf(textHeight.getText()));
+					area.setSize(Integer.valueOf(inputWidth.getText()), Integer.valueOf(inputHeight.getText()));
 
-					if (0 <= textBackground.getSelectedIndex())
+					if (0 <= inputBackground.getSelectedIndex())
 					{
-						if (textBackground.getSelectedIndex() == 0) area.setBackground(null);
-						else area.setBackground(game.assets.getTexture((String) textBackground.getSelectedItem()));
+						if (inputBackground.getSelectedIndex() == 0) area.setBackground(null);
+						else area.setBackground(game.assets.getTexture((String) inputBackground.getSelectedItem()));
 					}
 
 					editor.refreshTree();
@@ -83,10 +83,10 @@ public class PanelArea extends JPanel {
 			JPanel p = new JPanel();
 			p.setLayout(new FlowLayout());
 
-			textId = new JTextField(area.getId());
-			textId.setPreferredSize(new Dimension(150, 20));
+			inputId = new JTextField(area.getId());
+			inputId.setPreferredSize(new Dimension(150, 20));
 			p.add(new JLabel(game.assets.translate(("vocabulary.id"))));
-			p.add(textId);
+			p.add(inputId);
 			add(p);
 		}
 
@@ -94,10 +94,10 @@ public class PanelArea extends JPanel {
 			JPanel p = new JPanel();
 			p.setLayout(new FlowLayout());
 
-			textName = new JTextField(area.getName());
-			textName.setPreferredSize(new Dimension(150, 20));
+			inputName = new JTextField(area.getName());
+			inputName.setPreferredSize(new Dimension(150, 20));
 			p.add(new JLabel(game.assets.translate(("vocabulary.name"))));
-			p.add(textName);
+			p.add(inputName);
 			lblLocalizedName = new JLabel(game.assets.translate((area.getName())));
 			p.add(lblLocalizedName);
 			add(p);
@@ -111,19 +111,19 @@ public class PanelArea extends JPanel {
 
 
 			{
-				textWidth = new JTextField("" +area.getWidth());
-				textWidth.setPreferredSize(new Dimension(80, 20));
-				textWidth.addKeyListener(new IntKeyListener());
+				inputWidth = new JTextField("" +area.getWidth());
+				inputWidth.setPreferredSize(new Dimension(80, 20));
+				inputWidth.addKeyListener(new IntKeyListener());
 				p.add(new JLabel(game.assets.translate(("vocabulary.width"))));
-				p.add(textWidth);
+				p.add(inputWidth);
 			}
 
 			{
-				textHeight = new JTextField("" +area.getHeight());
-				textHeight.setPreferredSize(new Dimension(80, 20));
-				textHeight.addKeyListener(new IntKeyListener());
+				inputHeight = new JTextField("" +area.getHeight());
+				inputHeight.setPreferredSize(new Dimension(80, 20));
+				inputHeight.addKeyListener(new IntKeyListener());
 				p.add(new JLabel(game.assets.translate(("vocabulary.height"))));
-				p.add(textHeight);
+				p.add(inputHeight);
 			}
 
 			add(p);
@@ -134,10 +134,10 @@ public class PanelArea extends JPanel {
 			JPanel p = new JPanel();
 			p.setLayout(new FlowLayout());
 
-			textBackground = new JComboBox();
-			textBackground.setPreferredSize(new Dimension(150, 20));
+			inputBackground = new JComboBox();
+			inputBackground.setPreferredSize(new Dimension(200, 20));
 
-			textBackground.addItem("(nothing)");
+			inputBackground.addItem("(nothing)");
 
 			List<Texture> list = Lists.newArrayList(game.assets.registries.get(ResourceType.rtTexture).values().iterator());
 			Collator collator = Collator.getInstance();
@@ -147,13 +147,30 @@ public class PanelArea extends JPanel {
 			Iterator<Texture> itr = list.iterator();
 			while (itr.hasNext())
 			{
-				textBackground.addItem(itr.next().id);
+				inputBackground.addItem(itr.next().id);
 			}
 
-			if (area.hasBackground()) textBackground.setSelectedItem(area.getBackground().id);
+			if (area.hasBackground()) inputBackground.setSelectedItem(area.getBackground().id);
 
 			p.add(new JLabel(game.assets.translate(("vocabulary.background"))));
-			p.add(textBackground);
+			p.add(inputBackground);
+			add(p);
+		}
+
+		{
+			JPanel p = new JPanel();
+			p.setLayout(new FlowLayout());
+
+			JButton cScript = new JButton(game.assets.translate("vocabulary.script"));
+			cScript.addActionListener(new ActionListener()
+			{
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					editor.splitPane.setRightComponent(new PanelScriptOwner(game, area, editor));
+				}
+			});
+
+			p.add(cScript);
 			add(p);
 		}
 

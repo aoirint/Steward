@@ -8,8 +8,8 @@ import java.util.Map;
  */
 public interface IScriptOwner {
 
-	boolean hasScript(IScriptLauncher launcher, ScriptEventType eventType);
-	Script getScript(IScriptLauncher launcher, ScriptEventType eventType);
+	boolean hasScript(ScriptEventType eventType);
+	Script getScript(ScriptEventType eventType);
 
 	default void initArguments(IScriptLauncher launcher, Map<String, Object> arguments)
 	{
@@ -20,6 +20,12 @@ public interface IScriptOwner {
 
 
 	}
+
+	/**
+	 * @param type
+	 * @param script
+	 */
+	void setScript(ScriptEventType type, Script script);
 
 
 }
