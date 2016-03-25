@@ -127,9 +127,8 @@ public class EventConverter implements JsonDeserializer<Event>, JsonSerializer<E
 
 		boolean isPlayer = Player.isPlayerId(id);
 
-		Event event = (! isPlayer) ? new Event(assets) : new Player(assets);
+		Event event = (! isPlayer) ? new Event(id, assets) : new Player(id, assets);
 
-		event.id = id;
 		event.x = x;
 		event.y = y;
 		event.visible = visible;
@@ -159,7 +158,6 @@ public class EventConverter implements JsonDeserializer<Event>, JsonSerializer<E
 
 		event.area = area;
 		area.eventList().add(event);
-		area.getChunk(event.x, event.y).eventList().add(event);
 
 		return event;
 	}

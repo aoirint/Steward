@@ -24,7 +24,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.kanomiya.steward.Game;
 import com.kanomiya.steward.model.area.Area;
-import com.kanomiya.steward.model.area.AreaConverter;
 import com.kanomiya.steward.model.area.Tip;
 import com.kanomiya.steward.model.assets.resource.ResourceLoader;
 import com.kanomiya.steward.model.assets.resource.ResourceRegistry;
@@ -33,7 +32,6 @@ import com.kanomiya.steward.model.assets.resource.type.ResourceType;
 import com.kanomiya.steward.model.assets.save.SaveFile;
 import com.kanomiya.steward.model.event.Event;
 import com.kanomiya.steward.model.event.EventConverter;
-import com.kanomiya.steward.model.event.PlayerMode;
 import com.kanomiya.steward.model.item.Item;
 import com.kanomiya.steward.model.item.ItemConverter;
 import com.kanomiya.steward.model.item.ItemStack;
@@ -71,7 +69,8 @@ public class AssetsUtils {
 		gb.registerTypeAdapter(Script.class, new Script.Serializer());
 		gb.registerTypeAdapter(Script.class, new Script.Deserializer());
 
-		gb.registerTypeAdapter(Area.class, new AreaConverter(assets));
+		gb.registerTypeAdapter(Area.class, new Area.Serializer());
+		gb.registerTypeAdapter(Area.class, new Area.Deserializer(assets));
 		gb.registerTypeHierarchyAdapter(Event.class, new EventConverter(assets));
 		gb.registerTypeHierarchyAdapter(Item.class, new ItemConverter(assets));
 		gb.registerTypeHierarchyAdapter(ItemStack.class, new ItemStackConverter(assets));
@@ -168,9 +167,8 @@ public class AssetsUtils {
 			e.printStackTrace();
 		}
 
-		assets.getPlayer().logger.println(Text.create("*保存*")
-				.color((assets.getPlayer().modeIs(PlayerMode.WIZARD)) ? GameColor.purple : GameColor.orange));
-
+		assets.getPlayer().logger.println(Text.create(assets.translate("se.save"))
+				.color(new File(assets.getAssetsDir()).equals(saveDir) ? GameColor.purple : GameColor.orange));
 
 	}
 

@@ -1,9 +1,22 @@
 package com.kanomiya.steward.model.area;
 
+import java.lang.reflect.Type;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.google.common.collect.Lists;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
+import com.google.gson.reflect.TypeToken;
 import com.kanomiya.steward.model.assets.Assets;
 import com.kanomiya.steward.model.assets.resource.IResource;
 import com.kanomiya.steward.model.event.Event;
@@ -20,45 +33,31 @@ import com.kanomiya.steward.model.texture.Texture;
  * @author Kanomiya
  *
  */
-public class Area implements IResource, IScriptOwner {
-	protected String id, name;
+public class Area implements IResource, IScriptOwner, Cloneable {
+	protected String id;
+	protected Assets assets;
 
-	protected int width, height;
-	protected int chunkWidth, chunkHeight;
+	protected String name;
 	protected Texture background;
 
+	protected int width, height;
 	protected Tip[][] tips;
 	protected List<Event> eventList;
-	protected Chunk[][] chunks;
 
 	protected Map<ScriptEventType, Script> scripts;
 
-	protected Assets assets;
 
-	public Area(String id, String name, int width, int height, Tip[][] tips, Assets assets)
+
+	public Area(String id, Assets assets)
 	{
 		this.id = id;
-		this.name = name;
-		this.width = width;
-		this.height = height;
-		this.tips = tips;
 		this.assets = assets;
 
+		name = "vocabulary.unknown";
+		tips = new Tip[0][0];
 		eventList = Lists.newArrayList();
-
-		chunkWidth = width /Chunk.chunkSize +1;
-		chunkHeight = height /Chunk.chunkSize +1;
-		chunks = new Chunk[chunkWidth][chunkHeight];
-
-		for (int x=0; x<chunkWidth; x++)
-		{
-			for (int y=0; y<chunkHeight; y++)
-			{
-				chunks[x][y] = new Chunk(this);
-			}
-		}
-
 	}
+
 
 
 	/**
@@ -90,33 +89,6 @@ public class Area implements IResource, IScriptOwner {
 		this.name = name;
 	}
 
-	/**
-	 * @return width
-	 */
-	public int getWidth() {
-		return width;
-	}
-
-	/**
-	 * @param width セットする width
-	 */
-	public void setWidth(int width) {
-		this.width = width;
-	}
-
-	/**
-	 * @return height
-	 */
-	public int getHeight() {
-		return height;
-	}
-
-	/**
-	 * @param height セットする height
-	 */
-	public void setHeight(int height) {
-		this.height = height;
-	}
 
 
 	public boolean hasBackground()
@@ -143,16 +115,6 @@ public class Area implements IResource, IScriptOwner {
 
 
 
-	public Chunk getChunk(int x, int y)
-	{
-		int chunkX = x /Chunk.chunkSize;
-		int chunkY = y /Chunk.chunkSize;
-		if (width -width %Chunk.chunkSize < x) chunkX += 1;
-		if (height -height %Chunk.chunkSize < y) chunkY += 1;
-
-		return chunks[chunkX][chunkY];
-	}
-
 	public boolean inArea(int x, int y)
 	{
 		if (x < 0 || width <= x || y < 0 || height <= y) return false;
@@ -165,20 +127,49 @@ public class Area implements IResource, IScriptOwner {
 		return (tips[x][y] != null);
 	}
 
+	public void setSize(int width, int height)
+	{
+		this.width = width;
+		this.height = height;
+
+		if (tips == null) tips = new Tip[width][height];
+		else
+		{
+			if (tips.length != width) tips = Arrays.copyOf(tips, width);
+
+			for (int x=0; x<width; x++)
+			{
+				if (tips[x] == null) tips[x] = new Tip[height];
+				if (tips[x].length != height) tips[x] = Arrays.copyOf(tips[x], height);
+			}
+		}
+	}
+
+	public int getWidth()
+	{
+		return width;
+	}
+
+	public int getHeight()
+	{
+		return height;
+	}
+
 	public Tip getTip(int x, int y)
 	{
 		if (! tipExists(x, y)) return null;
 		return tips[x][y];
 	}
 
-	/**
-	 * @param tip
-	 * @param x
-	 * @param y
-	 */
-	public void setTip(Tip tip, int x, int y) {
+	public void setTip(Tip tip, int x, int y)
+	{
 		tips[x][y] = tip;
 	}
+
+
+
+
+
 
 	/**
 	 * @param x
@@ -189,30 +180,27 @@ public class Area implements IResource, IScriptOwner {
 	{
 		List<Event> result = Lists.newArrayList();
 
-		List<Event> ceventList = getChunk(x, y).eventList;
-		for (Event cevent: ceventList)
+		for (Event event: eventList)
 		{
-			if (x == cevent.x && y == cevent.y)
+			if (x == event.x && y == event.y)
 			{
-				result.add(cevent);
+				result.add(event);
 			}
 		}
 
 		return result;
 	}
 
-	public boolean canEnter(Event event, int x, int y)
+	public AccessType getAccessType(int x, int y)
 	{
-		if (! tipExists(x, y)) return false;
-		if (getTip(x, y).getAccessType() == AccessType.DENY) return false;
+		if (tips[x][y].getAccessType() == AccessType.DENY) return AccessType.DENY;
 
-		List<Event> ceventList = getChunk(x, y).eventList;
-		for (Event cevent: ceventList)
+		for (Event event: eventList)
 		{
-			if (x == cevent.x && y == cevent.y && cevent.getAccessType() == AccessType.DENY) return false;
+			if (x == event.x && y == event.y && event.getAccessType() == AccessType.DENY) return AccessType.DENY;
 		}
 
-		return true;
+		return AccessType.ALLOW;
 	}
 
 
@@ -232,9 +220,6 @@ public class Area implements IResource, IScriptOwner {
 		event.area = this;
 		if (! eventList.contains(event)) eventList.add(event);
 
-		event.chunk = getChunk(event.x, event.y);
-		if (! event.chunk.eventList.contains(event)) event.chunk.eventList.add(event);
-
 		if (assets.isInited() && flagEnter)
 		{
 			assets.exec(this, event, ScriptEventType.ONENTERED);
@@ -251,7 +236,6 @@ public class Area implements IResource, IScriptOwner {
 			assets.exec(this, event, ScriptEventType.ONEXITED);
 		}
 
-		getChunk(event.x, event.y).eventList.remove(event);
 		eventList.remove(event);
 	}
 
@@ -288,6 +272,137 @@ public class Area implements IResource, IScriptOwner {
 		return id;
 	}
 
+
+
+
+
+
+
+	public static class Serializer implements JsonSerializer<Area>
+	{
+		/**
+		* @inheritDoc
+		*/
+		@Override
+		public JsonElement serialize(Area obj, Type type, JsonSerializationContext context) {
+
+			JsonObject jsObj = new JsonObject();
+
+			jsObj.addProperty("id", obj.id);
+			jsObj.addProperty("name", obj.name);
+
+
+			if (obj.hasBackground()) jsObj.addProperty("background", obj.background.getId());
+
+			if (obj.scripts != null)
+			{
+				Iterator<Entry<ScriptEventType, Script>> itr = obj.scripts.entrySet().iterator();
+
+				JsonObject jsScripts = new JsonObject();
+
+				while (itr.hasNext())
+				{
+					Entry<ScriptEventType, Script> entry = itr.next();
+
+					jsScripts.add(entry.getKey().getId(), context.serialize(entry.getValue()));
+				}
+
+				jsObj.add("scripts", jsScripts);
+			}
+
+
+			jsObj.addProperty("width", obj.width);
+			jsObj.addProperty("height", obj.height);
+
+			JsonArray jsTips = new JsonArray();
+
+			for (int y=0; y<obj.height; y++)
+			{
+				JsonArray jsTipLine = new JsonArray();
+
+				for (int x=0; x<obj.width; x++)
+				{
+					if (obj.tipExists(x, y))
+					{
+						Tip tip = obj.getTip(x, y);
+
+						jsTipLine.add(tip.getId());
+					}
+				}
+
+				jsTips.add(jsTipLine);
+			}
+
+			jsObj.add("tips", jsTips);
+
+
+			return jsObj;
+		}
+	}
+
+	public static class Deserializer implements JsonDeserializer<Area>
+	{
+		protected Assets assets;
+
+		public Deserializer(Assets assets) {
+			this.assets = assets;
+		}
+
+		/**
+		* @inheritDoc
+		*/
+		@Override
+		public Area deserialize(JsonElement jsElm, Type type, JsonDeserializationContext context) throws JsonParseException {
+
+			if (jsElm.isJsonPrimitive()) // for id
+			{
+				return assets.getArea(jsElm.getAsString());
+			}
+
+			JsonObject jsObj = jsElm.getAsJsonObject();
+
+			String id = jsObj.get("id").getAsString();
+			Area area = new Area(id, assets);
+
+			area.name = jsObj.get("name").getAsString();
+
+			area.width = jsObj.get("width").getAsInt();
+			area.height = jsObj.get("height").getAsInt();
+
+
+			area.scripts = null;
+			Type sceventScriptMap = new TypeToken<Map<ScriptEventType, Script>>(){}.getType();
+			if (jsObj.has("scripts")) area.scripts = context.deserialize(jsObj.get("scripts"), sceventScriptMap);
+
+
+			if (jsObj.has("background")) area.setBackground(assets.getTexture(jsObj.get("background").getAsString()));
+
+
+			JsonArray jsTips = jsObj.getAsJsonArray("tips");
+			area.tips = new Tip[area.width][area.height];
+
+			for (int y=0; y<area.height; y++)
+			{
+				if (jsTips.size() <= y) continue;
+				JsonArray jsTipLine = jsTips.get(y).getAsJsonArray();
+
+				for (int x=0; x<area.width; x++)
+				{
+					if (jsTipLine.size() <= x) continue;
+					JsonElement jsTip = jsTipLine.get(x);
+
+					if (! jsTip.isJsonObject())
+					{
+						area.tips[x][y] = assets.getTip(jsTip.getAsString());
+					}
+				}
+			}
+
+
+
+			return area;
+		}
+	}
 
 
 

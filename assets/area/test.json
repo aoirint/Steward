@@ -1,9 +1,9 @@
 {
   "id": "test",
   "name": "area.test",
+  "background": "background/purpleSky",
   "width": 40,
   "height": 25,
-  "background": "background/purpleSky",
   "tips": [
     [
       "null",

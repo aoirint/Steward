@@ -1,13 +1,13 @@
 {
-"id": "test/ped3",
-"area": "test",
-"x": 9,
-"y": 11,
-"access": "deny",
-"icon": "event/test/ped3",
-"scripts": {
-	"onEntered": {
-	"src": "test/ped3/onEntered"
-	}
-}
+  "id": "test/ped3",
+  "area": "test",
+  "x": 9,
+  "y": 11,
+  "access": "deny",
+  "icon": "event/test/ped3",
+  "scripts": {
+    "onEntered": {
+      "src": "test/ped3/onEntered"
+    }
+  }
 }

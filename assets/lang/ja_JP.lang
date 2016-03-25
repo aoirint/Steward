@@ -33,6 +33,11 @@ vocabulary.width=幅
 vocabulary.height=高さ
 vocabulary.travel=移動
 vocabulary.createNew=新規作成
+vocabulary.id=ID
+vocabulary.unknown=不明
+vocabulary.reflection=反映
+vocabulary.background=背景
+vocabulary.save=保存
 
 
 question.saveAndExit=セーブして終了しますか？
@@ -42,3 +47,4 @@ se.gravel=*ジャリ*
 se.pop=*ぽわん*
 se.pop2=*ぽむん*
 se.photo=*カシャ*
+se.save=*保存*

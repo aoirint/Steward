@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import com.kanomiya.steward.Game;
 import com.kanomiya.steward.model.assets.Assets;
 import com.kanomiya.steward.model.event.Player;
+import com.kanomiya.steward.model.overlay.GameFont;
 import com.kanomiya.steward.view.ViewConsts;
 
 
@@ -22,6 +23,8 @@ public class VCDebug implements IViewComponent<Game> {
 	public void paint(Graphics2D g, Game game, Assets assets, int frame)
 	{
 		g.setColor(Color.WHITE);
+		g.setFont(GameFont.textFont);
+
 		Player player = assets.getPlayer();
 
 		String playerMode = assets.translate("playerMode") + " " + assets.translate(player.getMode().getUnlocalizedName());

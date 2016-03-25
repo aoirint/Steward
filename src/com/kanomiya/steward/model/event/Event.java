@@ -5,7 +5,6 @@ import java.util.Map;
 
 import com.kanomiya.steward.model.area.AccessType;
 import com.kanomiya.steward.model.area.Area;
-import com.kanomiya.steward.model.area.Chunk;
 import com.kanomiya.steward.model.area.Tip;
 import com.kanomiya.steward.model.assets.Assets;
 import com.kanomiya.steward.model.assets.resource.IResource;
@@ -25,7 +24,6 @@ public class Event implements IResource, ITextureOwner, IScriptOwner, IScriptLau
 
 	public String id;
 	public Area area;
-	public Chunk chunk;
 
 	public int x, y;
 	public boolean visible;
@@ -45,8 +43,9 @@ public class Event implements IResource, ITextureOwner, IScriptOwner, IScriptLau
 	public Assets assets;
 
 
-	public Event(Assets assets)
+	public Event(String id, Assets assets)
 	{
+		this.id = id;
 		this.assets = assets;
 	}
 
@@ -128,7 +127,7 @@ public class Event implements IResource, ITextureOwner, IScriptOwner, IScriptLau
 	public boolean canTravel(Area area, int x, int y)
 	{
 		if (! area.tipExists(x, y)) return false;
-		if (! area.canEnter(this, x, y)) return false;
+		if (area.getAccessType(x, y) == AccessType.DENY) return false;
 
 		return true;
 	}

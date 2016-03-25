@@ -29,9 +29,9 @@ public class Player extends Event {
 	public IngameLogger logger;
 
 
-	public Player(Assets assets)
+	public Player(String id, Assets assets)
 	{
-		super(assets);
+		super(id, assets);
 
 		logger = new IngameLogger(assets);
 
