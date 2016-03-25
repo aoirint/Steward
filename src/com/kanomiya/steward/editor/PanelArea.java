@@ -14,6 +14,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.tree.TreePath;
 
 import com.google.common.collect.Lists;
 import com.kanomiya.steward.Game;
@@ -52,6 +53,23 @@ public class PanelArea extends JPanel {
 				}
 			});
 			p.add(cTravel);
+
+			JButton cDel = new JButton(game.assets.translate("vocabulary.delete"));
+			cDel.addActionListener(new ActionListener()
+			{
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					game.assets.registries.get(ResourceType.rtArea).remove(area.getId());
+
+					editor.refreshTree();
+
+					TreePath areaPath = new TreePath(editor.nodeArea.getPath());
+
+					editor.tree.setSelectionPath(areaPath);
+					editor.tree.expandPath(areaPath);
+				}
+			});
+			p.add(cDel);
 
 			JButton cReflect = new JButton(game.assets.translate("vocabulary.reflection"));
 			cReflect.addActionListener(new ActionListener()

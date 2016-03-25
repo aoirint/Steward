@@ -158,6 +158,7 @@ public class AssetsUtils {
 			while (regItr.hasNext())
 			{
 				Entry<ResourceType, ResourceRegistry> entry = regItr.next();
+
 				new ResourceSaver<>(entry.getKey(), entry.getValue()).save(saveDir, gson);
 			}
 
