@@ -1,6 +1,5 @@
 {
   "id": "title",
-  "name": "area.title",
   "background": "background/title",
   "scripts": {
     "onEntered": {

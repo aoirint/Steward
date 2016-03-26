@@ -55,6 +55,7 @@ public class PanelArea extends JPanel {
 			p.add(cTravel);
 
 			JButton cDel = new JButton(game.assets.translate("vocabulary.delete"));
+			if (game.assets.registries.get(ResourceType.rtArea).size() == 1) cDel.setEnabled(false);
 			cDel.addActionListener(new ActionListener()
 			{
 				@Override
@@ -77,8 +78,8 @@ public class PanelArea extends JPanel {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					area.setId(inputId.getText());
-					area.setName(inputName.getText());
-					lblLocalizedName.setText(game.assets.translate(area.getName()));
+					area.setUnlocalizedName(inputName.getText());
+					lblLocalizedName.setText(game.assets.translate(area.getUnlocalizedName()));
 
 					area.setSize(Integer.valueOf(inputWidth.getText()), Integer.valueOf(inputHeight.getText()));
 
@@ -112,11 +113,11 @@ public class PanelArea extends JPanel {
 			JPanel p = new JPanel();
 			p.setLayout(new FlowLayout());
 
-			inputName = new JTextField(area.getName());
+			inputName = new JTextField(area.getUnlocalizedName());
 			inputName.setPreferredSize(new Dimension(150, 20));
 			p.add(new JLabel(game.assets.translate(("vocabulary.name"))));
 			p.add(inputName);
-			lblLocalizedName = new JLabel(game.assets.translate((area.getName())));
+			lblLocalizedName = new JLabel(game.assets.translate((area.getUnlocalizedName())));
 			p.add(lblLocalizedName);
 			add(p);
 		}

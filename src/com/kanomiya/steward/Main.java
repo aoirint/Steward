@@ -27,7 +27,6 @@ public class Main {
 		Assets assets = AssetsUtils.newAssets();
 
 		Game game = Game.getInstance(assets);
-		game.setName("ISteward");
 
 		new FrameEditor(game).setVisible(true);;
 

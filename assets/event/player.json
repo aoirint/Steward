@@ -1,8 +1,9 @@
 {
   "id": "player",
-  "area": "XXX",
-  "x": 5,
+  "area": "test",
+  "x": 4,
   "y": 5,
+  "walkState": "forward",
   "icon": "event/player",
   "debugMode": false
 }

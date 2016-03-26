@@ -13,6 +13,7 @@ import javax.swing.JTextField;
 
 import com.kanomiya.steward.Game;
 import com.kanomiya.steward.model.assets.AssetsUtils;
+import com.kanomiya.steward.model.assets.GameInfo;
 
 /**
  * @author Kanomiya
@@ -28,6 +29,8 @@ public class PanelGame extends JPanel {
 
 		setLayout(new GridLayout(14, 1));
 
+		GameInfo gameInfo = game.assets.getGameInfo();
+
 		{
 			JPanel p = new JPanel();
 
@@ -36,7 +39,7 @@ public class PanelGame extends JPanel {
 			{
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					game.setName(textName.getText());
+					gameInfo.setName(textName.getText());
 
 				}
 			});
@@ -59,7 +62,7 @@ public class PanelGame extends JPanel {
 			JPanel p = new JPanel();
 			p.setLayout(new FlowLayout());
 
-			textName = new JTextField(game.getName());
+			textName = new JTextField(gameInfo.getName());
 			textName.setPreferredSize(new Dimension(150, 20));
 			p.add(new JLabel(game.assets.translate(("vocabulary.name"))));
 			p.add(textName);

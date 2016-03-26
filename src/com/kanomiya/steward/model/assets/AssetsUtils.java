@@ -1,6 +1,7 @@
 package com.kanomiya.steward.model.assets;
 
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.FileVisitResult;
@@ -103,6 +104,7 @@ public class AssetsUtils {
 		Gson gson = createGson(assets);
 
 
+
 		try
 		{
 			File tempDir = new File("temp");
@@ -152,6 +154,10 @@ public class AssetsUtils {
 					return FileVisitResult.CONTINUE;
 				}
 			});
+
+
+			saveString(gson.toJson(assets.gameInfo, GameInfo.class), new File(saveDir, "info.json"));
+
 
 			Iterator<Entry<ResourceType, ResourceRegistry>> regItr = assets.registries.entrySet().iterator();
 
@@ -219,7 +225,11 @@ public class AssetsUtils {
 
 		Gson gson = AssetsUtils.createGson(assets);
 
+
+
 		try {
+			File infoFile = new File(loadDir, "info.json");
+			if (infoFile.exists()) assets.gameInfo = gson.fromJson(new FileReader(infoFile), GameInfo.class);
 
 			new ResourceLoader(ResourceType.rtTextureImage, assets.texImageRegistry)
 			{

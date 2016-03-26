@@ -19,7 +19,6 @@ playerMode.wizard=管理者
 vocabulary.welcome=ようこそ
 vocabulary.size=大きさ
 vocabulary.name=名前
-vocabulary.coordinate=座標
 vocabulary.gameContinue=つづきから
 vocabulary.gameStart=はじめから
 vocabulary.exit=終了
@@ -37,12 +36,17 @@ vocabulary.id=ID
 vocabulary.unknown=不明
 vocabulary.reflection=反映
 vocabulary.background=背景
+vocabulary.icon=アイコン
 vocabulary.script=スクリプト
 vocabulary.save=保存
 vocabulary.add=追加
 vocabulary.delete=削除
 vocabulary.itemName=項目名
 vocabulary.value=値
+
+vocabulary.coordinate=座標
+vocabulary.x=X
+vocabulary.y=Y
 
 scriptEventType=イベント種別
 vocabulary.scriptSource=ソース

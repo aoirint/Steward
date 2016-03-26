@@ -37,7 +37,7 @@ public class Area implements IResource, IScriptOwner, Cloneable {
 	protected String id;
 	protected Assets assets;
 
-	protected String name;
+	protected String unlocalizedName;
 	protected Texture background;
 
 	protected int width, height;
@@ -53,7 +53,7 @@ public class Area implements IResource, IScriptOwner, Cloneable {
 		this.id = id;
 		this.assets = assets;
 
-		name = "vocabulary.unknown";
+		unlocalizedName = "vocabulary.unknown";
 		tips = new Tip[0][0];
 		eventList = Lists.newArrayList();
 	}
@@ -76,17 +76,17 @@ public class Area implements IResource, IScriptOwner, Cloneable {
 	}
 
 	/**
-	 * @return name
+	 * @return unlocalizedName
 	 */
-	public String getName() {
-		return name;
+	public String getUnlocalizedName() {
+		return unlocalizedName;
 	}
 
 	/**
-	 * @param name セットする name
+	 * @param unlocalizedName セットする unlocalizedName
 	 */
-	public void setName(String name) {
-		this.name = name;
+	public void setUnlocalizedName(String unlocalizedName) {
+		this.unlocalizedName = unlocalizedName;
 	}
 
 
@@ -298,7 +298,7 @@ public class Area implements IResource, IScriptOwner, Cloneable {
 			JsonObject jsObj = new JsonObject();
 
 			jsObj.addProperty("id", obj.id);
-			jsObj.addProperty("name", obj.name);
+			if (! obj.unlocalizedName.equals(obj.id)) jsObj.addProperty("unlocalizedName", obj.unlocalizedName);
 
 
 			if (obj.hasBackground()) jsObj.addProperty("background", obj.background.getId());
@@ -373,7 +373,8 @@ public class Area implements IResource, IScriptOwner, Cloneable {
 			String id = jsObj.get("id").getAsString();
 			Area area = new Area(id, assets);
 
-			area.name = jsObj.get("name").getAsString();
+			area.unlocalizedName = id;
+			if (jsObj.has("unlocalizedName")) area.unlocalizedName = jsObj.get("unlocalizedName").getAsString();
 
 			area.width = jsObj.get("width").getAsInt();
 			area.height = jsObj.get("height").getAsInt();

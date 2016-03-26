@@ -34,7 +34,7 @@ public class VCDebug implements IViewComponent<Game> {
 		String labelArea = assets.translate("area");
 		g.drawString(labelArea, 10, 30);
 
-		String areaName = assets.translate("vocabulary.name") + " " + assets.translate(player.area.getName());
+		String areaName = assets.translate("vocabulary.name") + " " + assets.translate(player.area.getUnlocalizedName());
 		g.drawString(areaName, 10, 50);
 
 		String areaSize = assets.translate("vocabulary.size") + " " + player.area.getWidth() + ", " + player.area.getHeight();

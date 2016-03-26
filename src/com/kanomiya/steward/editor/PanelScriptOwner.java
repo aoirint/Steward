@@ -152,6 +152,10 @@ public class PanelScriptOwner extends JPanel {
 
 		{
 			JPanel p = new JPanel();
+			p.setPreferredSize(new Dimension(400, 20));
+			p.add(new JLabel(game.assets.translate("vocabulary.argument")));
+
+			JPanel p2 = new JPanel();
 
 			JScrollPane tableSP = new JScrollPane();
 
@@ -176,9 +180,9 @@ public class PanelScriptOwner extends JPanel {
 			tableSP.setViewportView(inputArguments);
 			tableSP.setPreferredSize(new Dimension(350, 200));
 
-			p.add(tableSP);
+			p2.add(tableSP);
 
-			JPanel p2 = new JPanel();
+			JPanel p3 = new JPanel();
 
 			JButton btnAddRow = new JButton(game.assets.translate("vocabulary.add"));
 			btnAddRow.addActionListener(new ActionListener()
@@ -189,7 +193,7 @@ public class PanelScriptOwner extends JPanel {
 				}
 			});
 
-			p2.add(btnAddRow);
+			p3.add(btnAddRow);
 
 			JButton btnDelRow = new JButton(game.assets.translate("vocabulary.delete"));
 			btnDelRow.addActionListener(new ActionListener()
@@ -201,10 +205,11 @@ public class PanelScriptOwner extends JPanel {
 				}
 			});
 
-			p2.add(btnDelRow);
+			p3.add(btnDelRow);
 
 			add(p);
 			add(p2);
+			add(p3);
 		}
 
 

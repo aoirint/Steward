@@ -68,6 +68,8 @@ public class Assets {
 
 	public Locale locale;
 
+	protected GameInfo gameInfo;
+
 	protected String assetsDir, saveName;
 	protected ScriptEngine scriptEngine;
 	public ScriptFunctionBinder binder;
@@ -77,6 +79,8 @@ public class Assets {
 	public Assets(String assetsDir)
 	{
 		this.assetsDir = assetsDir;
+
+		gameInfo = new GameInfo();
 
 		saveName = "unknown";
 		inited = false;
@@ -424,24 +428,10 @@ public class Assets {
 	}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	public GameInfo getGameInfo()
+	{
+		return gameInfo;
+	}
 
 
 

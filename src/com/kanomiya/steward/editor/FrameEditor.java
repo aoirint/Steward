@@ -18,6 +18,8 @@ import javax.swing.tree.TreePath;
 
 import com.kanomiya.steward.Game;
 import com.kanomiya.steward.model.area.Area;
+import com.kanomiya.steward.model.assets.resource.type.ResourceType;
+import com.kanomiya.steward.model.event.Event;
 import com.kanomiya.steward.model.event.PlayerMode;
 
 /**
@@ -32,6 +34,7 @@ public class FrameEditor extends JFrame {
 	protected JTree tree;
 	protected DefaultMutableTreeNode nodeRoot;
 	protected DefaultMutableTreeNode nodeArea;
+	protected DefaultMutableTreeNode nodeEvent;
 
 
 	public FrameEditor(Game game) {
@@ -80,6 +83,17 @@ public class FrameEditor extends JFrame {
 						{
 							Area area = (Area) ((DefaultMutableTreeNode) path.getPathComponent(2)).getUserObject();
 							setRightToArea(area);
+						}
+
+						break;
+
+					case "Event":
+
+						if (path.getPathCount() == 2) setRightToEventGroup();
+						else if (2 < path.getPathCount())
+						{
+							Event event = (Event) ((DefaultMutableTreeNode) path.getPathComponent(2)).getUserObject();
+							setRightToEvent(event);
 						}
 
 						break;
@@ -132,17 +146,19 @@ public class FrameEditor extends JFrame {
 		return null;
 	}
 
+
 	protected void initNodeRoot(Game game)
 	{
 		nodeRoot = new DefaultMutableTreeNode("Game");
 		initNodeArea(game);
+		initNodeEvent(game);
 	}
 
 	protected void initNodeArea(Game game)
 	{
 		nodeArea = new DefaultMutableTreeNode("Area");
 
-		Iterator<Area> itr = game.assets.areaList().iterator();
+		Iterator<Area> itr = game.assets.registries.get(ResourceType.rtArea).values().iterator();
 
 		while (itr.hasNext())
 		{
@@ -152,6 +168,22 @@ public class FrameEditor extends JFrame {
 		}
 
 		nodeRoot.add(nodeArea);
+	}
+
+	protected void initNodeEvent(Game game)
+	{
+		nodeEvent = new DefaultMutableTreeNode("Event");
+
+		Iterator<Event> itr = game.assets.registries.get(ResourceType.rtEvent).values().iterator();
+
+		while (itr.hasNext())
+		{
+			DefaultMutableTreeNode child = new DefaultMutableTreeNode(itr.next());
+
+			nodeEvent.add(child);
+		}
+
+		nodeRoot.add(nodeEvent);
 	}
 
 
@@ -174,6 +206,21 @@ public class FrameEditor extends JFrame {
 	protected void setRightToArea(Area area)
 	{
 		JPanel p = new PanelArea(game, area, this);
+		p.setPreferredSize(new Dimension(450, 480));
+		splitPane.setRightComponent(p);
+	}
+
+
+	protected void setRightToEventGroup()
+	{
+		JPanel p = new PanelEventGroup(game, this);
+		p.setPreferredSize(new Dimension(450, 480));
+		splitPane.setRightComponent(p);
+	}
+
+	protected void setRightToEvent(Event event)
+	{
+		JPanel p = new PanelEvent(game, event, this);
 		p.setPreferredSize(new Dimension(450, 480));
 		splitPane.setRightComponent(p);
 	}

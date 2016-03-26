@@ -26,6 +26,7 @@ public class Event implements IResource, ITextureOwner, IScriptOwner, IScriptLau
 	public String id;
 	public Area area;
 
+	public String unlocalizedName;
 	public int x, y;
 	public boolean visible;
 	public EventStatus status;
@@ -48,6 +49,9 @@ public class Event implements IResource, ITextureOwner, IScriptOwner, IScriptLau
 	{
 		this.id = id;
 		this.assets = assets;
+
+		unlocalizedName = "vocabulary.unknown";
+		visible = true;
 	}
 
 
@@ -189,6 +193,30 @@ public class Event implements IResource, ITextureOwner, IScriptOwner, IScriptLau
 		return id;
 	}
 
+	/**
+	 * @param id
+	 */
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	/**
+	 * @return
+	 */
+	public String getUnlocalizedName() {
+		return unlocalizedName;
+	}
+
+	/**
+	 *
+	 * @param unlocalizedName
+	 */
+	public void setUnlocalizedName(String unlocalizedName) {
+		this.unlocalizedName = unlocalizedName;
+	}
+
+
+
 	public Area getArea()
 	{
 		return area;
@@ -296,6 +324,13 @@ public class Event implements IResource, ITextureOwner, IScriptOwner, IScriptLau
 	{
 		return id;
 	}
+
+
+
+
+
+
+
 
 
 

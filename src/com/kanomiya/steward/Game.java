@@ -35,7 +35,6 @@ public class Game {
 
 	public Assets assets;
 	public Turn currentTurn;
-	protected String name;
 
 	protected EventBus eventBus;
 	protected ControlListener controlListener;
@@ -108,24 +107,6 @@ public class Game {
 	public GameFrame getFrame()
 	{
 		return gameFrame;
-	}
-
-
-
-	/**
-	 * @return name
-	 */
-	public String getName() {
-		return name;
-	}
-
-
-
-	/**
-	 * @param name セットする name
-	 */
-	public void setName(String name) {
-		this.name = name;
 	}
 
 

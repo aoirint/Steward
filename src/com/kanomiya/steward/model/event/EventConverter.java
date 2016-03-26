@@ -42,7 +42,9 @@ public class EventConverter implements JsonDeserializer<Event>, JsonSerializer<E
 	{
 		JsonObject jsObj = new JsonObject();
 
-		jsObj.addProperty("id", event.getId());
+		jsObj.addProperty("id", event.id);
+		if (! event.unlocalizedName.equals(event.id)) jsObj.addProperty("unlocalizedName", event.unlocalizedName);
+
 		jsObj.addProperty("area", event.getArea().getId());
 		jsObj.addProperty("x", event.x);
 		jsObj.addProperty("y", event.y);
@@ -95,7 +97,12 @@ public class EventConverter implements JsonDeserializer<Event>, JsonSerializer<E
 		JsonObject jsObj = jsElm.getAsJsonObject();
 
 		String id = jsObj.get("id").getAsString();
+		String unlocalizedName = id;
+		if (jsObj.has("unlocalizedName")) unlocalizedName = jsObj.get("unlocalizedName").getAsString();
+
 		Area area = assets.getArea(jsObj.get("area").getAsString());
+		if (area == null) area = assets.getArea("title");
+
 		int x = jsObj.get("x").getAsInt();
 		int y = jsObj.get("y").getAsInt();
 		boolean visible = true;
@@ -129,6 +136,7 @@ public class EventConverter implements JsonDeserializer<Event>, JsonSerializer<E
 
 		Event event = (! isPlayer) ? new Event(id, assets) : new Player(id, assets);
 
+		event.unlocalizedName = unlocalizedName;
 		event.x = x;
 		event.y = y;
 		event.visible = visible;
